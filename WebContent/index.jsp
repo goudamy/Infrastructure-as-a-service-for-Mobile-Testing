@@ -116,7 +116,7 @@ Date: 03/30/2015
 								<li class="dropdown-menu-title">
  									<span>Settings</span>
 								</li>
-								<li><a href="login.html"><i class="halflings-icon off"></i> Logout</a></li>
+								<li><a href="login.jsp"><i class="halflings-icon off"></i> Logout</a></li>
 							</ul>
 						</li>
 						<!-- end: User Dropdown -->
