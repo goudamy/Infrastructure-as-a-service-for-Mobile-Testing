@@ -59,12 +59,8 @@
 				<div style="margin:100px auto; font-size:30px; font-weight:bold; color:white; text-align:center;">Mobile InfraStructure As A Service (MIaaS)</div>
 			<div class="row-fluid">
 				<div class="login-box">
-					<!-- <div class="icons">
-						<a href="index.html"><i class="halflings-icon home"></i></a>
-						<a href="#"><i class="halflings-icon cog"></i></a>
-					</div> -->
 					<h2 style="font-family:Arial">Login to your account</h2>
-					<form class="form-horizontal" action="index.html" method="post" id="login" name="login">
+					<form class="form-horizontal" action="index.jsp" method="post" id="login" name="login">
 						<fieldset>
 							
 							<div class="input-prepend" title="Username">

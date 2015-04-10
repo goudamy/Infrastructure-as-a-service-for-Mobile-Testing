@@ -1,19 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-
-<!DOCTYPE html>
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!-- 
 Created for: CMPE 281
 Create by: Deepesh
 Date: 03/30/2015
 -->
-<html lang="en">
+<html>
 <head>
-	
-	<!-- start: Meta -->
-	<meta charset="utf-8">
-	<title>Mobile InfraStructure As A Service (MIaaS)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Mobile InfraStructure As A Service (MIaaS)</title>
 	<meta name="description" content="Bootstrap Metro Dashboard">
 	<meta name="author" content="Admin">
 	<meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -62,7 +58,7 @@ Date: 03/30/2015
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"><span>Mobile InfraStructure As A Service (MIaaS)</span></a>
+				<a class="brand" href="index.jsp"><span>Mobile InfraStructure As A Service (MIaaS)</span></a>
 								
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
@@ -140,7 +136,7 @@ Date: 03/30/2015
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><a href="index.html"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
+						<li><a href="index.jsp"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 						<li>
 							<a class="dropmenu" href="#"><i class="icon-tasks"></i><span class="hidden-tablet"> Instances</span></a>
 							<ul>
@@ -190,7 +186,7 @@ Date: 03/30/2015
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="index.html">Home</a> 
+					<a href="index.jsp">Home</a> 
 					<i class="icon-angle-right"></i>
 				</li>
 				<li><a href="#">Dashboard</a></li>
@@ -582,6 +578,5 @@ Date: 03/30/2015
 		<script src="js/bootstrap-dialog.js"></script>
 		<script src="js/inst.js"></script>
 	<!-- end: JavaScript-->
-	
 </body>
 </html>
