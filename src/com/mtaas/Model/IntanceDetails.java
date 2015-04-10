@@ -1,9 +1,13 @@
-package AvailableResource;
+package com.mtaas.Model;
 
 import java.io.*;
+
+import com.mtaas.Utilities.*;
+
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.sql.*;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -108,13 +112,14 @@ public class IntanceDetails {
 		return httpResponse;
 	}*/
 
-	public static Hashtable getDetails(HttpResponse httpResponse) {
+	public static Hashtable getDetails(HttpResponse httpResponse) throws IOException {
+		Dataproperties data = new Dataproperties();
 
-		String url = "jdbc:mysql://localhost:3306/project";
+		String url = data.ret_data("mysql.connect");
 
-		String driver = "com.mysql.jdbc.Driver";
-		String userName = "root";
-		String password = "root";
+		String driver = data.ret_data("mysql.driver");
+		String userName = data.ret_data("mysql.userName");
+		String password = data.ret_data("mysql.password");
 
 		HttpEntity entity = httpResponse.getEntity();
 		byte[] buffer = new byte[1024];
@@ -227,7 +232,7 @@ public class IntanceDetails {
 		return null;
 	}
 
-	public void Instance() {
+	public void Instance() throws IOException {
 		String entity = "{" + "\"auth\": {" + "\"tenantName\": \"admin\","
 				+ "\"passwordCredentials\": {" + "\"username\": \"admin\","
 				+ "\"password\": \"test1234\"" + "}}}";
