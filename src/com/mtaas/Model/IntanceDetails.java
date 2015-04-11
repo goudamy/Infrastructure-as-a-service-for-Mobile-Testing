@@ -154,34 +154,34 @@ public class IntanceDetails {
 					flavor = (String) imagedet.get("id");
 					
 
-					try {
-
-						Class.forName(driver).newInstance();
-
-						Connection conn = (Connection) DriverManager
-								.getConnection(url, "root", "root");
-
-						System.out.println("Connection created");
-						PreparedStatement ps = ((java.sql.Connection) conn)
-								.prepareStatement("insert into instance(id,created,updated,status,tenantId,instanceName,zone,userId,name,flavor) values (?,?,?,?,?,?,?,?,?,?)");
-						ps.setString(1, id);
-						ps.setString(2, created);
-						ps.setString(3, updated);
-						ps.setString(4, status);
-						ps.setString(5, tenantId);
-						ps.setString(6, instanceName);
-						ps.setString(7, zone);
-						ps.setString(8, userId);
-						ps.setString(9, name);
-						ps.setString(10, "flavor");
-
-						ps.execute();
-						ps.close();
-						System.out.println("Inserted");
-
-					} catch (Exception e) {
-						System.out.println(e);
-					}
+//					try {
+//
+//						Class.forName(driver).newInstance();
+//
+//						Connection conn = (Connection) DriverManager
+//								.getConnection(url, "root", "root");
+//
+//						System.out.println("Connection created");
+//						PreparedStatement ps = ((java.sql.Connection) conn)
+//								.prepareStatement("insert into instance(id,created,updated,status,tenantId,instanceName,zone,userId,name,flavor) values (?,?,?,?,?,?,?,?,?,?)");
+//						ps.setString(1, id);
+//						ps.setString(2, created);
+//						ps.setString(3, updated);
+//						ps.setString(4, status);
+//						ps.setString(5, tenantId);
+//						ps.setString(6, instanceName);
+//						ps.setString(7, zone);
+//						ps.setString(8, userId);
+//						ps.setString(9, name);
+//						ps.setString(10, "flavor");
+//
+//						ps.execute();
+//						ps.close();
+//						System.out.println("Inserted");
+//
+//					} catch (Exception e) {
+//						System.out.println(e);
+//					}
 
 				}
 

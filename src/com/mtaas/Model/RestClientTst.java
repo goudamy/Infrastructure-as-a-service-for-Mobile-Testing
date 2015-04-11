@@ -1,6 +1,8 @@
 package com.mtaas.Model;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Hashtable;
 
 import org.apache.http.HttpEntity;
@@ -280,7 +282,7 @@ public class RestClientTst {
 		return tokTable;
 	}
 
-	public static void createInstance(String hostIp, String tokenId, String tenantId, String flavorId, String imageName, String serverName)
+	public void createInstance(String hostIp, String tokenId, String tenantId, String flavorId, String imageName, String serverName)
 	{
 		String hostUrl = "http://" + hostIp + ":8774";
 		String endPointUrl = "v2/" + tenantId + "/servers";  
@@ -368,31 +370,33 @@ public class RestClientTst {
 
 	//#########
 
-	public final static void main(String[] args) {	
-		String tenantName = "admin";
-		String username = "admin";
-		String password = "test1234";
-		String hostIp = "52.11.10.120";
+	public final static void main(String[] args) throws IOException {	
+//		Dataproperties data = new Dataproperties();
+//		String tenantName = data.ret_data("stack.tenantName");
+//		String username = data.ret_data("stack.username");
+//		String password = data.ret_data("stack.password");
+//		String hostIp = data.ret_data("stack.hostIp");
+//
+//		String flavorId = data.ret_data("stack.flavorId");
+//		String imageName =  data.ret_data("stack.imageName");
+//		String serverName = data.ret_data("stack.serverName");
+//		
+//		
+//		Hashtable tokTable = getTokenUsingCredentials(hostIp, tenantName, username, password);
+//
+//
+//		String tokenId = (String)tokTable.get("tokenId");
+//		String tenantId = (String)tokTable.get("tenantId");
 
-		String flavorId = "42";
-		String imageName = "cirros-0.3.2-x86_64-uec";
-		String serverName = "new-server-test-10";
+//		System.out.println("tokenId : " + tokenId);
+//		System.out.println("tenantId : " + tenantId);
 
-		Hashtable tokTable = getTokenUsingCredentials(hostIp, tenantName, username, password);
-
-
-		String tokenId = (String)tokTable.get("tokenId");
-		String tenantId = (String)tokTable.get("tenantId");
-
-		System.out.println("tokenId : " + tokenId);
-		System.out.println("tenantId : " + tenantId);
-
-		serverName = "new-server-test-11";
-		createInstance(hostIp, tokenId, tenantId, flavorId, imageName, serverName);
-		serverName = "new-server-test-12";
-		createInstance(hostIp, tokenId, tenantId, flavorId, imageName, serverName);
-		serverName = "new-server-test-13";
-		createInstance(hostIp, tokenId, tenantId, flavorId, imageName, serverName);
+//		serverName = "new-server-test-11";
+//		createInstance(hostIp, tokenId, tenantId, flavorId, imageName, serverName);
+//		serverName = "new-server-test-12";
+//		createInstance(hostIp, tokenId, tenantId, flavorId, imageName, serverName);
+//		serverName = "new-server-test-13";
+//		createInstance(hostIp, tokenId, tenantId, flavorId, imageName, serverName);
 
 		try{
 			Thread.sleep(5000);
@@ -402,8 +406,8 @@ public class RestClientTst {
 
 		}
 
-		serverName = "new-server-test-12";
-		deleteInstance(hostIp, tokenId, tenantId, serverName);
+//		serverName = "new-server-test-12";
+//		deleteInstance(hostIp, tokenId, tenantId, serverName);
 
 	}
 
@@ -417,10 +421,11 @@ public class RestClientTst {
 
 				int bytesRead = 0;
 				BufferedInputStream bis = new BufferedInputStream(inputStream);
+				String chunk = "";
 				while ((bytesRead = bis.read(buffer)) != -1) {
-					String chunk = new String(buffer, 0, bytesRead);
-					System.out.println(chunk);
+					chunk = new String(buffer, 0, bytesRead);
 				}
+				System.out.println(chunk);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
