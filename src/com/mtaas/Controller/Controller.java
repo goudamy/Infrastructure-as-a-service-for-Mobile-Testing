@@ -41,16 +41,14 @@ public class Controller extends HttpServlet {
 			String hostIp = data.ret_data("stack.hostIp");
 			String flavorId = data.ret_data("stack.flavorId");
 			String imageName =  data.ret_data("stack.imageName");
-			String serverName = data.ret_data("stack.serverName");
+			String serverName = (request.getParameter("servername") != null) ? request.getParameter("servername"):data.ret_data("stack.serverName");
 			
 			if(action.equals("launch")){
-				System.out.println("here");
 				rst.createInstance(hostIp, tokenId, tenantId, flavorId, imageName, serverName);
 				out.println("success");
 			}
 			
 			if(action.equals("delete")){
-				System.out.println("here1");
 				rst.deleteInstance(hostIp, tokenId, tenantId, serverName);
 				out.println("success");
 			}

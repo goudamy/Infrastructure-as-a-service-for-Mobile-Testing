@@ -193,7 +193,7 @@ public class RestClientTst {
 				if(flavorRef != null)
 				{
 					tokTable.put("flavorRef", flavorRef);
-					System.out.println("flavorRef : " + flavorRef);
+//					System.out.println("flavorRef : " + flavorRef);
 				}
 
 				return tokTable;
@@ -249,7 +249,7 @@ public class RestClientTst {
 				if(imageRef != null)
 				{
 					tokTable.put("imageRef", imageRef);
-					System.out.println("imageRef : " + imageRef);
+//					System.out.println("imageRef : " + imageRef);
 				}
 
 				return tokTable;
@@ -288,8 +288,8 @@ public class RestClientTst {
 		String endPointUrl = "v2/" + tenantId + "/servers";  
 
 
-		System.out.println("tokenId : " + tokenId);
-		System.out.println("tenantId : " + tenantId);
+//		System.out.println("tokenId : " + tokenId);
+//		System.out.println("tenantId : " + tenantId);
 
 		HttpResponse resp = get(hostUrl , endPointUrl,tokenId);
 		printResponse(resp);
@@ -317,7 +317,7 @@ public class RestClientTst {
 						"\"My Server Name\": \"ApacheTest\" " +
 						"}}}";
 
-		System.out.println("Entity : " + entity);
+//		System.out.println("Entity : " + entity);
 
 		endPointUrl = "v2/" + tenantId + "/servers";  
 		resp = post(hostUrl , endPointUrl,entity, tokenId);
@@ -425,7 +425,7 @@ public class RestClientTst {
 				while ((bytesRead = bis.read(buffer)) != -1) {
 					chunk = new String(buffer, 0, bytesRead);
 				}
-				System.out.println(chunk);
+//				System.out.println(chunk);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
