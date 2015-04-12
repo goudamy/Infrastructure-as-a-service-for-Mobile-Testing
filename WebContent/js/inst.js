@@ -1,3 +1,4 @@
+//Launch Instance
 function lnch_inst() {
 	try{
 
@@ -31,6 +32,8 @@ function lnch_inst() {
 	{console.log("Issue with loading Launch Instance dialog.")}
 }
 
+
+//List Instance
 function list_inst() {
     try{
 
@@ -53,6 +56,54 @@ function list_inst() {
         setTimeout(function(){list.open();if($('.bootstrap-dialog')){$('.bootstrap-dialog').css({'width': '850px'}); list.setMessage($('<div></div>').load('./html/list_instance.html'));} else {checkdg();}},500);
         
     }
+        
+
+        
+
+    } catch(e)
+    {console.log("Issue with loading List Instance dialog." + e)}
+
+    
+}
+
+//Create Project
+
+function creat_proj() {
+	try{
+
+		 BootstrapDialog.show({
+            title: 'Create Project',
+            message: function(dialog) {
+                var $message = $('<div></div>');
+                var pageToLoad = dialog.getData('pageToLoad');
+                $message.load(pageToLoad);
+        
+                return $message;
+            },
+            data: {
+                'pageToLoad': './html/launch_instance.html'
+            },
+            buttons: [{
+            	id: 'btn-1',
+                label: 'Cancel',
+                action: function(dialog){
+                	var $button = this;
+                	
+                    dialog.close();
+                }
+            }, {
+            	id: 'btn-2',
+                label: 'Launch',
+                cssClass: 'btn-primary',
+                action: function(dialog) {
+                    dialog.setTitle('Title 2');
+                }
+            }]
+        });
+
+	} catch(e)
+	{console.log("Issue with loading Launch Instance dialog.")}
+}
         
 
         

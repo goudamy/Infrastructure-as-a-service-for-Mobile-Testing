@@ -7,7 +7,7 @@
 	
 	<!-- start: Meta -->
 	<meta charset="utf-8">
-	<title>Mobile InfraStructure As A Service (MIaaS)</title>
+	<title>Mobile Test InfraStructure As A Service (MTIaaS)</title>
 	<meta name="description" content="Bootstrap Metro Dashboard">
 	<meta name="author" content="Dennis Ji">
 	<meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -56,7 +56,7 @@
 <body>
 		<div class="container-fluid-full">
 		<div class="row-fluid">
-				<div style="margin:100px auto; font-size:30px; font-weight:bold; color:white; text-align:center;">Mobile InfraStructure As A Service (MIaaS)</div>
+				<div style="margin:100px auto; font-size:30px; font-weight:bold; color:white; text-align:center;">Mobile Test InfraStructure As A Service (MTIaaS)</div>
 			<div class="row-fluid">
 				<div class="login-box">
 					<h2 style="font-family:Arial">Login to your account</h2>

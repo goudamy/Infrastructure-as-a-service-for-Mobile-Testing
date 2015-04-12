@@ -9,7 +9,7 @@ Date: 03/30/2015
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Mobile InfraStructure As A Service (MIaaS)</title>
+<title>Mobile Test InfraStructure As A Service (MTIaaS)</title>
 	<meta name="description" content="Bootstrap Metro Dashboard">
 	<meta name="author" content="Admin">
 	<meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -58,7 +58,7 @@ Date: 03/30/2015
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.jsp"><span>Mobile InfraStructure As A Service (MIaaS)</span></a>
+				<a class="brand" href="index.jsp"><span>Mobile Test InfraStructure As A Service (MTIaaS)</span></a>
 								
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
@@ -148,7 +148,7 @@ Date: 03/30/2015
 							<a class="dropmenu" href="#"><i class="icon-tasks"></i><span class="hidden-tablet"> Volumes</span></a>
 							<ul>
 								<li><a class="submenu" href="submenu.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> Create Volume</span></a></li>
-								<li><a class="submenu" href="submenu3.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Volume</span></a></li>
+								<li><a class="submenu" href="submenu3.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Volumes</span></a></li>
 							</ul>	
 						</li>
 						<li>
@@ -162,7 +162,14 @@ Date: 03/30/2015
 							<a class="dropmenu" href="#"><i class="icon-tasks"></i><span class="hidden-tablet"> Flavors</span></a>
 							<ul>
 								<li><a class="submenu" href="submenu.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> Create Flavor</span></a></li>
-								<li><a class="submenu" href="submenu3.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Flavor</span></a></li>
+								<li><a class="submenu" href="submenu3.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Flavors</span></a></li>
+							</ul>	
+						</li>
+						<li>
+							<a class="dropmenu" href="#"><i class="icon-tasks"></i><span class="hidden-tablet"> Projects</span></a>
+							<ul>
+								<li><a class="submenu" href="submenu.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> Create Project</span></a></li>
+								<li><a class="submenu" href="submenu3.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Projects</span></a></li>
 							</ul>	
 						</li>
 						<li><a href="form.html"><i class="icon-edit"></i><span class="hidden-tablet"> Mobile Project Setup Wizard</span></a></li>
