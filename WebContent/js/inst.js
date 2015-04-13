@@ -72,6 +72,7 @@ function creat_proj() {
 	try{
 
 		 BootstrapDialog.show({
+			id:"createprojdia",
             title: 'Create Project',
             message: function(dialog) {
                 var $message = $('<div></div>');
@@ -81,35 +82,37 @@ function creat_proj() {
                 return $message;
             },
             data: {
-                'pageToLoad': './html/launch_instance.html'
+                'pageToLoad': './html/project_create.html'
             },
             buttons: [{
             	id: 'btn-1',
                 label: 'Cancel',
                 action: function(dialog){
-                	var $button = this;
-                	
-                    dialog.close();
+                	dialog.close();
                 }
             }, {
             	id: 'btn-2',
-                label: 'Launch',
+                label: 'Create',
                 cssClass: 'btn-primary',
                 action: function(dialog) {
-                    dialog.setTitle('Title 2');
+                	
                 }
             }]
         });
+		 
+		 
 
 	} catch(e)
-	{console.log("Issue with loading Launch Instance dialog.")}
-}
-        
-
-        
-
-    } catch(e)
-    {console.log("Issue with loading List Instance dialog." + e)}
-
+	{console.log("Issue with loading Launch Instance dialog.")} 
+	
+	checkdg();
     
+    //list.setSize(BootstrapDialog.SIZE_WIDE);
+    function checkdg(){
+    	setTimeout(function(){if($('.bootstrap-dialog')){$(".chosen-select").chosen();} else {checkdg();}},500); 
+    }
+	
 }
+        
+
+        

@@ -26,6 +26,7 @@ Date: 03/30/2015
 	<link id="base-style" href="css/style.css" rel="stylesheet">
 	<link id="base-style-responsive" href="css/style-responsive.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
+	<link href="css/chosen.min.css" rel="stylesheet">
 	<!-- end: CSS -->
 	
 
@@ -168,7 +169,7 @@ Date: 03/30/2015
 						<li>
 							<a class="dropmenu" href="#"><i class="icon-tasks"></i><span class="hidden-tablet"> Projects</span></a>
 							<ul>
-								<li><a class="submenu" href="submenu.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> Create Project</span></a></li>
+								<li><a class="submenu" href="javascript:creat_proj()"><i class="icon-file-alt"></i><span class="hidden-tablet"> Create Project</span></a></li>
 								<li><a class="submenu" href="submenu3.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Projects</span></a></li>
 							</ul>	
 						</li>
@@ -576,6 +577,7 @@ Date: 03/30/2015
 		<script src="js/jquery.knob.modified.js"></script>
 	
 		<script src="js/jquery.sparkline.min.js"></script>
+		
 	
 		<script src="js/counter.js"></script>
 	
