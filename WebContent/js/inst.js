@@ -35,33 +35,35 @@ function lnch_inst() {
 
 //List Instance
 function list_inst() {
-    try{
-
-         var list = new BootstrapDialog({
-            title: 'List Instances',
-            buttons: [{
-                label: 'Close',
-                action: function(dialog){
-                    //dialog.close();
-                    dialog.setSize(BootstrapDialog.SIZE_WIDE);
-                }
-            }]
-        });
-         
-         
-         checkdg();
-        
-         //list.setSize(BootstrapDialog.SIZE_WIDE);
-         function checkdg(){
-        setTimeout(function(){list.open();if($('.bootstrap-dialog')){$('.bootstrap-dialog').css({'width': '850px'}); list.setMessage($('<div></div>').load('./html/list_instance.html'));} else {checkdg();}},500);
-        
-    }
-        
-
-        
-
-    } catch(e)
-    {console.log("Issue with loading List Instance dialog." + e)}
+//    try{
+//
+//         var list = new BootstrapDialog({
+//            title: 'List Instances',
+//            buttons: [{
+//                label: 'Close',
+//                action: function(dialog){
+//                    //dialog.close();
+//                    dialog.setSize(BootstrapDialog.SIZE_WIDE);
+//                }
+//            }]
+//        });
+//         
+//         
+//         checkdg();
+//        
+//         //list.setSize(BootstrapDialog.SIZE_WIDE);
+//         function checkdg(){
+//        setTimeout(function(){list.open();if($('.bootstrap-dialog')){$('.bootstrap-dialog').css({'width': '850px'}); list.setMessage($('<div></div>').load('./html/list_instance.html'));} else {checkdg();}},500);
+//        
+//    }
+//        
+//
+//        
+//
+//    } catch(e)
+//    {console.log("Issue with loading List Instance dialog." + e)}
+	
+	$( "#content" ).load( "html/list_instance.html" );
 
     
 }
@@ -73,7 +75,7 @@ function creat_proj() {
 
 		 BootstrapDialog.show({
 			id:"createprojdia",
-            title: 'Create Project',
+            title: 'Create Mobile Project',
             message: function(dialog) {
                 var $message = $('<div></div>');
                 var pageToLoad = dialog.getData('pageToLoad');
@@ -105,7 +107,7 @@ function creat_proj() {
 	} catch(e)
 	{console.log("Issue with loading Launch Instance dialog.")} 
 	
-	checkdg();
+//	checkdg();
     
     //list.setSize(BootstrapDialog.SIZE_WIDE);
     function checkdg(){
@@ -113,6 +115,7 @@ function creat_proj() {
     }
 	
 }
-        
+
+  
 
         
