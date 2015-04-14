@@ -23,7 +23,7 @@ function lnch_inst() {
                 label: 'Launch',
                 cssClass: 'btn-primary',
                 action: function(dialog) {
-                    dialog.setTitle('Title 2');
+                   
                 }
             }]
         });
@@ -35,47 +35,31 @@ function lnch_inst() {
 
 //List Instance
 function list_inst() {
-//    try{
-//
-//         var list = new BootstrapDialog({
-//            title: 'List Instances',
-//            buttons: [{
-//                label: 'Close',
-//                action: function(dialog){
-//                    //dialog.close();
-//                    dialog.setSize(BootstrapDialog.SIZE_WIDE);
-//                }
-//            }]
-//        });
-//         
-//         
-//         checkdg();
-//        
-//         //list.setSize(BootstrapDialog.SIZE_WIDE);
-//         function checkdg(){
-//        setTimeout(function(){list.open();if($('.bootstrap-dialog')){$('.bootstrap-dialog').css({'width': '850px'}); list.setMessage($('<div></div>').load('./html/list_instance.html'));} else {checkdg();}},500);
-//        
-//    }
-//        
-//
-//        
-//
-//    } catch(e)
-//    {console.log("Issue with loading List Instance dialog." + e)}
-	
+
 	$( "#content" ).load( "html/list_instance.html" );
 
-    
 }
 
 //Create Project
 
 function creat_proj() {
+	$("#content").load("./html/project_create.html");
+
+}
+
+//List Project
+
+function list_proj() {
+	$("#content").load("./html/list_project.html");
+
+}
+
+//Add Images
+function add_img() {
 	try{
 
 		 BootstrapDialog.show({
-			id:"createprojdia",
-            title: 'Create Mobile Project',
+            title: 'Add Image',
             message: function(dialog) {
                 var $message = $('<div></div>');
                 var pageToLoad = dialog.getData('pageToLoad');
@@ -84,38 +68,77 @@ function creat_proj() {
                 return $message;
             },
             data: {
-                'pageToLoad': './html/project_create.html'
+                'pageToLoad': './html/add_image.html'
             },
             buttons: [{
-            	id: 'btn-1',
                 label: 'Cancel',
                 action: function(dialog){
-                	dialog.close();
+                    dialog.close();
                 }
             }, {
-            	id: 'btn-2',
-                label: 'Create',
+                label: 'Add',
                 cssClass: 'btn-primary',
                 action: function(dialog) {
-                	
+//                    dialog.setTitle('Title 2');
                 }
             }]
         });
-		 
-		 
 
 	} catch(e)
-	{console.log("Issue with loading Launch Instance dialog.")} 
-	
-//	checkdg();
-    
-    //list.setSize(BootstrapDialog.SIZE_WIDE);
-    function checkdg(){
-    	setTimeout(function(){if($('.bootstrap-dialog')){$(".chosen-select").chosen();} else {checkdg();}},500); 
-    }
+	{console.log("Issue with loading Add Image dialog.")}
+}
+
+
+//list Images 
+function list_img() {
+	$("#content").load("./html/list_img.html");
+
+}
+
+
+//Create Flavor
+function create_flv(){
+	try{
+
+		 BootstrapDialog.show({
+           title: 'Create Flavor',
+           message: function(dialog) {
+               var $message = $('<div></div>');
+               var pageToLoad = dialog.getData('pageToLoad');
+               $message.load(pageToLoad);
+       
+               return $message;
+           },
+           data: {
+               'pageToLoad': './html/create_flv.html'
+           },
+           buttons: [{
+               label: 'Cancel',
+               action: function(dialog){
+                   dialog.close();
+               }
+           }, {
+               label: 'Create',
+               cssClass: 'btn-primary',
+               action: function(dialog) {
+//                   dialog.setTitle('Title 2');
+               }
+           }]
+       });
+
+	} catch(e)
+	{console.log("Issue with loading Add Image dialog.")}
+}
+
+
+
+//List Flavor
+function list_flv(){
+	$("#content").load("./html/list_flv.html");
 	
 }
 
-  
-
-        
+//Billing
+function list_bill(){
+	$("#content").load("./html/billing.html");
+}

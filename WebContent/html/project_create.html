@@ -1,4 +1,11 @@
-
+	<ul class="breadcrumb">
+				<li>
+					<i class="icon-home"></i>
+					<a href="index.jsp">Home</a> 
+					<i class="icon-angle-right"></i>
+				</li>
+				<li><a href="#">Create Mobile Project</a></li>
+			</ul>
 
 	        <div class="row-fluid" >
 	        	<div class="span6" onTablet="span6" onDesktop="span6">
@@ -8,7 +15,28 @@
 								  <input type="text" id="projname">
 								</div>
 					</div>
-	        		 <div class="control-group" name="env1">
+					<div class="control-group" name="env1">
+								<label class="control-label" for="Emobile"><h4>Select Emulated Mobile Resource</h4></label>
+								<div id="Emobile" class="span4 controls" style="margin-left:30px">
+									<select id="emob_select" multiple="multiple">
+									<option>US</option>
+									<option>China</option>
+									<option>India</option>
+									<option>Australia</option>
+									</select>
+									<script>
+									var demo1 = $("#emob_select").bootstrapDualListbox({nonselectedlistlabel:'Emulated Mobile Instances',selectedlistlabel:'Selected Emulators for project'});
+									/* demo1.append('<option value="apples">Apples</option><option value="oranges">Oranges</option>');
+								    demo1.trigger('bootstrapduallistbox.refresh', true); */
+									</script>
+								</div>
+					</div>
+	        		 
+					
+					
+				</div>
+				<div class="span6" onTablet="span6" onDesktop="span6">
+					<div class="control-group" name="env1">
 								<label class="control-label" for="TestServer"><h4>Select Test Server *</h4></label>
 								<div class="controls">
 								  <select id="TestServer" data-rel="chosen" >
@@ -19,35 +47,30 @@
 								  </select>
 								</div>
 					</div>
-					
-					
-				</div>
-				<div class="span6" onTablet="span6" onDesktop="span6">
-				<div class="control-group" name="env1">
-								<label class="control-label" for="Emobile"><h4>Select Emulated Mobile Resource</h4></label>
-								<div class="controls">
-								  <select id="Emobile" data-rel="chosen">
-									<option>US</option>
-									<option>China</option>
-									<option>India</option>
-									<option>Australia</option>
-								  </select>
-								</div>
-					</div>
+				
 					<div class="control-group" name="env1">
 								<label class="control-label" for="Pmobile"><h4>Select Physical Mobile Resource</h4></label>
-								<div class="controls">
-								  <select id="Pmobile" data-rel="chosen" >
+								<div id="Pmobile" class="span4 controls" style="margin-left:30px">
+									<select id="pmob_select" multiple="multiple">
 									<option>US</option>
 									<option>China</option>
 									<option>India</option>
 									<option>Australia</option>
-								  </select>
+									</select>
+									<script>
+									var demo1 = $("#pmob_select").bootstrapDualListbox({nonselectedlistlabel:true, selectedlistlabel:'Selected Mobile devices for project'});
+									/* demo1.append('<option value="apples">Apples</option><option value="oranges">Oranges</option>');
+								    demo1.trigger('bootstrapduallistbox.refresh', true); */
+									</script>
 								</div>
 					</div>
 				</div>
 
 	        </div>
 
-
+<div class="form-actions">
+							  <button type="submit" class="btn btn-primary">Create</button>
+							  <button type="reset" class="btn">Refresh Device List</button>
+							  <button type="reset" class="btn">Cancel</button>
+							</div>
 

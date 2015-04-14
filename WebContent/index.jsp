@@ -26,6 +26,7 @@ Date: 03/30/2015
 	<link id="base-style" href="css/style.css" rel="stylesheet">
 	<link id="base-style-responsive" href="css/style-responsive.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
+	<link href="css/bootstrap-duallistbox.min.css" rel="stylesheet">
 	<!-- end: CSS -->
 	
 
@@ -145,35 +146,27 @@ Date: 03/30/2015
 							</ul>	
 						</li>
 						<li>
-							<a class="dropmenu" href="#"><i class="icon-tasks"></i><span class="hidden-tablet"> Volumes</span></a>
-							<ul>
-								<li><a class="submenu" href="submenu.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> Create Volume</span></a></li>
-								<li><a class="submenu" href="submenu3.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Volumes</span></a></li>
-							</ul>	
-						</li>
-						<li>
 							<a class="dropmenu" href="#"><i class="icon-tasks"></i><span class="hidden-tablet"> Images</span></a>
 							<ul>
-								<li><a class="submenu" href="submenu.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> Add Image</span></a></li>
-								<li><a class="submenu" href="submenu3.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Images</span></a></li>
+								<li><a class="submenu" href="javascript: add_img()"><i class="icon-file-alt"></i><span class="hidden-tablet"> Add Image</span></a></li>
+								<li><a class="submenu" href="javascript: list_img()"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Images</span></a></li>
 							</ul>	
 						</li>
 						<li>
 							<a class="dropmenu" href="#"><i class="icon-tasks"></i><span class="hidden-tablet"> Flavors</span></a>
 							<ul>
-								<li><a class="submenu" href="submenu.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> Create Flavor</span></a></li>
-								<li><a class="submenu" href="submenu3.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Flavors</span></a></li>
+								<li><a class="submenu"  href="javascript: create_flv()"><i class="icon-file-alt"></i><span class="hidden-tablet"> Create Flavor</span></a></li>
+								<li><a class="submenu"  href="javascript: list_flv()"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Flavors</span></a></li>
 							</ul>	
 						</li>
 						<li>
 							<a class="dropmenu" href="#"><i class="icon-tasks"></i><span class="hidden-tablet">Mobile Projects</span></a>
 							<ul>
 								<li><a class="submenu" href="javascript:creat_proj()"><i class="icon-file-alt"></i><span class="hidden-tablet"> Create Mobile Project</span></a></li>
-								<li><a class="submenu" href="submenu3.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Mobile Projects</span></a></li>
+								<li><a class="submenu" href="javascript: list_proj()"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Mobile Projects</span></a></li>
 							</ul>	
 						</li>
-						<li><a href="form.html"><i class="icon-edit"></i><span class="hidden-tablet"> Mobile Project Setup Wizard</span></a></li>
-						<li><a href="chart.html"><i class="icon-list-alt"></i><span class="hidden-tablet"> Billing</span></a></li>
+						<li><a href="javascript: list_bill()"><i class="icon-list-alt"></i><span class="hidden-tablet"> Billing</span></a></li>
 					</ul>
 				</div>
 			</div>
@@ -190,7 +183,309 @@ Date: 03/30/2015
 			<div id="content" class="span10">
 			
 			
+			<ul class="breadcrumb">
+				<li>
+					<i class="icon-home"></i>
+					<a href="index.jsp">Home</a> 
+					<i class="icon-angle-right"></i>
+				</li>
+				<li><a href="#">Dashboard</a></li>
+			</ul>
+
+		
+ 
+ 			<div class="row-fluid sortable">
+				<div class="box span6">
+					<div class="box-header">
+						<h2><i class="halflings-icon align-justify"></i><span class="break"></span>Mobile Projects Active/Inactive</h2>
+					</div>
+					<div class="box-content">
+						<table class="table table-striped">
+							  <thead>
+								  <tr>
+									  <th>Mobile Project Name</th>
+									  <th>Created Date</th>
+									  <th>Status</th>                                          
+								  </tr>
+							  </thead>   
+							  <tbody>
+								<tr>
+									<td>Project 1</td>
+									<td class="center">03/30/2015</td>
+									<td class="center">
+										<span class="label label-success">Active</span>
+									</td>                                       
+								</tr>
+								<tr>
+									<td>Project 2</td>
+									<td class="center">04/01/2015</td>
+									<td class="center">
+										<span class="label">Inactive</span>
+									</td>                                       
+								</tr>
+								<tr>
+									<td>3G Test</td>
+									<td class="center">04/02/2015</td>
+									<td class="center">
+										<span class="label">Inactive</span>
+									</td>                                       
+								</tr>
+								<tr>
+									<td>&nbsp</td>
+									<td class="center">&nbsp</td>
+									<td class="center">&nbsp
+									</td>                                       
+								</tr>
+								<tr>
+									<td>&nbsp</td>
+									<td class="center">&nbsp</td>
+									<td class="center">&nbsp
+									</td>                                       
+								</tr>         
+							  </tbody>
+						 </table>  
+						 
+					</div>
+				</div><!--/span-->
+				
+				<div class="box span6">
+					<div class="box-header">
+						<h2><i class="halflings-icon align-justify"></i><span class="break"></span>Users</h2>
+						
+					</div>
+					<div class="box-content">
+						<table class="table table-striped">
+							  <thead>
+								  <tr>
+									  <th>Username</th>
+									  <th>Date registered</th>
+									  <th>Role</th>
+									  <th>Status</th>                                          
+								  </tr>
+							  </thead>   
+							  <tbody>
+								<tr>
+									<td>Admin</td>
+									<td class="center">03/29/2015</td>
+									<td class="center">Member</td>
+									<td class="center">
+										<span class="label label-success">Active</span>
+									</td>                                       
+								</tr>
+								<tr>
+									<td>Demo</td>
+									<td class="center">03/28/2015</td>
+									<td class="center">Member</td>
+									<td class="center">
+										<span class="label">Inactive</span>
+									</td>                                       
+								</tr>
+								<tr>
+									<td>&nbsp</td>
+									<td class="center">&nbsp</td>
+									<td class="center">&nbsp</td>
+									<td class="center">&nbsp
+									</td>                                        
+								</tr>
+								<tr>
+									<td>&nbsp</td>
+									<td class="center">&nbsp</td>
+									<td class="center">&nbsp</td>
+									<td class="center">&nbsp
+									</td>                                       
+								</tr>
+								<tr>
+									<td>&nbsp</td>
+									<td class="center">&nbsp</td>
+									<td class="center">&nbsp</td>
+									<td class="center">&nbsp
+									</td>                                        
+								</tr>                                   
+							  </tbody>
+						 </table>  
+					</div>
+				</div><!--/span-->
+			</div><!--/row-->
 			
+			<div class="row-fluid hideInIE8 circleStats">
+				
+				<div class="span3" onTablet="span4" onDesktop="span3">
+                	<div class="circleStatsItemBox yellow">
+						<div class="header">Disk Space Usage</div>
+						<span class="percent">percent</span>
+						<div class="circleStat">
+                    		<input type="text" value="58" class="whiteCircle" />
+						</div>		
+						<div class="footer">
+							<span class="count">
+								<span class="number">20000</span>
+								<span class="unit">MB</span>
+							</span>
+							<span class="sep"> / </span>
+							<span class="value">
+								<span class="number">50000</span>
+								<span class="unit">MB</span>
+							</span>	
+						</div>
+                	</div>
+				</div>
+
+				<div class="span3" onTablet="span4" onDesktop="span3">
+                	<div class="circleStatsItemBox green">
+						<div class="header">Bandwidth Usage</div>
+						<span class="percent">percent</span>
+						<div class="circleStat">
+                    		<input type="text" value="78" class="whiteCircle" />
+						</div>
+						<div class="footer">
+							<span class="count">
+								<span class="number">5000</span>
+								<span class="unit">GB</span>
+							</span>
+							<span class="sep"> / </span>
+							<span class="value">
+								<span class="number">5000</span>
+								<span class="unit">GB</span>
+							</span>	
+						</div>
+                	</div>
+				</div>
+
+				<div class="span3" onTablet="span4" onDesktop="span3">
+                	<div class="circleStatsItemBox greenDark">
+						<div class="header">Memory Usage</div>
+						<span class="percent">percent</span>
+                    	<div class="circleStat">
+                    		<input type="text" value="60" class="whiteCircle" />
+						</div>
+						<div class="footer">
+							<span class="count">
+								<span class="number">32</span>
+								<span class="unit">GB</span>
+							</span>
+							<span class="sep"> / </span>
+							<span class="value">
+								<span class="number">32</span>
+								<span class="unit">GB</span>
+							</span>	
+						</div>
+                	</div>
+				</div>
+
+				<div class="span3 noMargin" onTablet="span4" onDesktop="span3">
+                	<div class="circleStatsItemBox pink">
+						<div class="header">CPU Usage</div>
+						<span class="percent">percent</span>
+                    	<div class="circleStat">
+                    		<input type="text" value="83" class="whiteCircle" />
+						</div>
+						<div class="footer">
+							<span class="count">
+								<span class="number">64</span>
+								<span class="unit">GHz</span>
+							</span>
+							<span class="sep"> / </span>
+							<span class="value">
+								<span class="number">3.2</span>
+								<span class="unit">GHz</span>
+							</span>	
+						</div>
+                	</div>
+				</div>
+
+			
+						
+			</div>		
+						
+			<div class="row-fluid">
+				
+				<div class="widget blue span6" onTablet="span6" onDesktop="span6">
+					
+					<h2><span class="glyphicons globe"><i></i></span> Demographics Usage</h2>
+					
+					<hr>
+					
+					<div class="content">
+						
+						<div class="verticalChart">
+							
+							<div class="singleBar">
+							
+								<div class="bar">
+								
+									<div class="value">
+										<span>20%</span>
+									</div>
+								
+								</div>
+								
+								<div class="title">US</div>
+							
+							</div>
+							
+							<div class="singleBar">
+							
+								<div class="bar">
+								
+									<div class="value">
+										<span>16%</span>
+									</div>
+								
+								</div>
+								
+								<div class="title">China</div>
+							
+							</div>
+							
+							<div class="singleBar">
+							
+								<div class="bar">
+								
+									<div class="value">
+										<span>12%</span>
+									</div>
+								
+								</div>
+								
+								<div class="title">India</div>
+							
+							</div>
+							
+							<div class="singleBar">
+							
+								<div class="bar">
+								
+									<div class="value">
+										<span>19%</span>
+									</div>
+								
+								</div>
+								
+								<div class="title">Australia</div>
+							
+							</div>
+							
+							
+							
+							<div class="clearfix"></div>
+							
+						</div>
+					
+					</div>
+					
+				</div><!--/span-->
+				
+			
+				<div class="widget yellow span6 noMargin" onTablet="span12" onDesktop="span6">
+					<h2><span class="glyphicons fire"><i></i></span> Mobile Cloud Load</h2>
+					<hr>
+					<div class="content">
+						 <div id="serverLoad2" style="height:224px;"></div>
+					</div>
+				</div>
+			
+			</div>
+		
        
 
 			</div><!--/.fluid-container-->
@@ -226,13 +521,13 @@ Date: 03/30/2015
 	
 	<!-- start: JavaScript-->
 
+		
 		<script src="js/jquery-1.9.1.min.js"></script>
-	<script src="js/jquery-migrate-1.0.0.min.js"></script>
+		
+		<script src="js/jquery-migrate-1.0.0.min.js"></script>
 	
 		<script src="js/jquery-ui-1.10.0.custom.min.js"></script>
-		<script>
-			$( "#content" ).load( "html/dashboard.html" );
-		</script>
+		
 	
 		<script src="js/jquery.ui.touch-punch.js"></script>
 	
@@ -284,8 +579,10 @@ Date: 03/30/2015
 		<script src="js/retina.js"></script>
 
 		<script src="js/custom.js"></script>
+
 		<script src="js/bootstrap-dialog.js"></script>
 		<script src="js/inst.js"></script>
+		<script src="js/bootstrap-duallistbox.min.js"></script>
 		
 	<!-- end: JavaScript-->
 </body>
