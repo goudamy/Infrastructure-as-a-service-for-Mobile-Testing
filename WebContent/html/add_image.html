@@ -1,93 +1,88 @@
 
-	<ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#Details">Details</a></li>
-    <li><a data-toggle="tab" href="#Access">Access & Security</a></li>
-	</ul>
-	<div class="tab-content">
-	    <div id="Details" class="tab-pane fade in active">
 	        <div class="row-fluid">
 	        	<div class="span6" onTablet="span6" onDesktop="span6">
+	        		 <div class="control-group">
+								<label class="control-label" for="imgname"><h3>Image Name *</h3></label>
+								<div class="controls">
+								  <input type="text" id="imgname">
+								</div>
+					</div>
+					 <div class="control-group">
+								<label class="control-label" for="imgdesc"><h3>Description</h3></label>
+								<div class="controls">
+								  <input type="text" id="imgdesc">
+								</div>
+					</div>
+	        		 
 	        		 <div class="control-group" name="env1">
-								<label class="control-label" for="selectError"><h4>Availability Zones</h4></label>
+								<label class="control-label" for="imgsrc"><h4>Image Source</h4></label>
 								<div class="controls">
-								  <select id="selectError" data-rel="chosen">
-									<option>US</option>
-									<option>China</option>
-									<option>India</option>
-									<option>Australia</option>
+								  <select id="imgsrc" data-rel="chosen">
+									<option>Image File</option>
 								  </select>
 								</div>
 					</div>
 					<div class="control-group">
-								<label class="control-label" for="inputSuccess"><h3>Instance Name *</h3></label>
-								<div class="controls">
-								  <input type="text" id="inputSuccess">
-								</div>
+							  <label class="control-label" for="imgfileInput"><h4>Image File</h4></label>
+							  <div class="controls">
+								<input class="input-file uniform_on" id="imgfileInput" type="file">
+							  </div>
+					</div>          
+					<div class="controls">
+								  <label class="checkbox inline">
+									<input type="checkbox" id="imginlineCheckbox0" value="public"> Public
+								  </label>
 					</div>
-					<div class="control-group">
-								<label class="control-label" for="selectError"><h3>Flavor *</h3></label>
-								<div class="controls">
-								  <select id="selectError" data-rel="chosen">
-									<option>m1.nano</option>
-									<option>m1.micro</option>
-									<option>m1.tiny</option>
-									<option>m1.small</option>
-								  </select>
-								</div>
+					<div class="controls">
+								  <label class="checkbox inline">
+									<input type="checkbox" id="imginlineCheckbox1" value="protected"> Protected
+								  </label>
 					</div>
+					
 				</div>
 					
 	        	<div class="span6" onTablet="span6" onDesktop="span6">
+	        		<div class="control-group" name="env1">
+								<label class="control-label" for="imgformat"><h4>Image Source</h4></label>
+								<div class="controls">
+								  <select id="imgformat" data-rel="chosen">
+									<option value="" selected="selected">Select format</option>
+									<option value="aki">AKI - Amazon Kernel Image</option>
+									<option value="ami">AMI - Amazon Machine Image</option>
+									<option value="ari">ARI - Amazon Ramdisk Image</option>
+									<option value="iso">ISO - Optical Disk Image</option>
+									<option value="qcow2">QCOW2 - QEMU Emulator</option>
+									<option value="raw">Raw</option>
+									<option value="vdi">VDI</option>
+									<option value="vhd">VHD</option>
+									<option value="vmdk">VMDK</option>
+								  </select>
+								</div>
+					</div>
 
-	        		<div class="control-group">
-								<label class="control-label" for="inputSuccess"><h3>Instance Count *</h3></label>
+	        		 <div class="control-group">
+								<label class="control-label" for="imgarch"><h3>Architecture</h3></label>
 								<div class="controls">
-								  <input type="text" id="inputSuccess">
+								  <input type="text" id="imgarch">
+								</div>
+					</div>
+					 <div class="control-group">
+								<label class="control-label" for="imgmin"><h3>Minimum Disk (GB)</h3></label>
+								<div class="controls">
+								  <input type="text" id="imgmin">
 								</div>
 					</div>
 					<div class="control-group">
-								<label class="control-label" for="selectError"><h3>Instance Boot Source *</h3></label>
+								<label class="control-label" for="imgram"><h3>Minimum RAM (MB)</h3></label>
 								<div class="controls">
-								  <select id="selectError" data-rel="chosen">
-									<option>Boot from image</option>
-									<option disabled="true">Boot from snapshot</option>
-									<option disabled="true">Boot from volume</option>
-								  </select>
+								  <input type="text" id="imgram">
 								</div>
 					</div>
-					<div class="control-group">
-								<label class="control-label" for="selectError"><h3>Image Name *</h3></label>
-								<div class="controls">
-								  <select id="selectError" data-rel="chosen">
-									<option>Fedora</option>
-									<option >Cirros</option>
-									<option >Android</option>
-								  </select>
-								</div>
-					</div>
+					
 	        		
 	        	</div>
 
 	        </div>
 	    </div>
-	    <div id="Access" class="tab-pane fade">
-	    	<div class="control-group" name="env1">
-								<label class="control-label" for="selectError"><h4>Key Pair</h4></label>
-								<div class="controls">
-								  <select id="selectError" data-rel="chosen">
-									<option disabled="true">No key pairs avialable</option>
-								  </select>
-								</div>
-			</div>
-	        <div class="control-group">
-								<label class="control-label"><h3>Security Groups *</h3></label>
-								<div class="controls">
-								  <label class="checkbox inline">
-									<input type="checkbox" id="inlineCheckbox1" value="option1" checked="true"> default
-								  </label>
-			</div>
-		</div>
-	    </div>
-	</div>
-
+	   
 

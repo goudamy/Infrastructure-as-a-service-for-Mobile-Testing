@@ -4,62 +4,52 @@
 	    <div id="Details" class="tab-pane fade in active">
 	        <div class="row-fluid">
 	        	<div class="span6" onTablet="span6" onDesktop="span6">
-	        		 <div class="control-group" name="env1">
-								<label class="control-label" for="selectError"><h4>Availability Zones</h4></label>
+	        		 
+					<div class="control-group">
+								<label class="control-label" for="flvname"><h3>Flavor Name *</h3></label>
 								<div class="controls">
-								  <select id="selectError" data-rel="chosen">
-									<option>US</option>
-									<option>China</option>
-									<option>India</option>
-									<option>Australia</option>
-								  </select>
+								  <input type="text" id="flvname">
 								</div>
 					</div>
 					<div class="control-group">
-								<label class="control-label" for="inputSuccess"><h3>Instance Name *</h3></label>
+								<label class="control-label" for="flvid"><h3>ID</h3></label>
 								<div class="controls">
-								  <input type="text" id="inputSuccess">
+								  <input type="text" id="flvid" value="auto">
 								</div>
 					</div>
 					<div class="control-group">
-								<label class="control-label" for="selectError"><h3>Flavor *</h3></label>
+								<label class="control-label" for="flvcpu"><h3>VCPUs *</h3></label>
 								<div class="controls">
-								  <select id="selectError" data-rel="chosen">
-									<option>m1.nano</option>
-									<option>m1.micro</option>
-									<option>m1.tiny</option>
-									<option>m1.small</option>
-								  </select>
+								  <input type="text" id="flvcpu">
 								</div>
 					</div>
+					
 				</div>
 					
 	        	<div class="span6" onTablet="span6" onDesktop="span6">
 
 	        		<div class="control-group">
-								<label class="control-label" for="inputSuccess"><h3>Instance Count *</h3></label>
+								<label class="control-label" for="flvram"><h3>RAM (MB) *</h3></label>
 								<div class="controls">
-								  <input type="text" id="inputSuccess">
+								  <input type="text" id="flvram">
 								</div>
 					</div>
 					<div class="control-group">
-								<label class="control-label" for="selectError"><h3>Instance Boot Source *</h3></label>
+								<label class="control-label" for="flvroot"><h3>Root Disk (GB) *</h3></label>
 								<div class="controls">
-								  <select id="selectError" data-rel="chosen">
-									<option>Boot from image</option>
-									<option disabled="true">Boot from snapshot</option>
-									<option disabled="true">Boot from volume</option>
-								  </select>
+								  <input type="text" id="flvroot">
 								</div>
 					</div>
 					<div class="control-group">
-								<label class="control-label" for="selectError"><h3>Image Name *</h3></label>
+								<label class="control-label" for="flveph"><h3>Ephemeral Disk (GB) *</h3></label>
 								<div class="controls">
-								  <select id="selectError" data-rel="chosen">
-									<option>Fedora</option>
-									<option >Cirros</option>
-									<option >Android</option>
-								  </select>
+								  <input type="text" id="flveph">
+								</div>
+					</div>
+					<div class="control-group">
+								<label class="control-label" for="flvswap"><h3>Swap Disk (MB) *</h3></label>
+								<div class="controls">
+								  <input type="text" id="flvswap">
 								</div>
 					</div>
 	        		
