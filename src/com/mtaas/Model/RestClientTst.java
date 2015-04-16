@@ -282,7 +282,7 @@ public class RestClientTst {
 		return tokTable;
 	}
 
-	public void createInstance(String hostIp, String tokenId, String tenantId, String flavorId, String imageName, String serverName)
+	public void createInstance(String hostIp, String tokenId, String tenantId, String flavorId, String imageName, String serverName, String count)
 	{
 		String hostUrl = "http://" + hostIp + ":8774";
 		String endPointUrl = "v2/" + tenantId + "/servers";  
