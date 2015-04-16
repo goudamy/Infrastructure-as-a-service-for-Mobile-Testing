@@ -45,12 +45,17 @@ public class Controller extends HttpServlet {
 			String imageName =  data.ret_data("stack.imageName");
 			
 			String instanceName = (request.getParameter("instanceName") != null) ? request.getParameter("instanceName"):data.ret_data("stack.serverName");
-			String count = (request.getParameter("count") != null) ? request.getParameter("count"):"1";
+			String countStr = (request.getParameter("count") != null) ? request.getParameter("count"):"1";
 			String flavorId = (request.getParameter("flavor") != null) ? request.getParameter("flavor"):data.ret_data("stack.flavorId");
 			
 			if(action.equals("launch")){
-				rst.createInstance(hostIp, tokenId, tenantId, flavorId, imageName, instanceName, count);
-				out.println("success");
+				int count = Integer.parseInt(countStr);
+				for(int i = 0; i < count; i++)
+				{
+					String instNameStr = instanceName + "-" + i;
+					rst.createInstance(hostIp, tokenId, tenantId, flavorId, imageName, instNameStr);
+					out.println("success");
+				}
 			}
 			
 			if(action.equals("delete")){
