@@ -313,8 +313,8 @@ Date: 03/30/2015
                 	<div class="circleStatsItemBox yellow">
 						<div class="header">Disk Space Usage</div>
 						<span class="percent">percent</span>
-						<div class="circleStat">
-                    		<input type="text" value="58" class="whiteCircle" />
+						<div class="circleStat" id="dskusg">
+                    		<input type="text" value="48" class="whiteCircle" />
 						</div>		
 						<div class="footer">
 							<span class="count">
