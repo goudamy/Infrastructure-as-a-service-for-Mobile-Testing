@@ -166,6 +166,20 @@ Date: 03/30/2015
 								<li><a class="submenu" href="javascript: list_proj()"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Mobile Projects</span></a></li>
 							</ul>	
 						</li>
+						<li>
+							<a class="dropmenu" href="#"><i class="icon-tasks"></i><span class="hidden-tablet">Mobile Hub</span></a>
+							<ul>
+								<li><a class="submenu" href="javascript:add_hub()"><i class="icon-file-alt"></i><span class="hidden-tablet"> Add Mobile Hub </span></a></li>
+								<li><a class="submenu" href="javascript: list_hub()"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Mobile Hubs</span></a></li>
+							</ul>	
+						</li>
+						<li>
+							<a class="dropmenu" href="#"><i class="icon-tasks"></i><span class="hidden-tablet">Region</span></a>
+							<ul>
+								<li><a class="submenu" href="javascript:add_region()"><i class="icon-file-alt"></i><span class="hidden-tablet"> Add Region </span></a></li>
+								<li><a class="submenu" href="javascript: list_region()"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Regions</span></a></li>
+							</ul>	
+						</li>
 						<li><a href="javascript: list_bill()"><i class="icon-list-alt"></i><span class="hidden-tablet"> Billing</span></a></li>
 					</ul>
 				</div>
@@ -199,49 +213,18 @@ Date: 03/30/2015
 					<div class="box-header">
 						<h2><i class="halflings-icon align-justify"></i><span class="break"></span>Mobile Projects Active/Inactive</h2>
 					</div>
-					<div class="box-content">
-						<table class="table table-striped">
+					<div class="box-content" style="overflow-y:scroll; height:241px;">
+						<table id="mob_projtable" class="table table-striped">
 							  <thead>
 								  <tr>
 									  <th>Mobile Project Name</th>
 									  <th>Created Date</th>
 									  <th>Status</th>                                          
 								  </tr>
-							  </thead>   
+							  </thead>
+							  
 							  <tbody>
-								<tr>
-									<td>Project 1</td>
-									<td class="center">03/30/2015</td>
-									<td class="center">
-										<span class="label label-success">Active</span>
-									</td>                                       
-								</tr>
-								<tr>
-									<td>Project 2</td>
-									<td class="center">04/01/2015</td>
-									<td class="center">
-										<span class="label">Inactive</span>
-									</td>                                       
-								</tr>
-								<tr>
-									<td>3G Test</td>
-									<td class="center">04/02/2015</td>
-									<td class="center">
-										<span class="label">Inactive</span>
-									</td>                                       
-								</tr>
-								<tr>
-									<td>&nbsp</td>
-									<td class="center">&nbsp</td>
-									<td class="center">&nbsp
-									</td>                                       
-								</tr>
-								<tr>
-									<td>&nbsp</td>
-									<td class="center">&nbsp</td>
-									<td class="center">&nbsp
-									</td>                                       
-								</tr>         
+								
 							  </tbody>
 						 </table>  
 						 
@@ -374,7 +357,7 @@ Date: 03/30/2015
 
 				<div class="span3 noMargin" onTablet="span4" onDesktop="span3">
                 	<div class="circleStatsItemBox pink">
-						<div class="header">CPU Usage</div>
+						<div class="header">VCPU Usage</div>
 						<span class="percent">percent</span>
                     	<div class="circleStat">
                     		<input type="text" value="83" class="whiteCircle" />
@@ -583,6 +566,7 @@ Date: 03/30/2015
 		<script src="js/bootstrap-dialog.js"></script>
 		<script src="js/inst.js"></script>
 		<script src="js/bootstrap-duallistbox.min.js"></script>
+		<script>index_list_proj();</script>
 		
 	<!-- end: JavaScript-->
 </body>

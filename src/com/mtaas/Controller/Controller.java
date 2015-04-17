@@ -2,6 +2,7 @@ package com.mtaas.Controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.Hashtable;
 
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mtaas.Model.RestClientTst;
+import com.mtaas.Model.project;
 import com.mtaas.Utilities.Dataproperties;
 
 @WebServlet("/data")
@@ -63,9 +65,45 @@ public class Controller extends HttpServlet {
 				out.println("success");
 			}
 			
-			if(action.equals("testLaunch")){			
-				out.println("Test Launch success !!!!!################  "  + instanceName);
+			
+		}
+		
+		if(type.equals("dropdown")){
+			
+			
+			String result = "";
+			if(action.equals("inst")){
+			try {
+				result = project.list_inst_dropdown();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
+			out.println(result);
+			}
+			
+		}
+		
+		if(type.equals("createproj")){
+			
+			
+			String result = "";
+			if(action.equals("insert")){
+			try {
+				result = project.create_proj(request.getParameter("value"));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			if(result.equals("")) {out.println("success");} else {out.println("failed");}
+			}
+			
+			if(action.equals("list")){
+				try {
+					result = project.list_proj();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				out.println(result);
+				}
 		}
 
 	}
