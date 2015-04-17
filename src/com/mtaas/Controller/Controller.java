@@ -29,6 +29,8 @@ public class Controller extends HttpServlet {
 	    PrintWriter out = response.getWriter();
 		String type = request.getParameter("type");
 		String action = request.getParameter("action");
+		//String instanceName = request.getParameter("instanceName");
+		//System.out.println("This is: "+instanceName);
 		Dataproperties data = new Dataproperties();
 		if(type.equals("instance")){
 			RestClientTst rst = new RestClientTst();
@@ -39,18 +41,30 @@ public class Controller extends HttpServlet {
 			String username = data.ret_data("stack.username");
 			String password = data.ret_data("stack.password");
 			String hostIp = data.ret_data("stack.hostIp");
-			String flavorId = data.ret_data("stack.flavorId");
+			//String flavorId = data.ret_data("stack.flavorId");
 			String imageName =  data.ret_data("stack.imageName");
-			String serverName = (request.getParameter("servername") != null) ? request.getParameter("servername"):data.ret_data("stack.serverName");
+			
+			String instanceName = (request.getParameter("instanceName") != null) ? request.getParameter("instanceName"):data.ret_data("stack.serverName");
+			String countStr = (request.getParameter("count") != null) ? request.getParameter("count"):"1";
+			String flavorId = (request.getParameter("flavor") != null) ? request.getParameter("flavor"):data.ret_data("stack.flavorId");
 			
 			if(action.equals("launch")){
-				rst.createInstance(hostIp, tokenId, tenantId, flavorId, imageName, serverName);
-				out.println("success");
+				int count = Integer.parseInt(countStr);
+				for(int i = 0; i < count; i++)
+				{
+					String instNameStr = instanceName + "-" + i;
+					rst.createInstance(hostIp, tokenId, tenantId, flavorId, imageName, instNameStr);
+					out.println("success");
+				}
 			}
 			
 			if(action.equals("delete")){
-				rst.deleteInstance(hostIp, tokenId, tenantId, serverName);
+				rst.deleteInstance(hostIp, tokenId, tenantId, instanceName);
 				out.println("success");
+			}
+			
+			if(action.equals("testLaunch")){			
+				out.println("Test Launch success !!!!!################  "  + instanceName);
 			}
 		}
 

@@ -23,7 +23,30 @@ function lnch_inst() {
                 label: 'Launch',
                 cssClass: 'btn-primary',
                 action: function(dialog) {
-                   
+                	var instName = $("#instanceName").val();
+                	var instCount = $("#count").val();
+                	var instFlavor = $("#flavor").val();
+                    dialog.setTitle('Launching Instance');                    
+                    //dialog.setTitle(t);
+                	$.ajax({
+                		   url: 'data',
+                		   data: {
+                		      type: 'instance',
+                		      action: 'launch',
+                		      //action: 'testLaunch',
+                		      count: instCount,
+                		      flavor: instFlavor,
+                		      instanceName: instName
+                		      
+                		   },
+                		   error: function() {
+                		      $('#info').html('<p>An error has occurred</p>');
+                		   },
+                		   success: function(data) {
+                		      $('#info').html('<p>Instance creation succeeded</p>');
+                		   },
+                		   type: 'POST'
+                		});  
                 }
             }]
         });
