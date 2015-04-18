@@ -55,7 +55,7 @@ function lnch_inst() {
                 		      count: instCount,
                 		      flavor: instFlavor,
                 		      instanceName: instName,
-                		      imageName: imgName
+                		      imageName: encodeURI(imgName)
                 		   },
                 		   error: function() {
                 		      console.log("Error in Launch Instance.")
