@@ -44,7 +44,7 @@ public class Controller extends HttpServlet {
 			String password = data.ret_data("stack.password");
 			String hostIp = data.ret_data("stack.hostIp");
 			//String flavorId = data.ret_data("stack.flavorId");
-			String imageName =  data.ret_data("stack.imageName");
+			String imageName =  (request.getParameter("imageName") != null) ? request.getParameter("imageName"):data.ret_data("stack.imageName");
 			
 			String instanceName = (request.getParameter("instanceName") != null) ? request.getParameter("instanceName"):data.ret_data("stack.serverName");
 			String countStr = (request.getParameter("count") != null) ? request.getParameter("count"):"1";
@@ -54,10 +54,10 @@ public class Controller extends HttpServlet {
 				int count = Integer.parseInt(countStr);
 				for(int i = 0; i < count; i++)
 				{
-					String instNameStr = instanceName + "-" + i;
+					String instNameStr = instanceName + "-" + String.valueOf(i);
 					rst.createInstance(hostIp, tokenId, tenantId, flavorId, imageName, instNameStr);
-					out.println("success");
 				}
+				out.println("success");
 			}
 			
 			if(action.equals("delete")){

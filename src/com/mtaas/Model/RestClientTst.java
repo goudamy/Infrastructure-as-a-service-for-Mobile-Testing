@@ -320,7 +320,7 @@ public class RestClientTst {
 //		System.out.println("Entity : " + entity);
 
 		endPointUrl = "v2/" + tenantId + "/servers";  
-		resp = post(hostUrl , endPointUrl,entity, tokenId);
+		resp = post(hostUrl,endPointUrl,entity, tokenId);
 		printResponse(resp);
 	}
 

@@ -1,14 +1,13 @@
 //Launch Instance
 function lnch_inst() {
 	try{
-
+		
 		 BootstrapDialog.show({
             title: 'Launch Instances',
             message: function(dialog) {
                 var $message = $('<div></div>');
                 var pageToLoad = dialog.getData('pageToLoad');
                 $message.load(pageToLoad);
-        
                 return $message;
             },
             data: {
@@ -23,36 +22,59 @@ function lnch_inst() {
                 label: 'Launch',
                 cssClass: 'btn-primary',
                 action: function(dialog) {
+                	if($("#instanceName").val().trim() === "" || $("#count").val() === ""){
+                		try{BootstrapDialog.show({
+                			type:BootstrapDialog.TYPE_WARNING,
+                	        title: 'Warning',
+                	        message: 'Please enter all fields marked with (*).'
+                	    });}catch(e){console.log("Check Launch params.")}
+                	    return;
+                		}
                 	var instName = $("#instanceName").val();
                 	var instCount = $("#count").val();
                 	var instFlavor = $("#flavor").val();
-                    dialog.setTitle('Launching Instance');                    
-                    //dialog.setTitle(t);
+                	var imgName = $("#imageName").val();
+                	var types = ["m1.nano","m1.micro","m1.tiny","m1.small"];
+                	$.each(types, function(index, type){
+	                	if(instFlavor === type.toString()){
+	                		
+	                		switch(index){
+	                			case 0: instFlavor = 42; break;
+	                			case 1: instFlavor = 84; break;
+	                			case 2: instFlavor = "74c09149-84d7-4155-9728-20bec99c5f86"; break;
+	                			case 3: instFlavor = 2; break;
+	                		}
+	                	}
+                	});
+                	try{t.open();}catch(e){console.log(e)}
                 	$.ajax({
                 		   url: 'data',
                 		   data: {
                 		      type: 'instance',
                 		      action: 'launch',
-                		      //action: 'testLaunch',
                 		      count: instCount,
                 		      flavor: instFlavor,
-                		      instanceName: instName
-                		      
+                		      instanceName: instName,
+                		      imageName: imgName
                 		   },
                 		   error: function() {
-                		      $('#info').html('<p>An error has occurred</p>');
+                		      console.log("Error in Launch Instance.")
                 		   },
                 		   success: function(data) {
-                		      $('#info').html('<p>Instance creation succeeded</p>');
+                			   t.close();
+                			   dialog.close();
+                		      list_inst();
+                		      
                 		   },
                 		   type: 'POST'
                 		});  
                 }
             }]
         });
+		 $("#count").val(1);
 
 	} catch(e)
-	{console.log("Issue with loading Launch Instance dialog.")}
+	{console.log("Issue with loading Launch Instance dialog." + e)}
 }
 
 //Loading Img
@@ -281,7 +303,7 @@ function index_list_proj(){
 			   if(x[5] === "active")
 			   {$("#mob_projtable tbody").append('<tr><td>'+x[0]+'</td><td class="center">'+x[1]+'</td><td class="center"><span class="label label-success">Active</span></td></tr>');}
 			   else 
-			   {$("#list_projtable tbody").append('<tr><td>'+x[0]+'</td><td class="center">'+x[1]+'</td><td class="center"><span class="label">Inactive</span></td></tr>');}
+			   {$("#mob_projtable tbody").append('<tr><td>'+x[0]+'</td><td class="center">'+x[1]+'</td><td class="center"><span class="label">Inactive</span></td></tr>');}
 			   
 		   }
 		   },
