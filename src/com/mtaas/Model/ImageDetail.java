@@ -85,7 +85,7 @@ public class ImageDetail {
 		String driver = data.ret_data("mysql1.driver");	
 		String userName = data.ret_data("mysql1.userName");
 		String password = data.ret_data("mysql1.password");
-
+		Connection conn = null;
 		HttpEntity entity = httpResponse.getEntity();
 		byte[] buffer = new byte[1024];
 		if (entity != null) {
@@ -119,7 +119,7 @@ public class ImageDetail {
                  size = size2+"MB";
 						Class.forName(driver).newInstance();
 
-						Connection conn = (Connection) DriverManager
+						conn = (Connection) DriverManager
 								.getConnection(url,userName,password);
 
 						System.out.println("Connection created");
@@ -136,6 +136,13 @@ public class ImageDetail {
 
 					} catch (Exception e) {
 						System.out.println(e);
+					} finally {
+						try {
+							conn.close();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 
 				}

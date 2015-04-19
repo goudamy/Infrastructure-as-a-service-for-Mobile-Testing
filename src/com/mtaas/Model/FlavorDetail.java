@@ -91,7 +91,8 @@ public class FlavorDetail {
 		String driver = data.ret_data("mysql1.driver");	
 		String userName = data.ret_data("mysql1.userName");
 		String password = data.ret_data("mysql1.password");
-
+		Connection conn = null;
+		
 		HttpEntity entity = httpResponse.getEntity();
 		byte[] buffer = new byte[1024];
 		if (entity != null) {
@@ -136,7 +137,7 @@ public class FlavorDetail {
 						}
 						Class.forName(driver).newInstance();
 
-						Connection conn = (Connection) DriverManager
+						conn = (Connection) DriverManager
 								.getConnection(url, userName, password);
 
 						System.out.println("Connection created");
@@ -163,6 +164,13 @@ public class FlavorDetail {
 
 			} catch (Exception e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 

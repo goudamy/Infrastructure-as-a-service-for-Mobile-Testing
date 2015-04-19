@@ -99,12 +99,14 @@ public class Controller extends HttpServlet {
 			if(action.equals("list")){
 				IntanceDetails inst = new IntanceDetails();
 				inst.Instance(data.ret_data("stack.hostIp"));
+				action = "Image_list";
 			}
 			
 			if(action.equals("Image_list")){
 			
 				ImageDetail image = new ImageDetail();
 				image.Image(data.ret_data("stack.hostIp"));
+				action = "Flavor_list";
 				
 			}
 			if(action.equals("Flavor_list")){

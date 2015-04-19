@@ -46,7 +46,7 @@ function lnch_inst() {
 	                		}
 	                	}
                 	});
-                	try{t.open();}catch(e){console.log(e)}
+                	
                 	$.ajax({
                 		   url: 'data',
                 		   data: {
@@ -59,6 +59,9 @@ function lnch_inst() {
                 		   },
                 		   error: function() {
                 		      console.log("Error in Launch Instance.")
+                		   },
+                		   before: function(){
+                			   try{t.open();}catch(e){console.log(e)}
                 		   },
                 		   success: function(data) {
                 			   t.close();

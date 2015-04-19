@@ -118,6 +118,7 @@ public class IntanceDetails {
 				while ((bytesRead = bis.read(buffer)) != -1) {
 					str += new String(buffer, 0, bytesRead);
 				}
+				
 				JSONParser parser = new JSONParser();
 				JSONObject obj = (JSONObject) parser.parse(str);
 				JSONArray flavorArray = (JSONArray) obj.get("servers");
@@ -127,10 +128,17 @@ public class IntanceDetails {
 					status = (String) flavorObj.get("status");
 					updated = (String) flavorObj.get("updated");
 					JSONObject ip = (JSONObject)flavorObj.get("addresses");
-					JSONArray ip1 = (JSONArray) ip.get("private");
-					for (int j = 0; j < ip1.size(); j++) {
-						JSONObject ip2 = (JSONObject) ip1.get(j);
-						id = (String) ip2.get("addr");
+					if(ip != null)
+					{
+						JSONArray ip1 = (JSONArray) ip.get("private");
+						if(ip1 != null)
+						{
+							for (int j = 0; j < ip1.size(); j++) {
+								JSONObject ip2 = (JSONObject) ip1.get(j);
+								id = (String) ip2.get("addr");
+								System.out.println(id);
+							}
+						}
 					}
 					//id = (String) flavorObj.get("id");
 					created = (String) flavorObj.get("created");
@@ -146,13 +154,13 @@ public class IntanceDetails {
 					JSONObject imagedet1 = (JSONObject) flavorObj.get("flavor");
 					flavor = (String) imagedet1.get("id");
 					
-					
+					Connection conn = null;
 				
 					try {
 
 						Class.forName(driver).newInstance();
 
-						Connection conn = (Connection) DriverManager
+						conn = (Connection) DriverManager
 								.getConnection(url,userName,password);
 
 						System.out.println("Connection created");
@@ -168,7 +176,7 @@ public class IntanceDetails {
 							image = rs1.getString("name");     
 				    			
 						}
-					
+						pst.close();
 						PreparedStatement pst1 = conn
 								.prepareStatement("SELECT * FROM instance_flavor where id =?");
 					
@@ -179,6 +187,7 @@ public class IntanceDetails {
 							flavor = rs2.getString("name");     
 				    			
 						}
+						pst1.close();
 						System.out.println(flavor+name);
 						PreparedStatement ps = ((java.sql.Connection) conn)
 								.prepareStatement("insert into instance_list(host,name,image,ip,flavor,status,zone,created) values (?,?,?,?,?,?,?,?)");
@@ -197,6 +206,13 @@ public class IntanceDetails {
 
 					} catch (Exception e) {
 						System.out.println(e);
+					} finally {
+						try {
+							conn.close();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 
 				}	

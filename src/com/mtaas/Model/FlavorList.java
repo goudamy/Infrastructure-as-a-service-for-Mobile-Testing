@@ -65,9 +65,9 @@ public class FlavorList extends HttpServlet {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+		Connection conn = null;
 		try {
-			Connection conn = (Connection) DriverManager.getConnection(url,
+			conn = (Connection) DriverManager.getConnection(url,
 					userName, password);
 			PreparedStatement pst = conn
 					.prepareStatement("SELECT * FROM instance_flavor");
@@ -100,6 +100,13 @@ public class FlavorList extends HttpServlet {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		response.setContentType("text/html");
