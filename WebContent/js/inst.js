@@ -399,3 +399,78 @@ function list_flv(){
 function list_bill(){
 	$("#content").load("./html/billing.html");
 }
+
+
+//Admin Action Instance
+function admin_inst() {
+	try{
+		
+		 BootstrapDialog.show({
+            title: 'Admin Action',
+            message: function(dialog) {
+                var $message = $('<div></div>');
+                var pageToLoad = dialog.getData('pageToLoad');
+                $message.load(pageToLoad);
+                return $message;
+            },
+            data: {
+                'pageToLoad': './html/admin_instance.html'
+            },
+            buttons: [{
+                label: 'Cancel',
+                action: function(dialog){
+                    dialog.close();
+                }
+            }, {
+                label: 'Admin action',
+                cssClass: 'btn-primary',
+                action: function(dialog) {
+                	if($("#instanceName").val().trim() === ""){
+                		try{BootstrapDialog.show({
+                			type:BootstrapDialog.TYPE_WARNING,
+                	        title: 'Warning',
+                	        message: 'Please enter all fields marked with (*).'
+                	    });}catch(e){console.log("Check admin aciton params.")}
+                	    return;
+                		}
+                	var instName = $("#instanceName").val();
+                	var adminAction = $("#adminAction").val();
+                	var types = ["suspend","resume","pause","unpause"];
+                	$.each(types, function(index, type){
+	                	if(adminAction === type.toString()){
+	                		
+	                		switch(index){
+	                			case 0: adminAction = "suspend"; break;
+	                			case 1: adminAction = "resume"; break;
+	                			case 2: adminAction = "pause"; break;
+	                			case 3: adminAction = "unpause"; break;
+	                		}
+	                	}
+                	});
+                	try{t.open();}catch(e){console.log(e)}
+                	$.ajax({
+                		   url: 'data',
+                		   data: {
+                		      type: 'instance',
+                		      action: adminAction,
+                		      instanceName: instName
+                		   },
+                		   error: function() {
+                		      console.log("Error in admin action for Instance")
+                		   },
+                		   success: function(data) {
+                			   t.close();
+                			   dialog.close();
+                		      list_inst();
+                		      
+                		   },
+                		   type: 'POST'
+                		});  
+                }
+            }]
+        });
+		 $("#count").val(1);
+
+	} catch(e)
+	{console.log("Issue with loading Admin action Instance dialog." + e)}
+}
