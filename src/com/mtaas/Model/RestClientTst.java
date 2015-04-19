@@ -400,12 +400,12 @@ public class RestClientTst {
 					if(name.equals(serverName))
 					{
 						instanceId = (String) flavorObj.get("id");
-						endPointUrl = endPointUrl + "/" + instanceId;
+						endPointUrl = endPointUrl + "/" + instanceId + "/" + "action";
 
 						String entityStr =
 								"{" +							
 										"\"" + actionName + "\": \"null\" " +
-										"}";
+								"}";
 						post(hostUrl, endPointUrl, entityStr, tokenId);
 					}
 				}	
