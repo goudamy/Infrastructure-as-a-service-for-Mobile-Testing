@@ -100,7 +100,7 @@ function loadingpg(){
 //List Instance
 function list_inst() {
 
-	$( "#content" ).load( "html/list_instance.html" );
+	$( "#content" ).load( "html/list_instances.html" );
 	
 
 }
@@ -280,6 +280,7 @@ function list_proj() {
 
 }
 
+//Listing Proj on Index file
 function index_list_proj(){
 	try{t.open();}catch(e){console.log(e)}
 	$("#mob_projtable tbody").empty();
@@ -348,7 +349,7 @@ function add_img() {
 
 //list Images 
 function list_img() {
-	$("#content").load("./html/list_img.html");
+	$("#content").load("./html/listImage.html");
 
 }
 
@@ -391,7 +392,7 @@ function create_flv(){
 
 //List Flavor
 function list_flv(){
-	$("#content").load("./html/list_flv.html");
+	$("#content").load("./html/list_flavor.html");
 	
 }
 

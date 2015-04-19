@@ -1,0 +1,77 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+<script type="text/javascript">
+	var req = new XMLHttpRequest();
+	function calc() {
+		req.open("Get", "/MtaasProj/ImageList?", true);
+		req.onreadystatechange = listInstance;
+
+		req.send(null);
+	}
+	function listInstance() {
+
+		if (req.readyState == 4 && req.status == 200) {
+		
+			//var obj = JSON.parse(req.responseText);
+			//alert(obj);
+
+			var JSONObj = eval('(' + req.responseText + ')');
+
+			var content = document.getElementById("tableDetail")
+			content.innerHTML = "";
+			var headrow = content.insertRow(0);
+			var headcell = headrow.insertCell(0);
+			headcell.style.backgroundColor = "lightblue";
+			headcell.innerHTML = "Name";
+			var tutorial = JSONObj.topic.details;
+			var i = 0;
+
+			var HTML = "<thead><th>Image Name</th><th>Type</th><th>Status</th><th>Public</th><th>Protected</th><th>Size</th><th>Format</th><th>Actions</th></thead><tbody>";
+			while (i < tutorial.length) {
+				row = content.insertRow(i + 1);
+				//cell = row.insertCell(0);			
+				//cell.innerHTML = tutorial[i].fname;
+
+				HTML += "<tr><td>"
+						+ tutorial[i].name
+						+ "</td><td>Image</td>"
+						+ "<td><span class=\"label label-success\">"
+						+ tutorial[i].status
+						+ "</span></td><td>Yes</td><td>No</td><td>"
+						+ tutorial[i].size
+						+ "</td><td>AMI</td><td><a class=\"btn btn-danger\" href=\"#\"><i class=\"halflings-icon white trash\"></i></a></td></tr>";
+				i++;
+
+			}
+			HTML += "</tr></tbody>";
+
+			document.getElementById("tableDetail").innerHTML = HTML;
+		}
+	}
+</script>
+</head>
+<body>
+	<div class="row-fluid sortable">
+
+		<div class="box span20">
+			<div class="box-header" data-original-title>
+				<h2>
+					<i class="halflings-icon user"></i><span class="break"></span>Instances
+				</h2>
+			</div>
+			<div class="box-content">
+				<script type="text/javascript">
+					calc()
+				</script>
+
+				<table id="tableDetail"
+					class="table table-striped table-bordered bootstrap-datatable datatable"></table>
+			</div>
+		</div>
+
+
+	</div>
+	<!--/row-->
+</body>

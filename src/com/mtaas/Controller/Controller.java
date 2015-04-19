@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mtaas.Model.FlavorDetail;
+import com.mtaas.Model.ImageDetail;
+import com.mtaas.Model.IntanceDetails;
 import com.mtaas.Model.RestClientTst;
 import com.mtaas.Model.project;
 import com.mtaas.Utilities.Dataproperties;
@@ -58,6 +61,7 @@ public class Controller extends HttpServlet {
 					rst.createInstance(hostIp, tokenId, tenantId, flavorId, imageName, instNameStr);
 				}
 				out.println("success");
+				action = "list";
 			}
 			
 			if(action.equals("delete")){
@@ -65,6 +69,23 @@ public class Controller extends HttpServlet {
 				out.println("success");
 			}
 			
+			if(action.equals("list")){
+				IntanceDetails inst = new IntanceDetails();
+				inst.Instance(data.ret_data("stack.hostIp"));
+			}
+			
+			if(action.equals("Image_list")){
+			
+				ImageDetail image = new ImageDetail();
+				image.Image(data.ret_data("stack.hostIp"));
+				
+			}
+			if(action.equals("Flavor_list")){
+				
+				FlavorDetail flavor = new FlavorDetail();
+				flavor.Flavor(data.ret_data("stack.hostIp"));
+				
+			}
 			
 		}
 		
@@ -105,6 +126,8 @@ public class Controller extends HttpServlet {
 				out.println(result);
 				}
 		}
+		
+		
 
 	}
 	

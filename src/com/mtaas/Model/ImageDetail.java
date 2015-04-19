@@ -1,9 +1,6 @@
 package com.mtaas.Model;
 
 import java.io.*;
-
-import com.mtaas.Utilities.*;
-
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.sql.*;
@@ -21,21 +18,19 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-public class IntanceDetails {
-	String flavorRef = null;
-	static String id;
-	static String created;
-	static String updated;
-	static String status;
-	static String tenantId;
-	static String instanceName;
-	static String zone;
-	static String userId;
-	static String name;
-	static String flavor;
-	static String image;
+import com.mtaas.Utilities.Dataproperties;
 
-	public static HttpResponse get(String hostUrl, String restEndpointUrl,
+public class ImageDetail {
+	String flavorRef = null;
+	static String name;
+	static String id;
+	//static String hostUrl = "http://52.11.10.120:8774";
+	static long size1;
+	static int size2;
+	static String size;
+	static String status;
+
+	public static HttpResponse getTokenDetail(String hostUrl, String restEndpointUrl,
 			String token) {
 		HttpResponse httpResponse = null;
 
@@ -56,7 +51,7 @@ public class IntanceDetails {
 		return httpResponse;
 	}
 
-	public static HttpResponse post(String hostUrl, String restEndpointUrl,
+	public static HttpResponse postValue(String hostUrl, String restEndpointUrl,
 			String entity, String token) {
 		HttpResponse httpResponse = null;
 
@@ -81,25 +76,10 @@ public class IntanceDetails {
 		return httpResponse;
 	}
 
-/*
-
-	public static HttpResponse delete(String hostUrl, String restEndpointUrl) {
-		HttpResponse httpResponse = null;
-
-		try {
-			HttpClient httpClient = HttpClientBuilder.create().build();
-			String url = hostUrl + "/" + restEndpointUrl;
-			HttpDelete request = new HttpDelete(url);
-			httpResponse = httpClient.execute(request);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return httpResponse;
-	}*/
-
-
-	public static Hashtable getDetails(HttpResponse httpResponse,String url1) throws IOException {
 	
+
+	public static Hashtable getDetails(HttpResponse httpResponse,String hostUrl) throws IOException {
+
 		Dataproperties data = new Dataproperties();
 		String url = data.ret_data("mysql1.connect");
 		String driver = data.ret_data("mysql1.driver");	
@@ -120,77 +100,36 @@ public class IntanceDetails {
 				}
 				JSONParser parser = new JSONParser();
 				JSONObject obj = (JSONObject) parser.parse(str);
-				JSONArray flavorArray = (JSONArray) obj.get("servers");
+				JSONArray flavorArray = (JSONArray) obj.get("images");
 
 				for (int i = 0; i < flavorArray.size(); i++) {
 					JSONObject flavorObj = (JSONObject) flavorArray.get(i);
-					status = (String) flavorObj.get("status");
-					updated = (String) flavorObj.get("updated");
-					JSONObject ip = (JSONObject)flavorObj.get("addresses");
-					JSONArray ip1 = (JSONArray) ip.get("private");
-					for (int j = 0; j < ip1.size(); j++) {
-						JSONObject ip2 = (JSONObject) ip1.get(j);
-						id = (String) ip2.get("addr");
-					}
-					//id = (String) flavorObj.get("id");
-					created = (String) flavorObj.get("created");
-					tenantId = (String) flavorObj.get("tenant_id");
-					instanceName = (String) flavorObj
-							.get("OS-EXT-SRV-ATTR:instance_name");
-					zone = (String) flavorObj
-							.get("OS-EXT-AZ:availability_zone");
-					userId = (String) flavorObj.get("user_id");
-					name = (String) flavorObj.get("name");
-					JSONObject imagedet = (JSONObject) flavorObj.get("image");
-					image = (String) imagedet.get("id");
-					JSONObject imagedet1 = (JSONObject) flavorObj.get("flavor");
-					flavor = (String) imagedet1.get("id");
-					
+					name = (String) flavorObj.get("name");				
+					id = (String) flavorObj.get("id");
+					size1 = (long) flavorObj.get("OS-EXT-IMG-SIZE:size");
+					status =(String) flavorObj.get("status");
+					System.out.println(name+id);
 					
 				
+			
 					try {
-
+               
+                 size2 = (int) (size1/(1024*1024));
+                 System.out.println(size2);
+                 size = size2+"MB";
 						Class.forName(driver).newInstance();
 
 						Connection conn = (Connection) DriverManager
 								.getConnection(url,userName,password);
 
 						System.out.println("Connection created");
-						
-						
-						PreparedStatement pst = conn
-								.prepareStatement("SELECT * FROM instance_image where id =?");
-				
-						pst.setString(1,image);						
-						ResultSet rs1 = pst.executeQuery();					
-					
-						if(rs1.next()){								
-							image = rs1.getString("name");     
-				    			
-						}
-					
-						PreparedStatement pst1 = conn
-								.prepareStatement("SELECT * FROM instance_flavor where id =?");
-					
-						pst1.setString(1,flavor);
-						ResultSet rs2 = pst1.executeQuery();					
-					
-						if(rs2.next()){								
-							flavor = rs2.getString("name");     
-				    			
-						}
-						System.out.println(flavor+name);
 						PreparedStatement ps = ((java.sql.Connection) conn)
-								.prepareStatement("insert into instance_list(host,name,image,ip,flavor,status,zone,created) values (?,?,?,?,?,?,?,?)");
-						ps.setString(1, url1);
+								.prepareStatement("insert into instance_image(host,name,id,size,status) values (?,?,?,?,?)");
+						ps.setString(1, hostUrl);
 						ps.setString(2, name);
-						ps.setString(3, image);
-						ps.setString(4, id);
-						ps.setString(5, flavor);
-						ps.setString(6, status);
-						ps.setString(7, zone);
-						ps.setString(8, created);
-					
+						ps.setString(3, id);
+						ps.setString(4, size);
+						ps.setString(5, status);
 						ps.execute();
 						ps.close();
 						System.out.println("Inserted");
@@ -199,7 +138,7 @@ public class IntanceDetails {
 						System.out.println(e);
 					}
 
-				}	
+				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -248,14 +187,15 @@ public class IntanceDetails {
 		return null;
 	}
 
-	public static void Instance(String hostip) throws IOException{
+	public static void Image(String hostip) throws IOException {
 		String entity = "{" + "\"auth\": {" + "\"tenantName\": \"admin\","
 				+ "\"passwordCredentials\": {" + "\"username\": \"admin\","
 				+ "\"password\": \"test1234\"" + "}}}";
+
 		//String hostip ="52.11.10.120";
         String url = "http://"+hostip;
         String url1 = url+ ":5000";
-		HttpResponse resp = post(url1, "v2.0/tokens",
+		HttpResponse resp = postValue(url1, "v2.0/tokens",
 				entity, null);
 
 		Hashtable tokTable = getToken(resp);
@@ -268,12 +208,14 @@ public class IntanceDetails {
 		// 52.11.10.120:8774/v2/4b7fd0495b80452b96b8bb8e22224eb5/servers/detail?all_tenants=1
 
 		String hostUrl = url+":8774";
-		String endPointUrl = "v2/" + tenantId + "/servers/detail?all_tenants=1";
+		
+		String endPointUrl = "v2/" + tenantId + "/images/detail";
 		// String endPointUrl = "v2/" + tenantId + "/servers";
-		resp = get(hostUrl, endPointUrl, tokenId);
-		System.out.println(resp);
+		resp = getTokenDetail(hostUrl, endPointUrl, tokenId);
 		getDetails(resp,hostip);
 		//printResponse(resp);
 
 	}
+
+
 }
