@@ -22,6 +22,8 @@ import com.mtaas.Utilities.Dataproperties;
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	private static final String STOP = "os-stop";
+	private static final String START = "os-start";
 	private static final String LAUNCH = "launch";
 	private static final String DELETE = "delete";
 	private static final String SUSPEND = "suspend";
@@ -69,31 +71,13 @@ public class Controller extends HttpServlet {
 				}
 				out.println("success");
 				action = "list";
-			}
-
-			if(action.equals(DELETE)){
+			} 	else if(action.equals(DELETE)){
 				rst.deleteInstance(hostIp, tokenId, tenantId, instanceName);
 				out.println("success");
 				action = "list";
 			}
-
-			if(action.equals(SUSPEND)){
-				rst.adminActionInstance(hostIp, tokenId, tenantId, instanceName, SUSPEND);
-				out.println("success");
-			}
-
-			if(action.equals(RESUME)){
-				rst.adminActionInstance(hostIp, tokenId, tenantId, instanceName, RESUME);
-				out.println("success");
-			}
-
-			if(action.equals(PAUSE)){
-				rst.adminActionInstance(hostIp, tokenId, tenantId, instanceName, PAUSE);
-				out.println("success");
-			}
-
-			if(action.equals(UNPAUSE)){
-				rst.adminActionInstance(hostIp, tokenId, tenantId, instanceName, UNPAUSE);
+			else {
+				rst.adminActionInstance(hostIp, tokenId, tenantId, instanceName, action);
 				out.println("success");
 			}
 			
