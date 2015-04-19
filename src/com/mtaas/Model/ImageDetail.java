@@ -108,21 +108,21 @@ public class ImageDetail {
 					id = (String) flavorObj.get("id");
 					size1 = (long) flavorObj.get("OS-EXT-IMG-SIZE:size");
 					status =(String) flavorObj.get("status");
-					System.out.println(name+id);
+					//System.out.println(name+id);
 					
 				
 			
 					try {
                
                  size2 = (int) (size1/(1024*1024));
-                 System.out.println(size2);
+                 //System.out.println(size2);
                  size = size2+"MB";
 						Class.forName(driver).newInstance();
 
 						conn = (Connection) DriverManager
 								.getConnection(url,userName,password);
 
-						System.out.println("Connection created");
+						//System.out.println("Connection created");
 						PreparedStatement ps = ((java.sql.Connection) conn)
 								.prepareStatement("insert into instance_image(host,name,id,size,status) values (?,?,?,?,?)");
 						ps.setString(1, hostUrl);
@@ -132,10 +132,10 @@ public class ImageDetail {
 						ps.setString(5, status);
 						ps.execute();
 						ps.close();
-						System.out.println("Inserted");
+						//System.out.println("Inserted");
 
 					} catch (Exception e) {
-						System.out.println(e);
+						//System.out.println(e);
 					} finally {
 						try {
 							conn.close();
@@ -209,8 +209,8 @@ public class ImageDetail {
 		String tokenId = (String) tokTable.get("tokenId");
 		String tenantId = (String) tokTable.get("tenantId");
 
-		System.out.println("tokenId : " + tokenId);
-		System.out.println("tenantId : " + tenantId);
+		//System.out.println("tokenId : " + tokenId);
+		//System.out.println("tenantId : " + tenantId);
 
 		// 52.11.10.120:8774/v2/4b7fd0495b80452b96b8bb8e22224eb5/servers/detail?all_tenants=1
 

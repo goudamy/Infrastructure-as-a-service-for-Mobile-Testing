@@ -123,7 +123,7 @@ public class list extends HttpServlet {
 
 	public String generateJSONData() {
 
-		System.out.println(returnData);
+		//System.out.println(returnData);
 		return returnData.toString();
 
 	}

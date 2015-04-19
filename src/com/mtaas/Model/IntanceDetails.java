@@ -136,7 +136,7 @@ public class IntanceDetails {
 							for (int j = 0; j < ip1.size(); j++) {
 								JSONObject ip2 = (JSONObject) ip1.get(j);
 								id = (String) ip2.get("addr");
-								System.out.println(id);
+								//System.out.println(id);
 							}
 						}
 					}
@@ -163,7 +163,7 @@ public class IntanceDetails {
 						conn = (Connection) DriverManager
 								.getConnection(url,userName,password);
 
-						System.out.println("Connection created");
+						//System.out.println("Connection created");
 						
 						
 						PreparedStatement pst = conn
@@ -188,7 +188,7 @@ public class IntanceDetails {
 				    			
 						}
 						pst1.close();
-						System.out.println(flavor+name);
+						//System.out.println(flavor+name);
 						PreparedStatement ps = ((java.sql.Connection) conn)
 								.prepareStatement("insert into instance_list(host,name,image,ip,flavor,status,zone,created) values (?,?,?,?,?,?,?,?)");
 						ps.setString(1, url1);
@@ -202,10 +202,10 @@ public class IntanceDetails {
 					
 						ps.execute();
 						ps.close();
-						System.out.println("Inserted");
+						//System.out.println("Inserted");
 
 					} catch (Exception e) {
-						System.out.println(e);
+						//System.out.println(e);
 					} finally {
 						try {
 							conn.close();
@@ -278,8 +278,8 @@ public class IntanceDetails {
 		String tokenId = (String) tokTable.get("tokenId");
 		String tenantId = (String) tokTable.get("tenantId");
 
-		System.out.println("tokenId : " + tokenId);
-		System.out.println("tenantId : " + tenantId);
+		//System.out.println("tokenId : " + tokenId);
+		//System.out.println("tenantId : " + tenantId);
 
 		// 52.11.10.120:8774/v2/4b7fd0495b80452b96b8bb8e22224eb5/servers/detail?all_tenants=1
 
@@ -287,7 +287,7 @@ public class IntanceDetails {
 		String endPointUrl = "v2/" + tenantId + "/servers/detail?all_tenants=1";
 		// String endPointUrl = "v2/" + tenantId + "/servers";
 		resp = get(hostUrl, endPointUrl, tokenId);
-		System.out.println(resp);
+		//System.out.println(resp);
 		getDetails(resp,hostip);
 		//printResponse(resp);
 

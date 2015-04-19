@@ -113,7 +113,7 @@ public class FlavorDetail {
 					JSONObject flavorObj = (JSONObject) flavorArray.get(i);
 					name = (String) flavorObj.get("name");
 					id = (String) flavorObj.get("id");
-					System.out.println(name + id);
+					//System.out.println(name + id);
 					vcpu = (long) flavorObj.get("vcpus");
 				//	swap1 = (long) flavorObj.get("swap");
 					ram1 = (long) flavorObj.get("ram");
@@ -140,7 +140,7 @@ public class FlavorDetail {
 						conn = (Connection) DriverManager
 								.getConnection(url, userName, password);
 
-						System.out.println("Connection created");
+						//System.out.println("Connection created");
 						PreparedStatement ps = ((java.sql.Connection) conn)
 								.prepareStatement("insert into instance_flavor(host,name,vcpus,ram,disk,euphemeral,swap,id,publ) values (?,?,?,?,?,?,?,?,?)");
 						ps.setString(1, hostUrl);
@@ -154,10 +154,10 @@ public class FlavorDetail {
 						ps.setString(9, publ);
 						ps.execute();
 						ps.close();
-						System.out.println("Inserted");
+						//System.out.println("Inserted");
 
 					} catch (Exception e) {
-						System.out.println(e);
+						//System.out.println(e);
 					}
 
 				}
@@ -233,8 +233,8 @@ public class FlavorDetail {
 		String tokenId = (String) tokTable.get("tokenId");
 		String tenantId = (String) tokTable.get("tenantId");
 
-		System.out.println("tokenId : " + tokenId);
-		System.out.println("tenantId : " + tenantId);
+		//System.out.println("tokenId : " + tokenId);
+		//System.out.println("tenantId : " + tenantId);
 
 		// 52.11.10.120:8774/v2/4b7fd0495b80452b96b8bb8e22224eb5/servers/detail?all_tenants=1
 		String hostUrl = url+":8774";

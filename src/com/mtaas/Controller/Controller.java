@@ -74,6 +74,7 @@ public class Controller extends HttpServlet {
 			if(action.equals(DELETE)){
 				rst.deleteInstance(hostIp, tokenId, tenantId, instanceName);
 				out.println("success");
+				action = "list";
 			}
 
 			if(action.equals(SUSPEND)){
