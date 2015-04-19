@@ -368,7 +368,55 @@ public class RestClientTst {
 		return null;
 	}
 
-	//#########
+	public static Hashtable adminActionInstance(String hostIp, String tokenId, String tenantId, String serverName, String actionName) {
+
+		String hostUrl = "http://" + hostIp + ":8774";
+		String endPointUrl = "v2/" + tenantId + "/servers";  
+
+
+		HttpResponse httpResponse = get(hostUrl , endPointUrl,tokenId);
+
+		String name = null;
+		String instanceId = null;
+		HttpEntity entity = httpResponse.getEntity();
+		byte[] buffer = new byte[1024];
+		if (entity != null) {
+			try {
+				InputStream inputStream = entity.getContent();
+				BufferedInputStream bis = new BufferedInputStream(inputStream);
+
+				String str = "";
+				int bytesRead = 0;
+				while ((bytesRead = bis.read(buffer)) != -1) {
+					str += new String(buffer, 0, bytesRead);
+				}
+				JSONParser parser = new JSONParser();
+				JSONObject obj = (JSONObject) parser.parse(str);
+				JSONArray instArray = (JSONArray) obj.get("servers");
+
+				for (int i = 0; i < instArray.size(); i++) {
+					JSONObject flavorObj = (JSONObject) instArray.get(i);					
+					name = (String) flavorObj.get("name");
+					if(name.equals(serverName))
+					{
+						instanceId = (String) flavorObj.get("id");
+						endPointUrl = endPointUrl + "/" + instanceId + "/" + "action";
+
+						String entityStr =
+								"{" +							
+										"\"" + actionName + "\": \"null\" " +
+								"}";
+						post(hostUrl, endPointUrl, entityStr, tokenId);
+					}
+				}	
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return null;
+	}
 
 	public final static void main(String[] args) throws IOException {	
 //		Dataproperties data = new Dataproperties();
