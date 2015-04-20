@@ -41,11 +41,12 @@ public class Controller extends HttpServlet {
 		//String instanceName = request.getParameter("instanceName");
 		//System.out.println("This is: "+instanceName);
 		Dataproperties data = new Dataproperties();
+		String tenantId = null;
 		if(type.equals("instance")){
 			RestClientTst rst = new RestClientTst();
 			Hashtable tokTable = rst.getTokenUsingCredentials(data.ret_data("stack.hostIp"), data.ret_data("stack.tenantName"), data.ret_data("stack.username"), data.ret_data("stack.password"));
 			String tokenId = (String)tokTable.get("tokenId");
-			String tenantId = (String)tokTable.get("tenantId");
+			tenantId = (String)tokTable.get("tenantId");
 			String tenantName = data.ret_data("stack.tenantName");
 			String username = data.ret_data("stack.username");
 			String password = data.ret_data("stack.password");
@@ -116,21 +117,23 @@ public class Controller extends HttpServlet {
 		}
 		
 		if(type.equals("mobilehub")){
-			
-			
+
+
 			String result = "";
 			if(action.equals("add")){
-			try {
-				String mobileHub_name = request.getParameter("mobileHub_name");
-				String mobileHub_ip = request.getParameter("mobileHub_ip");
-				String tenant_id = request.getParameter("tenant_id");
-				result = MobileHubHandler.addMobileHub(mobileHub_name, mobileHub_ip, tenant_id);
-			} catch (Exception e) {
-				e.printStackTrace();
+				try {
+					RestClientTst rst = new RestClientTst();
+					Hashtable tokTable = rst.getTokenUsingCredentials(data.ret_data("stack.hostIp"), data.ret_data("stack.tenantName"), data.ret_data("stack.username"), data.ret_data("stack.password"));
+					tenantId = (String)tokTable.get("tenantId");
+					String mobileHub_name = request.getParameter("mobileHub_name");
+					String mobileHub_ip = request.getParameter("mobileHub_ip");
+					result = MobileHubHandler.addMobileHub(mobileHub_name, mobileHub_ip, tenantId);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				out.println(result);
 			}
-			out.println(result);
-			}
-			
+
 		}
 		
 		if(type.equals("createproj")){
