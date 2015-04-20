@@ -80,6 +80,39 @@ function lnch_inst() {
 	{console.log("Issue with loading Launch Instance dialog." + e)}
 }
 
+
+
+//Launch Instance
+function delete_inst(instName) {
+	try{
+		
+                	$.ajax({
+                		   url: 'data',
+                		   data: {
+                		      type: 'instance',
+                		      action: 'delete',
+                		      instanceName: instName
+                		   },
+                		   error: function() {
+                		      console.log("Error in Delete Instance.")
+                		   },
+                		   before: function(){
+                			   try{t.open();}catch(e){console.log(e)}
+                		   },
+                		   success: function(data) {
+                			   t.close();
+                			   dialog.close();
+                		      list_inst();
+                		      loadingpg();
+                		      
+                		   },
+                		   type: 'POST'
+                		});  
+	} catch(e)
+	{console.log("Issue with deleting Instance ." + e)}
+}
+
+
 //Loading Img
 var t;
 loadingpg();
@@ -92,7 +125,7 @@ function loadingpg(){
           message:  $('<div></div>').load('./html/loading.html'),
           closable: false,
           closeByBackdrop: false,
-          closeByKeyboard: false
+          closeByKeyboard: false	
       });
 
 	} catch(e)

@@ -22,15 +22,9 @@ import com.mtaas.Utilities.Dataproperties;
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static final String STOP = "os-stop";
-	private static final String START = "os-start";
 	private static final String LAUNCH = "launch";
 	private static final String DELETE = "delete";
-	private static final String SUSPEND = "suspend";
-	private static final String RESUME  = "resume";
-	private static final String PAUSE   = "pause";
-	private static final String UNPAUSE = "unpause";
-
+	
 	public Controller() {
 		super();
 	}
@@ -63,23 +57,26 @@ public class Controller extends HttpServlet {
 			String flavorId = (request.getParameter("flavor") != null) ? request.getParameter("flavor"):data.ret_data("stack.flavorId");
 			
 			if(action.equals(LAUNCH)){
-//				int count = Integer.parseInt(countStr);
-//				for(int i = 0; i < count; i++)
-//				{
-//					String instNameStr = instanceName + "-" + String.valueOf(i);
-//					rst.createInstance(hostIp, tokenId, tenantId, flavorId, imageName, instNameStr);
-//				}
-//				out.println("success");
+				int count = Integer.parseInt(countStr);
+				for(int i = 0; i < count; i++)
+				{
+					String instNameStr = instanceName + "-" + String.valueOf(i);
+					rst.createInstance(hostIp, tokenId, tenantId, flavorId, imageName, instNameStr);
+				}
+				out.println("success");
 				action = "list";
-			} 	else if(action.equals(DELETE)){
+			} 
+			
+			if(action.equals(DELETE)){
 				rst.deleteInstance(hostIp, tokenId, tenantId, instanceName);
 				out.println("success");
 				action = "list";
 			}
-			else {
+			
+			/*if(action.equals(DELETE)){
 				rst.adminActionInstance(hostIp, tokenId, tenantId, instanceName, action);
 				out.println("success");
-			}
+			}*/
 			
 			if(action.equals("list")){
 				IntanceDetails inst = new IntanceDetails();
