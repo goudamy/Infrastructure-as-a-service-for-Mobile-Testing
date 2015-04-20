@@ -156,6 +156,54 @@ public class InstanceHandler {
 		return hostIps;
 	}
 	
+	public static ArrayList<String> getAllHostIpsOfInstances() throws IOException {
+
+		Dataproperties data = new Dataproperties();
+		String url = data.ret_data("mysql1.connect");
+		String driver = data.ret_data("mysql1.driver");	
+		String userName = data.ret_data("mysql1.userName");
+		String password = data.ret_data("mysql1.password");
+		
+		ArrayList<String> hostIps = new ArrayList<String>();
+
+		Connection conn = null;
+
+		try {
+			Class.forName(driver).newInstance();
+
+			conn = (Connection) DriverManager
+					.getConnection(url,userName,password);
+
+			System.out.println("Connection created");
+
+			conn = (Connection) DriverManager.getConnection(url,
+					userName, password);
+			PreparedStatement pst = conn
+					.prepareStatement("select distinct host from instance_list");
+
+			ResultSet rs = pst.executeQuery();
+
+			while (rs.next()) {
+				String hostIp = rs.getString(1);
+				hostIps.add(hostIp);
+
+			}
+			pst.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}				
+
+		return hostIps;
+	}
+	
 	public static String getHostIp(int index) throws IOException {
 
 		Dataproperties data = new Dataproperties();

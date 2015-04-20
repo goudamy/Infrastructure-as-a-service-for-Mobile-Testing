@@ -154,11 +154,13 @@ public class Controller extends HttpServlet {
 				String hostIpStr = null;
 				String count = null;
 				try {					
-					ArrayList<String> hostIps = InstanceHandler.getAllHostIps();
+					ArrayList<String> hostIps = InstanceHandler.getAllHostIpsOfInstances();
+					System.out.println("Host ip size : " + hostIps.size());
 					Iterator<String> itr = hostIps.iterator();
 					if(itr.hasNext())
 					{
 						hostIpStr = (String)itr.next();
+						System.out.println("Host ip  : " + hostIpStr);
 						count = InstanceHandler.countInstances(hostIpStr);
 						if((count == null) || count.equalsIgnoreCase("null"))
 							count = "0";
@@ -169,6 +171,7 @@ public class Controller extends HttpServlet {
 					{
 						result += ",";
 						hostIpStr = (String)itr.next();
+						System.out.println("Host ip  : " + hostIpStr);
 						count = InstanceHandler.countInstances(hostIpStr);
 						if((count == null) || count.equalsIgnoreCase("null"))
 							count = "0";
