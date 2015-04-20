@@ -3,6 +3,7 @@ package com.mtaas.Model;
  * Billing Module
  */
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
  
@@ -16,6 +17,9 @@ public class billing {
 		String datediff = data_diff(dateStart,dateStop);
 		String Time_Amount = time_based(datediff, time_based_charge);
 //		System.out.println("Total Charge is :" + time_based(datediff,(float) 0.02) + "for total hours:" + );
+		
+		
+		
 		
 		
 	}
@@ -67,10 +71,36 @@ public class billing {
 	}
 	
 	public static String volume_based(String datediff, float vm_charge){
+	
 		String vm_amount = "";
 		
 		return vm_amount;
 		
+		
 	}
+	
+	//Goudamy Modification
+	public static void insert_deleteData(){
+		String ip = "52.11.10.120";	
+		String tenant_Id ="tenant-124";
+		float tariff = 50;
+		int totalTime =2;
+		String instanceName = "goudamy_instance";
+		try {	
+		InsertBill ib = new InsertBill();
+	
+			ib.getDetails(ip,tenant_Id,tariff,totalTime,instanceName);
+			ib.deleting(tenant_Id);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+		
+	
+	
+
 
 }
