@@ -265,6 +265,12 @@ public class IntanceDetails {
 	}
 
 	public static void Instance(String hostip) throws IOException{
+	
+		
+
+	
+			deleting(hostip);
+		
 		String entity = "{" + "\"auth\": {" + "\"tenantName\": \"admin\","
 				+ "\"passwordCredentials\": {" + "\"username\": \"admin\","
 				+ "\"password\": \"test1234\"" + "}}}";
@@ -292,4 +298,55 @@ public class IntanceDetails {
 		//printResponse(resp);
 
 	}
+public static void deleting(String hostip) throws IOException {
+		System.out.println("hey");
+		Dataproperties data = new Dataproperties();
+		String url = data.ret_data("mysql1.connect");		
+		String driver = data.ret_data("mysql1.driver");
+		String userName = data.ret_data("mysql1.userName");
+		String password = data.ret_data("mysql1.password");
+		Connection conn = null;
+		
+		
+			try {
+				Class.forName(driver).newInstance();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			try {
+				conn = (Connection) DriverManager.getConnection(url, userName,
+						password);
+			
+			System.out.println("Connection created");		
+			PreparedStatement pst1 = conn.prepareStatement("SET SQL_SAFE_UPDATES=0;");	
+			ResultSet rs2 = pst1.executeQuery();
+			PreparedStatement pst = conn.prepareStatement("Delete FROM instance_list where host =?");	
+			
+			pst.setString(1,hostip);
+			 pst.executeUpdate();
+
+			pst.close();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}
+	
 }

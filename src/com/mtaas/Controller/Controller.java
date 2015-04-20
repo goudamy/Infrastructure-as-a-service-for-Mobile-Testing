@@ -61,13 +61,13 @@ public class Controller extends HttpServlet {
 			String flavorId = (request.getParameter("flavor") != null) ? request.getParameter("flavor"):data.ret_data("stack.flavorId");
 			
 			if(action.equals(LAUNCH)){
-				int count = Integer.parseInt(countStr);
-				for(int i = 0; i < count; i++)
-				{
-					String instNameStr = instanceName + "-" + String.valueOf(i);
-					rst.createInstance(hostIp, tokenId, tenantId, flavorId, imageName, instNameStr);
-				}
-				out.println("success");
+//				int count = Integer.parseInt(countStr);
+//				for(int i = 0; i < count; i++)
+//				{
+//					String instNameStr = instanceName + "-" + String.valueOf(i);
+//					rst.createInstance(hostIp, tokenId, tenantId, flavorId, imageName, instNameStr);
+//				}
+//				out.println("success");
 				action = "list";
 			}
 
