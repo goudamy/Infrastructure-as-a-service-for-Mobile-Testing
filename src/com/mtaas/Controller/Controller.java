@@ -44,7 +44,7 @@ public class Controller extends HttpServlet {
 		Dataproperties data = new Dataproperties();
 		String tenantId = null;
 		if(type.equals("instance")){
-			String regionId = request.getParameter("regionId");
+			String regionName = request.getParameter("regionName");
 			RestClientTst rst = new RestClientTst();
 			Hashtable tokTable = rst.getTokenUsingCredentials(data.ret_data("stack.hostIp"), data.ret_data("stack.tenantName"), data.ret_data("stack.username"), data.ret_data("stack.password"));
 			String tokenId = (String)tokTable.get("tokenId");
@@ -53,7 +53,7 @@ public class Controller extends HttpServlet {
 			String username = data.ret_data("stack.username");
 			String password = data.ret_data("stack.password");
 
-			String hostIp = InstanceHandler.getHostIp(regionId);
+			String hostIp = InstanceHandler.getHostIp(regionName);
 			System.out.println("Host IP : " + hostIp);
 			if((hostIp == null) || hostIp.equals(""))
 				hostIp = data.ret_data("stack.hostIp");

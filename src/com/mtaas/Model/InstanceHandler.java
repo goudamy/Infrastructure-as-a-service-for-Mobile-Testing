@@ -60,7 +60,7 @@ public class InstanceHandler {
 		return returnData;
 	}
 
-	public static String getHostIp(String regionId) throws IOException {
+	public static String getHostIp(String regionName) throws IOException {
 
 		Dataproperties data = new Dataproperties();
 		String url = data.ret_data("mysql1.connect");
@@ -83,8 +83,8 @@ public class InstanceHandler {
 			conn = (Connection) DriverManager.getConnection(url,
 					userName, password);
 			PreparedStatement pst = conn
-					.prepareStatement("select ip from region where regionID=?");
-			pst.setString(1, regionId);
+					.prepareStatement("select ip from region where regionName=?");
+			pst.setString(1, regionName);
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
