@@ -156,7 +156,7 @@ public class InstanceHandler {
 		return hostIps;
 	}
 	
-	public static ArrayList<String> getAllHostIpsOfInstances() throws IOException {
+	public static String getAllHostIpsOfInstances() throws IOException {
 
 		Dataproperties data = new Dataproperties();
 		String url = data.ret_data("mysql1.connect");
@@ -164,7 +164,7 @@ public class InstanceHandler {
 		String userName = data.ret_data("mysql1.userName");
 		String password = data.ret_data("mysql1.password");
 		
-		ArrayList<String> hostIps = new ArrayList<String>();
+		String hostIps = "";
 
 		Connection conn = null;
 
@@ -179,13 +179,12 @@ public class InstanceHandler {
 			conn = (Connection) DriverManager.getConnection(url,
 					userName, password);
 			PreparedStatement pst = conn
-					.prepareStatement("select distinct host from instance_list");
+					.prepareStatement("select region.regionName, count(instance_list.host) from instance_list inner join region on instance_list.host=region.ip group by instance_list.host");
 
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
-				String hostIp = rs.getString(1);
-				hostIps.add(hostIp);
+				hostIps += rs.getString(1) +":"+ rs.getString(2)+",";
 
 			}
 			pst.close();
