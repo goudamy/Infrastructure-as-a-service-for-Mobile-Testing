@@ -206,12 +206,12 @@ public class InstanceHandler {
 	{
 		String hostIp = null;
 		int instIndex = 0;
-		if(algo.equals("RANDOM"))
+		if(algo.equals("HONEYBEE"))
 		{
 			instIndex = randInt(1, 4);
 
 		}
-		else if(algo.equals("ROUNDROBIN"))
+		else if(algo.equals("TOKENRING"))
 		{
 			++roundRobinInstIndex;
 			if(roundRobinInstIndex >4)
