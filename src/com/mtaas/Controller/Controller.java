@@ -79,9 +79,8 @@ public class Controller extends HttpServlet {
 			}*/
 			
 			if(action.equals("list")){
-				IntanceDetails inst = new IntanceDetails();
-				inst.Instance(data.ret_data("stack.hostIp"));
-				action = "Image_list";
+			IntanceDetails inst = new IntanceDetails();
+				inst.Instance(hostIp);
 			}
 			
 			if(action.equals("Image_list")){
