@@ -91,7 +91,7 @@ public class MobileHubHandler {
 			conn = (Connection) DriverManager.getConnection(url,
 					userName, password);
 			PreparedStatement pst = conn
-					.prepareStatement("SELECT * FROM instance_list");
+					.prepareStatement("SELECT * FROM mobile_hub");
 			ResultSet rs = pst.executeQuery();
 
 			returnData = new StringBuffer("{\"topic\":{");
