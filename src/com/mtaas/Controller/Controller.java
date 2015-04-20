@@ -141,7 +141,33 @@ public class Controller extends HttpServlet {
 				}
 				out.println(result);				
 			}
+			
+			if(action.equals("countAll")){
+				String result = "";
+				try {					
+					result = InstanceHandler.countInstances(hostIp);
 
+					ArrayList<String> hostIps = InstanceHandler.getAllHostIps();
+					Iterator<String> itr = hostIps.iterator();
+					if(itr.hasNext())
+						result = (String)itr.next();
+
+					while(itr.hasNext())
+					{
+						result += ",";
+						String hostIpStr = (String)itr.next();
+						String count = InstanceHandler.countInstances(hostIpStr);
+						if((count == null) || count.equalsIgnoreCase("null"))
+							count = "0";
+						result += count; 
+
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				out.println(result);				
+			}
 		}
 		
 		if(type.equals("dropdown")){
