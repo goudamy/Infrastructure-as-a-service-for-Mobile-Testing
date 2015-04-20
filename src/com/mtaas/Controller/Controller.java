@@ -123,7 +123,8 @@ public class Controller extends HttpServlet {
 			try {
 				String mobileHub_name = request.getParameter("mobileHub_name");
 				String mobileHub_ip = request.getParameter("mobileHub_ip");
-				result = MobileHubHandler.addMobileHub(mobileHub_name, mobileHub_ip);
+				String tenant_id = request.getParameter("tenant_id");
+				result = MobileHubHandler.addMobileHub(mobileHub_name, mobileHub_ip, tenant_id);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

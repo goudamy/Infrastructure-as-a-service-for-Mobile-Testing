@@ -24,7 +24,7 @@ public class MobileHubHandler {
 	//Create Table M_ID, M_NAME, M_IP 
 	//Populate the DB
 
-	public static String addMobileHub(String mobileHub_name, String mobileHub_ip) throws IOException {
+	public static String addMobileHub(String mobileHub_name, String mobileHub_ip, String tenant_id) throws IOException {
 
 		Dataproperties data = new Dataproperties();
 		String url = data.ret_data("mysql1.connect");
@@ -45,9 +45,10 @@ public class MobileHubHandler {
 
 			//System.out.println(flavor+name);
 			PreparedStatement ps = ((java.sql.Connection) conn)
-					.prepareStatement("insert into mobile_hub(mobileHub_name,mobileHub_ip) values (?,?)");
+					.prepareStatement("insert into mobile_hub(mobileHub_name,mobileHub_ip, tenant_id) values (?,?,?)");
 			ps.setString(1, mobileHub_name);
-			ps.setString(2, mobileHub_ip);					
+			ps.setString(2, mobileHub_ip);	
+			ps.setString(3, tenant_id);	
 			ps.execute();
 			ps.close();
 			//System.out.println("Inserted");
