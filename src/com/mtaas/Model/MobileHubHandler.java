@@ -45,7 +45,7 @@ public class MobileHubHandler {
 
 			//System.out.println(flavor+name);
 			PreparedStatement ps = ((java.sql.Connection) conn)
-					.prepareStatement("insert into mobile_hub(mobileHub_name,mobileHub_ip, tenant_id) values (?,?)");
+					.prepareStatement("insert into mobile_hub(mobileHub_name,mobileHub_ip) values (?,?)");
 			ps.setString(1, mobileHub_name);
 			ps.setString(2, mobileHub_ip);	
 			//ps.setString(3, tenant_id);	
