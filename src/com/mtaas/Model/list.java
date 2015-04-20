@@ -37,7 +37,10 @@ public class list extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
+		Dataproperties data = new Dataproperties();
+		String hostIp = data.ret_data("stack.hostIp");
+		IntanceDetails inst = new IntanceDetails();				
+		inst.Instance(hostIp);
 		String id;
 		String host;
 		String created;
@@ -49,7 +52,7 @@ public class list extends HttpServlet {
 		String userId;
 		String name;
 		String flavor;
-		Dataproperties data = new Dataproperties();
+	
 		String url = data.ret_data("mysql1.connect");
 		String driver = data.ret_data("mysql1.driver");	
 		String userName = data.ret_data("mysql1.userName");
@@ -83,7 +86,6 @@ public class list extends HttpServlet {
 				image = rs.getString("image");				
 				id = rs.getString("ip");
 				flavor = rs.getString("flavor");
-
 				status = rs.getString("status");
 				zone = rs.getString("zone");
 				created = rs.getString("created");
