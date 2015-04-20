@@ -46,7 +46,7 @@ function lnch_inst() {
 	                		}
 	                	}
                 	});
-                	
+
                 	$.ajax({
                 		   url: 'data',
                 		   data: {
@@ -439,15 +439,18 @@ function admin_inst() {
                 		}
                 	var instName = $("#instanceName").val();
                 	var adminAction = $("#adminAction").val();
-                	var types = ["suspend","resume","pause","unpause"];
+                	var types = ["stop","start","suspend","resume","pause","unpause","delete"];
                 	$.each(types, function(index, type){
 	                	if(adminAction === type.toString()){
 	                		
 	                		switch(index){
-	                			case 0: adminAction = "suspend"; break;
-	                			case 1: adminAction = "resume"; break;
-	                			case 2: adminAction = "pause"; break;
-	                			case 3: adminAction = "unpause"; break;
+	                			case 0: adminAction = "os-stop"; break;
+	                			case 1: adminAction = "os-start"; break;
+	                			case 2: adminAction = "suspend"; break;
+	                			case 3: adminAction = "resume"; break;
+	                			case 4: adminAction = "pause"; break;
+	                			case 5: adminAction = "unpause"; break;
+	                			case 5: adminAction = "delete"; break;
 	                		}
 	                	}
                 	});
