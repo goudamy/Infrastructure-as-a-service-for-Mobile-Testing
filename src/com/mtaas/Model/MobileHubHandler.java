@@ -123,6 +123,6 @@ public class MobileHubHandler {
 			}
 		}				
 
-		return null;
+		return returnData.toString();
 	}
 }
