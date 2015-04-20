@@ -140,6 +140,7 @@ public class Controller extends HttpServlet {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				response.setContentType("application/json");
 				out.println(result);
 			}
 
