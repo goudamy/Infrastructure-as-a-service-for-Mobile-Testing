@@ -133,6 +133,15 @@ public class Controller extends HttpServlet {
 				}
 				out.println(result);
 			}
+			
+			if(action.equals("list")){
+				try {					
+					result = MobileHubHandler.listMobileHub();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				out.println(result);
+			}
 
 		}
 		
