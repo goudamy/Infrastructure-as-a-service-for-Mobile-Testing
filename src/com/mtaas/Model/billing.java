@@ -7,11 +7,14 @@ package com.mtaas.Model;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
-
 import java.util.concurrent.TimeUnit;
 
 import org.apache.http.HttpEntity;
@@ -24,10 +27,17 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.mtaas.Utilities.Dataproperties;
+
 public class billing {
 
 	public static void main(String[] args) {
-		insert_deleteData();
+		try {
+			insert_deleteData();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// String dateStart = "02/11/2015 08:23:00";
 		// String dateStop = "04/25/2015 11:41:00";
 		// Float time_based_charge = (float) 0.02;
@@ -88,24 +98,80 @@ public class billing {
 	}
 
 	// Goudamy Modification
-	public static void insert_deleteData() {
+	public static void insert_deleteData() throws IOException {
 		String ip = "52.11.10.120";
 		String tenant_Id = "tenant-124";
 		float tariff = 50;
-
 		String instanceName = "TS1-0";
-		try {
+		Dataproperties data = new Dataproperties();
+	
+		
+			String url = data.ret_data("mysql1.connect");		
+		String driver = data.ret_data("mysql1.driver");	
+		String userName = data.ret_data("mysql1.userName");
+		String password = data.ret_data("mysql1.password");
+		
+		Connection conn = null;
+	
+		try{
+			try {
+				Class.forName(driver).newInstance();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			try {
+				conn = (Connection) DriverManager
+						.getConnection(url,userName,password);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			//System.out.println("Connection created");
+			
+			
+			PreparedStatement pst;
+			try {
+				pst = conn
+						.prepareStatement("SELECT * FROM instance_list");
+			
+						
+			ResultSet rs1 = pst.executeQuery();					
 			InsertBill ib = new InsertBill();
-			float time = timeConsumed(instanceName);
-			ib.getDetails(ip, tenant_Id, tariff, instanceName, time);
-
-			// Code for deleting values in BillingDetails table
-			// ib.deleting(tenant_Id);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			while(rs1.next()){								
+				    instanceName = rs1.getString("name"); 				    
+				    System.out.println(instanceName);					
+					float time = timeConsumed(instanceName);
+					ib.getDetails(ip, tenant_Id, tariff, instanceName, time);	
+					//Deleting values in the BillingDetails table					
+					//ib.deleting(tenant_Id);
+					    			
+			}
+			pst.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
-
+		
+	
+	
 	}
 
 	public static float timeConsumed(String instanceName) {
