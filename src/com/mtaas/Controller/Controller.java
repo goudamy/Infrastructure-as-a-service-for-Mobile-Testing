@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mtaas.Model.FlavorDetail;
 import com.mtaas.Model.ImageDetail;
+import com.mtaas.Model.InstanceHandler;
 import com.mtaas.Model.IntanceDetails;
 import com.mtaas.Model.MobileHubHandler;
 import com.mtaas.Model.RestClientTst;
@@ -99,6 +100,16 @@ public class Controller extends HttpServlet {
 				
 			}
 			
+			if(action.equals("count")){
+				String result = "";
+				try {					
+					result = InstanceHandler.countInstances(hostIp);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				out.println(result);				
+			}
+
 		}
 		
 		if(type.equals("dropdown")){
