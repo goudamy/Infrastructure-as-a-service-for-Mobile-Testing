@@ -266,10 +266,7 @@ public class IntanceDetails {
 
 	public static void Instance(String hostip) throws IOException{
 	
-		
-
-	
-			deleting(hostip);
+		deleting(hostip);
 		
 		String entity = "{" + "\"auth\": {" + "\"tenantName\": \"admin\","
 				+ "\"passwordCredentials\": {" + "\"username\": \"admin\","
