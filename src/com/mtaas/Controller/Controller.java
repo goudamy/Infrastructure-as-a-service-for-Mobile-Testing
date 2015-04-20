@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.mtaas.Model.FlavorDetail;
 import com.mtaas.Model.ImageDetail;
 import com.mtaas.Model.IntanceDetails;
+import com.mtaas.Model.MobileHubHandler;
 import com.mtaas.Model.RestClientTst;
 import com.mtaas.Model.project;
 import com.mtaas.Utilities.Dataproperties;
@@ -79,7 +80,7 @@ public class Controller extends HttpServlet {
 			}*/
 			
 			if(action.equals("list")){
-			IntanceDetails inst = new IntanceDetails();
+				IntanceDetails inst = new IntanceDetails();
 				inst.Instance(hostIp);
 			}
 			
@@ -107,6 +108,23 @@ public class Controller extends HttpServlet {
 			try {
 				result = project.list_inst_dropdown();
 			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			out.println(result);
+			}
+			
+		}
+		
+		if(type.equals("mobilehub")){
+			
+			
+			String result = "";
+			if(action.equals("add")){
+			try {
+				String mobileHub_name = request.getParameter("mobileHub_name");
+				String mobileHub_ip = request.getParameter("mobileHub_ip");
+				result = MobileHubHandler.addMobileHub(mobileHub_name, mobileHub_ip);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			out.println(result);
