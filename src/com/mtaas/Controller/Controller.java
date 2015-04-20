@@ -3,7 +3,9 @@ package com.mtaas.Controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,7 +46,7 @@ public class Controller extends HttpServlet {
 		Dataproperties data = new Dataproperties();
 		String tenantId = null;
 		if(type.equals("instance")){
-			String regionName = request.getParameter("regionName");
+			String regionName =  (request.getParameter("regionName") != null) ? request.getParameter("regionName") : "US";
 			RestClientTst rst = new RestClientTst();
 			Hashtable tokTable = rst.getTokenUsingCredentials(data.ret_data("stack.hostIp"), data.ret_data("stack.tenantName"), data.ret_data("stack.username"), data.ret_data("stack.password"));
 			String tokenId = (String)tokTable.get("tokenId");
@@ -66,6 +68,11 @@ public class Controller extends HttpServlet {
 			
 			if(action.equals(LAUNCH)){
 				int count = Integer.parseInt(countStr);
+				String algo = request.getParameter("algo");
+				if(algo != null)
+				{
+					hostIp = InstanceHandler.getHostIpUsingAlgo(algo);
+				}
 				for(int i = 0; i < count; i++)
 				{
 					String instNameStr = instanceName + "-" + String.valueOf(i);
@@ -88,21 +95,41 @@ public class Controller extends HttpServlet {
 			
 			if(action.equals("list")){
 				IntanceDetails inst = new IntanceDetails();
-				inst.Instance(hostIp);
+				ArrayList<String> hostIps = InstanceHandler.getAllHostIps();
+				Iterator<String> itr = hostIps.iterator();
+				while(itr.hasNext())
+				{
+					String hostIpStr = (String)itr.next();
+					inst.Instance(hostIpStr);
+				}
 			}
-			
+
 			if(action.equals("Image_list")){
-			
+
 				ImageDetail image = new ImageDetail();
-				image.Image(data.ret_data("stack.hostIp"));
+
+				ArrayList<String> hostIps = InstanceHandler.getAllHostIps();
+				Iterator<String> itr = hostIps.iterator();
+				while(itr.hasNext())
+				{
+					String hostIpStr = (String)itr.next();
+					image.Image(hostIpStr);
+				}
+
 				action = "Flavor_list";
-				
+
 			}
 			if(action.equals("Flavor_list")){
-				
+
 				FlavorDetail flavor = new FlavorDetail();
-				flavor.Flavor(data.ret_data("stack.hostIp"));
-				
+
+				ArrayList<String> hostIps = InstanceHandler.getAllHostIps();
+				Iterator<String> itr = hostIps.iterator();
+				while(itr.hasNext())
+				{
+					String hostIpStr = (String)itr.next();
+					flavor.Flavor(hostIpStr);
+				}
 			}
 			
 			if(action.equals("count")){
