@@ -171,9 +171,11 @@ public class Controller extends HttpServlet {
 				String result = "";
 
 				String emulatorName = request.getParameter("name");
+				String mobileHub_name = request.getParameter("mobileHub_name");
 
 				try {					
-					result = InstanceHandler.handleEmulator(action, emulatorName, hostIp);
+					String mobileHubIp = MobileHubHandler.getMobileHubIp(mobileHub_name);
+					result = InstanceHandler.handleEmulator(action, emulatorName, mobileHubIp);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -204,7 +206,8 @@ public class Controller extends HttpServlet {
 					Hashtable tokTable = rst.getTokenUsingCredentials(hostIp, tenantName, username, password);
 					tenantId = (String)tokTable.get("tenantId");
 					String mobileHub_name = request.getParameter("mobileHub_name");
-					String mobileHub_ip = MobileHubHandler.getMobileHubIp(mobileHub_name);
+					String mobileHub_ip = request.getParameter("mobileHub_ip");
+					
 					result = MobileHubHandler.addMobileHub(mobileHub_name, mobileHub_ip, tenantId);
 				} catch (Exception e) {
 					e.printStackTrace();
