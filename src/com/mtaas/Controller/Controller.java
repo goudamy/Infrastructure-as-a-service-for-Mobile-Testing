@@ -154,8 +154,6 @@ public class Controller extends HttpServlet {
 			
 			if(action.equals("countAll")){
 				String result = "";
-				String hostIpStr = null;
-				String count = null;
 				try {					
 					result = InstanceHandler.getAllHostIpsOfInstances();
 				} catch (Exception e) {
@@ -199,8 +197,6 @@ public class Controller extends HttpServlet {
 		}
 		
 		if(type.equals("mobilehub")){
-
-
 			String result = "";
 			if(action.equals("add")){
 				try {
@@ -208,7 +204,7 @@ public class Controller extends HttpServlet {
 					Hashtable tokTable = rst.getTokenUsingCredentials(hostIp, tenantName, username, password);
 					tenantId = (String)tokTable.get("tenantId");
 					String mobileHub_name = request.getParameter("mobileHub_name");
-					String mobileHub_ip = request.getParameter("mobileHub_ip");
+					String mobileHub_ip = MobileHubHandler.getMobileHubIp(mobileHub_name);
 					result = MobileHubHandler.addMobileHub(mobileHub_name, mobileHub_ip, tenantId);
 				} catch (Exception e) {
 					e.printStackTrace();
