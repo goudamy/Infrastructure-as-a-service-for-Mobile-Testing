@@ -9,6 +9,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+
 import com.mtaas.Utilities.Dataproperties;
 import com.mysql.jdbc.AbandonedConnectionCleanupThread;
 
@@ -309,4 +314,58 @@ public class InstanceHandler {
 		int randomNum = rand.nextInt((max - min) + 1) + min;
 		return randomNum;
 	}
+	
+
+	public static String handleEmulator(String action, String emulatorName, String hostIp)
+	{
+		/*http://localhost/emulator.py?action=list
+			http://localhost/emulator.py?action=create&ename=test29&os=Linux26&mem=128
+			http://localhost/emulator.py?action=delete&ename=test29
+			http://localhost/emulator.py?action=start&ename=test29
+			http://localhost/emulator.py?action=stop&ename=test29
+			http://localhost/emulator.py?action=checkexist&ename=test291
+			http://localhost/emulator.py?action=checkStatus&ename=test291
+		 */		
+		String respStr = null;
+		HttpResponse httpResponse = null;
+		String url = null;
+		HttpClient httpClient = HttpClientBuilder.create().build();
+
+		if(action.equals("em_create"))
+		{
+			url = "http://" + hostIp + "/emulator.py?action=create&ename=" + emulatorName + "&os=Linux26&mem=512";		
+		}
+		else if(action.equals("em_delete"))
+		{
+			url = "http://" + hostIp + "/emulator.py?action=delete&ename=" + emulatorName;
+		}
+		else if(action.equals("em_start"))
+		{
+			url = "http://" + hostIp + "/emulator.py?action=start&ename=" + emulatorName;
+		}
+		else if(action.equals("em_stop"))
+		{
+			url = "http://" + hostIp + "/emulator.py?action=stop&ename=" + emulatorName;
+		}
+		else if(action.equals("em_list"))
+		{
+			url = "http://" + hostIp + "/emulator.py?action=list";
+		}
+		else if(action.equals("em_checkStatus"))
+		{
+			url = "http://" + hostIp + "/emulator.py?action=checkStatus&ename=" + emulatorName;
+		}
+
+		try {
+			HttpGet request = new HttpGet(url);
+			httpResponse = httpClient.execute(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		respStr = httpResponse.getStatusLine().toString();
+		return respStr;
+
+	}
+
 }

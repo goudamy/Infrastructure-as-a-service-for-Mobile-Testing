@@ -45,20 +45,25 @@ public class Controller extends HttpServlet {
 		//System.out.println("This is: "+instanceName);
 		Dataproperties data = new Dataproperties();
 		String tenantId = null;
+
+		String tenantName, username, password, hostIp =  null;
+				
+		tenantName = data.ret_data("stack.tenantName");
+		username = data.ret_data("stack.username");
+		password = data.ret_data("stack.password");
+		
 		if(type.equals("instance")){
 			String regionName =  (request.getParameter("regionName") != null) ? request.getParameter("regionName") : "US";
 			RestClientTst rst = new RestClientTst();
-			Hashtable tokTable = rst.getTokenUsingCredentials(data.ret_data("stack.hostIp"), data.ret_data("stack.tenantName"), data.ret_data("stack.username"), data.ret_data("stack.password"));
-			String tokenId = (String)tokTable.get("tokenId");
-			tenantId = (String)tokTable.get("tenantId");
-			String tenantName = data.ret_data("stack.tenantName");
-			String username = data.ret_data("stack.username");
-			String password = data.ret_data("stack.password");
-
-			String hostIp = InstanceHandler.getHostIp(regionName);
+			
+			hostIp = InstanceHandler.getHostIp(regionName);
 			System.out.println("Host IP : " + hostIp);
 			if((hostIp == null) || hostIp.equals(""))
 				hostIp = data.ret_data("stack.hostIp");
+			
+			Hashtable tokTable = rst.getTokenUsingCredentials(hostIp, tenantName, username, password);
+			String tokenId = (String)tokTable.get("tokenId");
+			tenantId = (String)tokTable.get("tenantId");
 
 			String imageName =  (request.getParameter("imageName") != null) ? request.getParameter("imageName"):data.ret_data("stack.imageName");
 			
@@ -72,7 +77,12 @@ public class Controller extends HttpServlet {
 				if(algo != null)
 				{
 					hostIp = InstanceHandler.getHostIpUsingAlgo(algo);
+
+					tokTable = rst.getTokenUsingCredentials(hostIp, tenantName, username, password);
+					tokenId = (String)tokTable.get("tokenId");
+					tenantId = (String)tokTable.get("tenantId");
 				}
+				
 				for(int i = 0; i < count; i++)
 				{
 					String instNameStr = instanceName + "-" + String.valueOf(i);
@@ -144,25 +154,28 @@ public class Controller extends HttpServlet {
 			
 			if(action.equals("countAll")){
 				String result = "";
+				String hostIpStr = null;
+				String count = null;
 				try {					
-					result = InstanceHandler.countInstances(hostIp);
+					result = InstanceHandler.getAllHostIpsOfInstances();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				out.println(result);				
+			}
 
-					ArrayList<String> hostIps = InstanceHandler.getAllHostIps();
-					Iterator<String> itr = hostIps.iterator();
-					if(itr.hasNext())
-						result = (String)itr.next();
+			if(action.equals("em_create") ||
+					action.equals("em_deletete")	||	
+					action.equals("em_start") ||
+					action.equals("em_stop")	||
+					action.equals("em_list") ||
+					action.equals("em_checkStatus")){
+				String result = "";
 
-					while(itr.hasNext())
-					{
-						result += ",";
-						String hostIpStr = (String)itr.next();
-						String count = InstanceHandler.countInstances(hostIpStr);
-						if((count == null) || count.equalsIgnoreCase("null"))
-							count = "0";
-						result += count; 
+				String emulatorName = request.getParameter("name");
 
-					}
-
+				try {					
+					result = InstanceHandler.handleEmulator(action, emulatorName, hostIp);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -192,7 +205,7 @@ public class Controller extends HttpServlet {
 			if(action.equals("add")){
 				try {
 					RestClientTst rst = new RestClientTst();
-					Hashtable tokTable = rst.getTokenUsingCredentials(data.ret_data("stack.hostIp"), data.ret_data("stack.tenantName"), data.ret_data("stack.username"), data.ret_data("stack.password"));
+					Hashtable tokTable = rst.getTokenUsingCredentials(hostIp, tenantName, username, password);
 					tenantId = (String)tokTable.get("tenantId");
 					String mobileHub_name = request.getParameter("mobileHub_name");
 					String mobileHub_ip = request.getParameter("mobileHub_ip");
@@ -214,6 +227,7 @@ public class Controller extends HttpServlet {
 			}
 
 		}
+
 		
 		if(type.equals("createproj")){
 			
