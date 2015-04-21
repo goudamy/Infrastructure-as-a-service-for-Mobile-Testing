@@ -107,15 +107,6 @@ Date: 03/30/2015
 								</li>	
 							</ul>
 						</li>
-						<li class="dropdown" style="top:8px;">
-							<select id="selecregion" data-rel="chosen">
-									<option>Select Region</option>
-									<option>US</option>
-									<option>China</option>
-									<option>India</option>
-									<option>Australia</option>
-								  </select>
-						</li>
 
 						<li class="dropdown">
 							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -152,6 +143,7 @@ Date: 03/30/2015
 							<ul>
 								<li><a class="submenu" href="javascript: lnch_inst()"><i class="icon-file-alt"></i><span class="hidden-tablet"> Launch Instance</span></a></li>
 								<li><a class="submenu" href="javascript: list_inst()"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Instances</span></a></li>
+								<li><a class="submenu" href="javascript: list_remote()"><i class="icon-file-alt"></i><span class="hidden-tablet"> List Remote Resources</span></a></li>
 							</ul>	
 						</li>
 						<li>
@@ -185,8 +177,8 @@ Date: 03/30/2015
 						<li>
 							<a class="dropmenu" href="#"><i class="icon-tasks"></i><span class="hidden-tablet">Billing</span></a>
 							<ul>
-								<li><a class="submenu" href="javascript:add_hub()"><i class="icon-file-alt"></i><span class="hidden-tablet"> Billing Tariffs </span></a></li>
-								<li><a class="submenu" href="javascript: list_hub()"><i class="icon-file-alt"></i><span class="hidden-tablet"> Generate Bill</span></a></li>
+								<li><a class="submenu" href="javascript:bill_tariff()"><i class="icon-file-alt"></i><span class="hidden-tablet"> Billing Tariffs </span></a></li>
+								<li><a class="submenu" href="javascript:bill_gen()"><i class="icon-file-alt"></i><span class="hidden-tablet"> Generate Bill</span></a></li>
 							</ul>	
 						</li>
 						

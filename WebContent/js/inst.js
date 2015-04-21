@@ -355,6 +355,31 @@ function del_proj(prj){
 		   });
 }
 
+
+//List Remote
+
+function list_remote(){
+	
+	$("#content").load("./html/list_remote.html");
+	
+}
+
+//Billing Tariff
+
+function bill_tariff(){
+	
+	$("#content").load("./html/billing_tariff.html");
+
+}
+
+//Billing Generate
+
+function bill_gen(){
+	
+	$("#content").load("./html/billing_gen.html");
+
+}
+
 //List Project
 
 function list_proj() {
