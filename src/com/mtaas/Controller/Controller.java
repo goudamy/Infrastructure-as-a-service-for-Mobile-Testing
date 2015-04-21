@@ -163,7 +163,7 @@ public class Controller extends HttpServlet {
 			}
 
 			if(action.equals("em_create") ||
-					action.equals("em_deletete")	||	
+					action.equals("em_delete")	||	
 					action.equals("em_start") ||
 					action.equals("em_stop")	||
 					action.equals("em_list") ||
