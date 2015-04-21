@@ -19,6 +19,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import com.mtaas.Utilities.Dataproperties;
+import com.mysql.jdbc.AbandonedConnectionCleanupThread;
 
 public class FlavorDetail {
 	String flavorRef = null;
@@ -170,6 +171,11 @@ public class FlavorDetail {
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				}
+				try {
+				    AbandonedConnectionCleanupThread.shutdown();
+				} catch (InterruptedException e) {
+				    e.printStackTrace();
 				}
 			}
 		}

@@ -48,7 +48,9 @@ public class Controller extends HttpServlet {
 		if(type.equals("instance")){
 			String regionName =  (request.getParameter("regionName") != null) ? request.getParameter("regionName") : "US";
 			RestClientTst rst = new RestClientTst();
-			
+			Hashtable tokTable = rst.getTokenUsingCredentials(data.ret_data("stack.hostIp"), data.ret_data("stack.tenantName"), data.ret_data("stack.username"), data.ret_data("stack.password"));
+			String tokenId = (String)tokTable.get("tokenId");
+			tenantId = (String)tokTable.get("tenantId");
 			String tenantName = data.ret_data("stack.tenantName");
 			String username = data.ret_data("stack.username");
 			String password = data.ret_data("stack.password");
@@ -57,10 +59,6 @@ public class Controller extends HttpServlet {
 			System.out.println("Host IP : " + hostIp);
 			if((hostIp == null) || hostIp.equals(""))
 				hostIp = data.ret_data("stack.hostIp");
-			
-			Hashtable tokTable = rst.getTokenUsingCredentials(data.ret_data("stack.hostIp"), data.ret_data("stack.tenantName"), data.ret_data("stack.username"), data.ret_data("stack.password"));
-			String tokenId = (String)tokTable.get("tokenId");
-			tenantId = (String)tokTable.get("tenantId");
 
 			String imageName =  (request.getParameter("imageName") != null) ? request.getParameter("imageName"):data.ret_data("stack.imageName");
 			
@@ -74,12 +72,7 @@ public class Controller extends HttpServlet {
 				if(algo != null)
 				{
 					hostIp = InstanceHandler.getHostIpUsingAlgo(algo);
-
-					tokTable = rst.getTokenUsingCredentials(data.ret_data("stack.hostIp"), data.ret_data("stack.tenantName"), data.ret_data("stack.username"), data.ret_data("stack.password"));
-					tokenId = (String)tokTable.get("tokenId");
-					tenantId = (String)tokTable.get("tenantId");
 				}
-				
 				for(int i = 0; i < count; i++)
 				{
 					String instNameStr = instanceName + "-" + String.valueOf(i);
@@ -151,10 +144,25 @@ public class Controller extends HttpServlet {
 			
 			if(action.equals("countAll")){
 				String result = "";
-				String hostIpStr = null;
-				String count = null;
 				try {					
-					result = InstanceHandler.getAllHostIpsOfInstances();
+					result = InstanceHandler.countInstances(hostIp);
+
+					ArrayList<String> hostIps = InstanceHandler.getAllHostIps();
+					Iterator<String> itr = hostIps.iterator();
+					if(itr.hasNext())
+						result = (String)itr.next();
+
+					while(itr.hasNext())
+					{
+						result += ",";
+						String hostIpStr = (String)itr.next();
+						String count = InstanceHandler.countInstances(hostIpStr);
+						if((count == null) || count.equalsIgnoreCase("null"))
+							count = "0";
+						result += count; 
+
+					}
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -213,7 +221,7 @@ public class Controller extends HttpServlet {
 			String result = "";
 			if(action.equals("insert")){
 			try {
-				result = project.create_proj(request.getParameter("value"));
+				project.create_proj(request.getParameter("value"));
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -223,6 +231,33 @@ public class Controller extends HttpServlet {
 			if(action.equals("list")){
 				try {
 					result = project.list_proj();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				out.println(result);
+				}
+			
+			if(action.equals("delete")){
+				try {
+					result = project.del_proj(request.getParameter("value"));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				out.println(result);
+				}
+			
+
+			if(action.equals("activate")){
+				try {
+					result = project.active_proj(request.getParameter("value"));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				out.println(result);
+				}
+			if(action.equals("deactivate")){
+				try {
+					result = project.deactive_proj(request.getParameter("value"));
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

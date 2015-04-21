@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mtaas.Utilities.Dataproperties;
+import com.mysql.jdbc.AbandonedConnectionCleanupThread;
 
 /**
  * Servlet implementation class list
@@ -114,6 +115,11 @@ public class list extends HttpServlet {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+			try {
+			    AbandonedConnectionCleanupThread.shutdown();
+			} catch (InterruptedException e) {
+			    e.printStackTrace();
 			}
 		}
 

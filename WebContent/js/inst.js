@@ -46,6 +46,7 @@ function lnch_inst() {
 	                		}
 	                	}
                 	});
+                	try{t.open();}catch(e){console.log(e)}
 
                 	$.ajax({
                 		   url: 'data',
@@ -60,9 +61,6 @@ function lnch_inst() {
                 		   error: function() {
                 		      console.log("Error in Launch Instance.")
                 		   },
-                		   before: function(){
-                			   try{t.open();}catch(e){console.log(e)}
-                		   },
                 		   success: function(data) {
                 			   t.close();
                 			   dialog.close();
@@ -74,17 +72,88 @@ function lnch_inst() {
                 }
             }]
         });
-		 $("#count").val(1);
 
 	} catch(e)
 	{console.log("Issue with loading Launch Instance dialog." + e)}
 }
 
+//Add Hub
+
+function add_hub(){
+	
+	try{
+		
+
+		 BootstrapDialog.show({
+          title: 'Add Mobile Hub',
+          message: function(dialog) {
+              var $message = $('<div></div>');
+              var pageToLoad = dialog.getData('pageToLoad');
+              $message.load(pageToLoad);
+      
+              return $message;
+          },
+          data: {
+              'pageToLoad': './html/create_mhub.html'
+          },
+          buttons: [{
+              label: 'Cancel',
+              action: function(dialog){
+                  dialog.close();
+              }
+          }, {
+              label: 'Add',
+              cssClass: 'btn-primary',
+              action: function(dialog) {
+            	  if($("#mhubname").val().trim() === "" || $("#mhubip").val().trim() === ""){
+          			try{BootstrapDialog.show({
+          				type:BootstrapDialog.TYPE_WARNING,
+          		        title: 'Warning',
+          		        message: 'Please enter all the fields marked with (*).'
+          		    });}catch(e){console.log("Mobile Hub Add")}
+          		    return;
+          			}
+          		var mobileHub_name = $("#mhubname").val().trim();
+          		var mobileHub_ip = $("#mhubip").val().trim();
+            	  
+            	  try{
+            			try{t.open();}catch(e){console.log(e)}
+            			
+            	                	$.ajax({
+            	                		   url: 'data',
+            	                		   data: {
+            	                		      type: 'mobilehub',
+            	                		      action: 'add',
+            	                		      mobileHub_name: mobileHub_name,
+            	                		      mobileHub_ip: mobileHub_ip
+            	                		   },
+            	                		   error: function() {
+            	                		      console.log("Error in Add hub.")
+            	                		   },
+            	                		   success: function(data) {
+            	                			   t.close();
+            	                		      list_inst();
+            	                		      
+            	                		   },
+            	                		   type: 'POST'
+            	                		});  
+            		} catch(e)
+            		{console.log("Issue with add hub ." + e)}
+    
+              }
+          }]
+      });
+	
+
+	} catch(e)
+	{console.log("Issue with loading Add Image dialog.")}
+}
 
 
 //Launch Instance
 function delete_inst(instName) {
 	try{
+		try{t.open();}catch(e){console.log(e)}
 		
                 	$.ajax({
                 		   url: 'data',
@@ -101,9 +170,7 @@ function delete_inst(instName) {
                 		   },
                 		   success: function(data) {
                 			   t.close();
-                			   dialog.close();
                 		      list_inst();
-                		      loadingpg();
                 		      
                 		   },
                 		   type: 'POST'
@@ -135,8 +202,9 @@ function loadingpg(){
 
 //List Instance
 function list_inst() {
-
+	
 	$( "#content" ).load( "html/list_instances.html" );
+	try{t.open();}catch(e){console.log(e)}
 	
 
 }
@@ -181,6 +249,15 @@ function creat_proj() {
 			     
 			   var demo2 = $("#emob_select").bootstrapDualListbox({ nonSelectedListLabel: 'Available Resources',
 				   selectedListLabel: 'Selected Resources', bootstrap2compatible : true });
+			   $("#Emobile select:first").empty();
+			   demo2.bootstrapDualListbox('refresh');
+			   var t1 = data.split('#@##')[2];
+			   var ps = t1.split(',');
+			   for (i=0; i<ps.length - 1; i++){
+				   if(ps[i] != "")
+				   demo2.append("<option value='"+ps[i]+"'>"+ps[i]+"</option>");
+				   demo2.bootstrapDualListbox('refresh');
+			   }
 			   
 			   t.close();
 		   },
@@ -195,7 +272,7 @@ function creat_proj() {
 
 function crt_proj(){
 	
-	if($("input").val().trim() === ""){
+	if($("#projname").val().trim() === ""){
 	try{BootstrapDialog.show({
 		type:BootstrapDialog.TYPE_WARNING,
         title: 'Warning',
@@ -225,7 +302,7 @@ function crt_proj(){
 	var n = [], m = [], o = "";
 	$("#Pmobile .box2 select option").each(function(){n.push($(this).val())});
 	$("#Emobile .box2 select option").each(function(){m.push($(this).val())});
-	o = $("input").val().trim();
+	o = $("#projname").val().trim();
 	p = n.join();
 	q = m.join();
 	r = $("#TestServer").val();
@@ -235,16 +312,47 @@ function crt_proj(){
 		   data: {
 		      type: 'createproj',
 		      action: 'insert',
-		      value: o+"##@#@"+r+"##@#@"+q+"##@#@"+p+"##@#@"+"active"
+		      value: o+"##@#@"+r+"##@#@"+q+"##@#@"+p+"##@#@"+"inactive"
 		   },
 		   error: function() {
 		      console.log("Error in Project Creation.")
 		      t.close();
 		   },
-		   success:function() {t.close(); list_proj();},
+		   success:function() {
+			   setTimeout(function(){t.close();},2000);
+			   list_proj();
+			   try{BootstrapDialog.show({
+					type:BootstrapDialog.TYPE_WARNING,
+			        title: 'Warning',
+			        message: 'Please activate the newly created project.  Project Name: '+o
+			    });}catch(e){console.log("Mobile Proj Name")}
+			   },
 		   type:'POST'
 		   });
 	
+}
+
+//Delete Project
+
+function del_proj(prj){
+	try{t.open();}catch(e){console.log(e)}
+	$.ajax({
+		   url: 'data',
+		   data: {
+		      type: 'createproj',
+		      action: 'delete',
+		      value: prj
+		   },
+		   error: function() {
+		      console.log("Error in Project Creation.")
+		      t.close();
+		   },
+		   success:function() {
+			   setTimeout(function(){t.close();},2000);
+			   list_proj();
+		   },
+		   type:'POST'
+		   });
 }
 
 //List Project
@@ -286,35 +394,88 @@ function list_proj() {
 			   d = "Active";
 			   e = "Inactive";
 			   if(x[5] === "active")
-			   {$("#list_projtable tbody").append('<tr><td class="center">'+x[0]+'</td><td class="center">'+x[1]+'</td><td class="center"><a href="javascript:void()">Click Here</a></td><td class="center">'+x[2]+'</td><td class="center">'+a+'</td><td class="center">'+b+'</td><td class="center"><span class="label label-success">'+d+'</span></td><td class="center"><a class="btn btn-danger" href="#"><i class="halflings-icon white trash"></i> </a></td></tr>');}
+			   {$("#list_projtable tbody").append('<tr><td class="center">'+x[0]+'</td><td class="center">'+x[1]+'</td><td class="center"><a href="javascript:void()">Click Here</a></td><td class="center">'+x[2]+'</td><td class="center">'+a+'</td><td class="center">'+b+'</td><td class="center"><a href="javascript:deact_proj(\''+x[0]+'\',0)"><span class="label label-success">'+d+'</span></a></td><td class="center"><a class="btn btn-danger" href="javascript:del_proj(\''+x[0]+'\')"><i class="halflings-icon white trash"></i> </a></td></tr>');}
 			   else 
-			   {$("#list_projtable tbody").append('<tr><td class="center">'+x[0]+'</td><td class="center">'+x[1]+'</td><td class="center"><a href="javascript:void()">Click Here</a></td><td class="center">'+x[2]+'</td><td class="center">'+a+'</td><td class="center">'+b+'</td><td class="center"><span class="label">'+e+'</span></td><td class="center"><a class="btn btn-danger" href="#"><i class="halflings-icon white trash"></i> </a></td></tr>');}
+			   {$("#list_projtable tbody").append('<tr><td class="center">'+x[0]+'</td><td class="center">'+x[1]+'</td><td class="center"><a href="javascript:void()">Click Here</a></td><td class="center">'+x[2]+'</td><td class="center">'+a+'</td><td class="center">'+b+'</td><td class="center"><a href="javascript:active_proj(\''+x[0]+'\',0)"><span class="label">'+e+'</span></a></td><td class="center"><a class="btn btn-danger" href="javascript:del_proj(\''+x[0]+'\')"><i class="halflings-icon white trash"></i> </a></td></tr>');}
 			   
 			   
-		   }loading_data();
+		   }loading_datatable();
+		   },
+		   type:'POST'
+		   });
+
+}
+
+//Deacivate Project
+
+function deact_proj(prjnm,val){
+	
+	try{t.open();}catch(e){console.log(e)}
+	$.ajax({
+		   url: 'data',
+		   data: {
+		      type: 'createproj',
+		      action: 'deactivate',
+		      value: prjnm
+		   },
+		   error: function() {
+		      console.log("Error in Project deactivation.")
+		      t.close();
+		   },
+		   success:function() {
+			   setTimeout(function(){t.close();},2000);
+			   if(val === 0) list_proj();
+			   if(val === 1) index_list_proj();
 		   },
 		   type:'POST'
 		   });
 	
-	function loading_data(){
-	
-		setTimeout(function(){
-			if($('.datatable')){
-	$('.datatable').dataTable({
-		"sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span12'i><'span12 center'p>>",
-		"sPaginationType": "bootstrap",
-		"oLanguage": {
-		"sLengthMenu": "_MENU_ records per page"
-		}
-	} );
-	}  else {loading_data()}
-	
-		},500);
-	}
-	
-	
-
 }
+
+//Activate Project
+
+function active_proj(prjnm,val){
+	
+	try{t.open();}catch(e){console.log(e)}
+	$.ajax({
+		   url: 'data',
+		   data: {
+		      type: 'createproj',
+		      action: 'activate',
+		      value: prjnm
+		   },
+		   error: function() {
+		      console.log("Error in Project activation.")
+		      t.close();
+		   },
+		   success:function() {
+			   setTimeout(function(){t.close();},2000);
+			   if(val === 0) list_proj();
+			   if(val === 1) index_list_proj();
+		   },
+		   type:'POST'
+		   });
+	
+}
+
+//Parse Adv options for table
+
+function loading_datatable(){
+	
+	setTimeout(function(){
+		if($('.datatable')){
+$('.datatable').dataTable({
+	"sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span12'i><'span12 center'p>>",
+	"sPaginationType": "bootstrap",
+	"oLanguage": {
+	"sLengthMenu": "_MENU_ records per page"
+	}
+} );
+}  else {loading_datatable()}
+
+	},500);
+}
+
 
 //Listing Proj on Index file
 function index_list_proj(){
@@ -336,11 +497,12 @@ function index_list_proj(){
 		   for(i=0; i<z.length;i++){
 			   var x = z[i].split('%%#');
 			   if(x[0].trim() === "") continue;
-			   
+			   d = "Active";
+			   e = "Inactive";
 			   if(x[5] === "active")
-			   {$("#mob_projtable tbody").append('<tr><td>'+x[0]+'</td><td class="center">'+x[1]+'</td><td class="center"><span class="label label-success">Active</span></td></tr>');}
+			   {$("#mob_projtable tbody").append('<tr><td>'+x[0]+'</td><td class="center">'+x[1]+'</td><td class="center"><a href="javascript:deact_proj(\''+x[0]+'\',1)"><span class="label label-success">'+d+'</span></a></td></tr>');}
 			   else 
-			   {$("#mob_projtable tbody").append('<tr><td>'+x[0]+'</td><td class="center">'+x[1]+'</td><td class="center"><span class="label">Inactive</span></td></tr>');}
+			   {$("#mob_projtable tbody").append('<tr><td>'+x[0]+'</td><td class="center">'+x[1]+'</td><td class="center"><a href="javascript:active_proj(\''+x[0]+'\',1)"><span class="label">'+e+'</span></a></td></tr>');}
 			   
 		   }
 		   },
@@ -386,6 +548,38 @@ function add_img() {
 //list Images 
 function list_img() {
 	$("#content").load("./html/listImage.html");
+
+}
+
+
+//list MHub 
+function list_hub() {
+	$("#content").load("./html/listMhub.html");
+	try{t.open();}catch(e){console.log(e)}
+	
+	$.ajax({
+		   url: 'data',
+		   dataType: 'json',
+		   data: {
+		      type: 'mobilehub',
+		      action: 'list'
+		   },
+		   error: function() {
+		      console.log("Error in MobileHub list.")
+		      t.close();
+		   },
+		   success:function(data) {
+			   
+		   t.close(); 
+		   var mhub = data;
+		   for(i=0; i<mhub.topic.details.length;i++){
+			   $("#list_mhub tbody").append('<tr><td class="center">'+mhub.topic.details[i].mobileHub_id+'</td><td class="center">'+mhub.topic.details[i].mobileHub_name+'</td><td class="center">'+mhub.topic.details[i].mobileHub_ip+'</td></tr>');
+		   }
+		     
+		   loading_datatable();
+		   },
+		   type:'POST'
+		   });
 
 }
 

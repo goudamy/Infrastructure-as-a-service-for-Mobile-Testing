@@ -48,6 +48,7 @@
 			HTML += "</tr></tbody>";
 
 			document.getElementById("tableDetail").innerHTML = HTML;
+			loading_datatable();
 		}
 	}
 </script>
@@ -62,9 +63,7 @@
 				</h2>
 			</div>
 			<div class="box-content">
-				<script type="text/javascript">
-					calc()
-				</script>
+				
 
 				<table id="tableDetail"
 					class="table table-striped table-bordered bootstrap-datatable datatable"></table>
@@ -73,5 +72,9 @@
 
 
 	</div>
+	<script type="text/javascript">
+					calc()
+				</script>
 	<!--/row-->
 </body>
+</html>

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.mtaas.Utilities.Dataproperties;
+import com.mysql.jdbc.AbandonedConnectionCleanupThread;
 
 public class InstanceHandler {
 
@@ -57,6 +58,11 @@ public class InstanceHandler {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			try {
+			    AbandonedConnectionCleanupThread.shutdown();
+			} catch (InterruptedException e) {
+			    e.printStackTrace();
+			}
 		}				
 
 		return returnData;
@@ -102,6 +108,11 @@ public class InstanceHandler {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+			try {
+			    AbandonedConnectionCleanupThread.shutdown();
+			} catch (InterruptedException e) {
+			    e.printStackTrace();
 			}
 		}				
 
@@ -151,6 +162,11 @@ public class InstanceHandler {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			try {
+			    AbandonedConnectionCleanupThread.shutdown();
+			} catch (InterruptedException e) {
+			    e.printStackTrace();
+			}
 		}				
 
 		return hostIps;
@@ -198,6 +214,11 @@ public class InstanceHandler {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			try {
+			    AbandonedConnectionCleanupThread.shutdown();
+			} catch (InterruptedException e) {
+			    e.printStackTrace();
+			}
 		}				
 
 		return hostIps;
@@ -243,6 +264,11 @@ public class InstanceHandler {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+			try {
+			    AbandonedConnectionCleanupThread.shutdown();
+			} catch (InterruptedException e) {
+			    e.printStackTrace();
 			}
 		}				
 

@@ -3,6 +3,7 @@ package com.mtaas.Model;
 import java.io.*;
 
 import com.mtaas.Utilities.*;
+import com.mysql.jdbc.AbandonedConnectionCleanupThread;
 
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -213,6 +214,11 @@ public class IntanceDetails {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						try {
+						    AbandonedConnectionCleanupThread.shutdown();
+						} catch (InterruptedException e) {
+						    e.printStackTrace();
+						}
 					}
 
 				}	
@@ -225,6 +231,7 @@ public class IntanceDetails {
 		return null;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Hashtable getToken(HttpResponse httpResponse) {
 		HttpEntity entity = httpResponse.getEntity();
 		byte[] buffer = new byte[1024];
@@ -276,10 +283,14 @@ public class IntanceDetails {
         String url1 = url+ ":5000";
 		HttpResponse resp = post(url1, "v2.0/tokens",
 				entity, null);
-
+		String tokenId = "";
+		String tenantId = "";
+		System.out.println(resp.toString());
+		if(resp != null){
 		Hashtable tokTable = getToken(resp);
-		String tokenId = (String) tokTable.get("tokenId");
-		String tenantId = (String) tokTable.get("tenantId");
+		tokenId = (String) tokTable.get("tokenId");
+		tenantId = (String) tokTable.get("tenantId");
+		} else {return;}
 
 		//System.out.println("tokenId : " + tokenId);
 		//System.out.println("tenantId : " + tenantId);
@@ -324,7 +335,7 @@ public static void deleting(String hostip) throws IOException {
 			
 			System.out.println("Connection created");		
 			PreparedStatement pst1 = conn.prepareStatement("SET SQL_SAFE_UPDATES=0;");	
-			ResultSet rs2 = pst1.executeQuery();
+			pst1.execute();
 			PreparedStatement pst = conn.prepareStatement("Delete FROM instance_list where host =?");	
 			
 			pst.setString(1,hostip);
@@ -341,6 +352,11 @@ public static void deleting(String hostip) throws IOException {
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				}
+				try {
+				    AbandonedConnectionCleanupThread.shutdown();
+				} catch (InterruptedException e) {
+				    e.printStackTrace();
 				}
 			}
 
