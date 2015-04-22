@@ -12,10 +12,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.concurrent.TimeUnit;
+import java.io.*;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -33,60 +36,47 @@ public class billing {
 
 	public static void main(String[] args) {
 		try {
+
 			insert_deleteData();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// String dateStart = "02/11/2015 08:23:00";
-		// String dateStop = "04/25/2015 11:41:00";
-		// Float time_based_charge = (float) 0.02;
-		// String datediff = data_diff(dateStart, dateStop);
-		// String Time_Amount = time_based(datediff, time_based_charge);
-		// System.out.println("Total Charge is :" + time_based(datediff,(float)
-		// 0.02) + "for total hours:" + );
 
 	}
 
-	public static void data_diff(String dateStart, String dateStop) {
+	public static int data_diff(String dateStart, String dateStop) {
 		// HH converts hour in 24 hours format (0-23), day calculation
-		/*
-		 * SimpleDateFormat format = new
-		 * SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-		 * 
-		 * Date d1 = null; Date d2 = null; String diff1 = "";
-		 * 
-		 * try { d1 = format.parse(dateStart); d2 = format.parse(dateStop);
-		 * 
-		 * // in milliseconds long diff = d2.getTime() - d1.getTime();
-		 * 
-		 * long diffSeconds = diff / 1000 % 60; long diffMinutes = diff / (60 *
-		 * 1000) % 60; long diffHours = diff / (60 * 60 * 1000) % 24; long
-		 * diffDays = diff / (24 * 60 * 60 * 1000);
-		 * 
-		 * diff1 = diffDays + ":" + diffHours + ":" + diffMinutes + ":" +
-		 * diffSeconds;
-		 * 
-		 * // System.out.print(diffDays + " days, "); //
-		 * System.out.print(diffHours + " hours, "); //
-		 * System.out.print(diffMinutes + " minutes, "); //
-		 * System.out.print(diffSeconds + " seconds.");
-		 * 
-		 * } catch (Exception e) { e.printStackTrace(); } return diff1;
-		 */
-	}
 
-	public static String time_based(String datediff, float tm_charge) {
-		String tm_amount = "";
-		String days = datediff.split(":")[0];
-		int a = Integer.parseInt(days) * 24;
-		int b = Integer.parseInt(datediff.split(":")[1]) + a;
-		float c = b * tm_charge;
-		tm_amount = String.valueOf(c);
-		System.out.println("Total Charges are :$" + String.format("%.2f", c)
-				+ "  for total hours:" + String.valueOf(b));
-		return tm_amount;
+		SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
 
+		Date d1 = null;
+		Date d2 = null;
+		String diff1 = "";
+		long diffHours = 0;
+		try {
+			d1 = format.parse(dateStart);
+			d2 = format.parse(dateStop);
+
+			// in millisecon
+			long diff = d2.getTime() - d1.getTime();
+          
+			long diffSeconds = diff / 1000 % 60;
+			long diffMinutes = diff / (60 * 1000) % 60;
+			diffHours = diff / (60 * 60 * 1000);
+			long diffDays = diff / (24 * 60 * 60 * 1000);
+			System.out.println(diffHours + " hours ");
+			//diff1 = diffDays + ":" + diffHours + ":" + diffMinutes + ":"
+			//		+ diffSeconds;
+
+			 //
+			// System.out.print(diffMinutes + " minutes, "); //
+			// System.out.print(diffSeconds + " seconds.");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return (int)diffHours;
 	}
 
 	public static String volume_based(String datediff, float vm_charge) {
@@ -101,19 +91,90 @@ public class billing {
 	public static void insert_deleteData() throws IOException {
 		String ip = "52.11.10.120";
 		String tenant_Id = "tenant-124";
-		float tariff = 50;
-		String instanceName = "TS1-0";
+		Calendar calendar = Calendar.getInstance();
+		java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(calendar
+				.getTime().getTime());
+
+		System.out.println(currentTimestamp);
+		Connection conn = null;
+
+		try {
+
+			Dataproperties data = new Dataproperties();
+
+			String url;
+			try {
+				url = data.ret_data("mysql1.connect");
+
+				String driver = data.ret_data("mysql1.driver");
+				String userName = data.ret_data("mysql1.userName");
+				String password = data.ret_data("mysql1.password");
+
+				try {
+					Class.forName(driver).newInstance();
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				conn = (Connection) DriverManager.getConnection(url, userName,
+						password);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			// System.out.println("Connection created");
+
+			PreparedStatement pst = conn
+					.prepareStatement("SELECT CreatedDate,PInst from projects");
+
+			ResultSet rs1 = pst.executeQuery();
+
+			if (rs1.next()) {
+				String dateStart = rs1.getString(1);
+				String Pinst = rs1.getString(2);
+				String dateStop1 = currentTimestamp.toString();
+				String[] temp;
+				temp = dateStop1.split("\\.");
+				System.out.println(temp[0]);
+				String dateStop = temp[0];
+				System.out.println("dtartdate"+dateStart);
+				int time = data_diff(dateStart, dateStop);
+				String flavorName = "physical";
+				InsertBill ib = new InsertBill();
+				ib.getDetails(ip, tenant_Id, Pinst, time, flavorName);
+
+			}
+			pst.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
 		Dataproperties data = new Dataproperties();
-	
-		
-			String url = data.ret_data("mysql1.connect");		
-		String driver = data.ret_data("mysql1.driver");	
+		String url = data.ret_data("mysql1.connect");
+		String driver = data.ret_data("mysql1.driver");
 		String userName = data.ret_data("mysql1.userName");
 		String password = data.ret_data("mysql1.password");
-		
-		Connection conn = null;
-	
-		try{
+
+		Connection conn1 = null;
+
+		try {
 			try {
 				Class.forName(driver).newInstance();
 			} catch (InstantiationException e) {
@@ -128,50 +189,49 @@ public class billing {
 			}
 
 			try {
-				conn = (Connection) DriverManager
-						.getConnection(url,userName,password);
+				conn1 = (Connection) DriverManager.getConnection(url, userName,
+						password);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-			//System.out.println("Connection created");
-			
-			
+			// System.out.println("Connection created");
+
 			PreparedStatement pst;
 			try {
-				pst = conn
-						.prepareStatement("SELECT * FROM instance_list");
-			
-						
-			ResultSet rs1 = pst.executeQuery();					
-			InsertBill ib = new InsertBill();
-			while(rs1.next()){								
-				    instanceName = rs1.getString("name"); 				    
-				    System.out.println(instanceName);					
+				pst = conn1.prepareStatement("SELECT * FROM instance_list");
+
+				ResultSet rs1 = pst.executeQuery();
+				InsertBill ib = new InsertBill();
+				while (rs1.next()) {
+					String instanceName = rs1.getString("name");
+					String flavorName = rs1.getString("flavor");
+
+					System.out.println(instanceName);
 					float time = timeConsumed(instanceName);
-					ib.getDetails(ip, tenant_Id, tariff, instanceName, time);	
-					//Deleting values in the BillingDetails table					
-					//ib.deleting(tenant_Id);
-					    			
-			}
-			pst.close();
+					ib.getDetails(ip, tenant_Id,
+
+					instanceName, time, flavorName);
+					// Deleting values in the BillingDetails table
+					// ib.deleting(tenant_Id);
+
+				}
+				pst.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} finally {
 			try {
-				conn.close();
+				conn1.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
-		
-	
-	
+
 	}
 
 	public static float timeConsumed(String instanceName) {
