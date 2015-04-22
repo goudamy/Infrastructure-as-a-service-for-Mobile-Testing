@@ -59,20 +59,12 @@ public class Controller extends HttpServlet {
 			Hashtable tokTable = null;
 			String tokenId = null;
 
-			if(!(action.equals("em_create") ||
-					action.equals("em_delete")	||	
-					action.equals("em_start") ||
-					action.equals("em_stop")	||
-					action.equals("em_list") ||
-					action.equals("em_checkStatus"))){
-
-
+			if(!(action.startsWith("em_") ||
+					action.startsWith("phone_"))){
 				hostIp = InstanceHandler.getHostIp(regionName);
 				System.out.println("Host IP : " + hostIp);
 				if((hostIp == null) || hostIp.equals(""))
 					hostIp = data.ret_data("stack.hostIp");
-
-
 
 				tokTable = rst.getTokenUsingCredentials(hostIp, tenantName, username, password);
 				tenantId = (String)tokTable.get("tenantId");
@@ -83,6 +75,7 @@ public class Controller extends HttpServlet {
 				countStr = (request.getParameter("count") != null) ? request.getParameter("count"):"1";
 				flavorId = (request.getParameter("flavor") != null) ? request.getParameter("flavor"):data.ret_data("stack.flavorId");
 			}
+			
 			if(action.equals(LAUNCH)){
 				int count = Integer.parseInt(countStr);
 				String algo = request.getParameter("algo");
@@ -188,6 +181,23 @@ public class Controller extends HttpServlet {
 				try {					
 					String mobileHubIp = MobileHubHandler.getMobileHubIp(mobileHub_name);
 					result = InstanceHandler.handleEmulator(action, emulatorName, mobileHubIp);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				out.println(result);				
+			}
+			
+			if(action.equals("phone_list") ||
+					action.equals("phone_reboot") ||
+					action.equals("phone_getStatus")){
+				String result = "";
+
+				String deviceId = request.getParameter("device_id");
+				String mobileHub_name = request.getParameter("mobileHub_name");
+
+				try {					
+					String mobileHubIp = MobileHubHandler.getMobileHubIp(mobileHub_name);
+					result = InstanceHandler.handlePhone(action, mobileHubIp, deviceId);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -340,26 +340,32 @@ public class InstanceHandler {
 		System.out.println("Mobile Hub IP : " + hostIp);
 		if(action.equals("em_create"))
 		{
+			System.out.println("Creating emulator");
 			url = "http://" + hostIp + "/emulator.py?action=create&ename=" + emulatorName + "&os=Linux26&mem=512";		
 		}
 		else if(action.equals("em_delete"))
 		{
+			System.out.println("Deleting emulator");
 			url = "http://" + hostIp + "/emulator.py?action=delete&ename=" + emulatorName;
 		}
 		else if(action.equals("em_start"))
 		{
+			System.out.println("Starting emulator");
 			url = "http://" + hostIp + "/emulator.py?action=start&ename=" + emulatorName;
 		}
 		else if(action.equals("em_stop"))
 		{
+			System.out.println("Stoping emulator");
 			url = "http://" + hostIp + "/emulator.py?action=stop&ename=" + emulatorName;
 		}
 		else if(action.equals("em_list"))
 		{
+			System.out.println("Listing emulators");
 			url = "http://" + hostIp + "/emulator.py?action=list";
 		}
 		else if(action.equals("em_checkStatus"))
 		{
+			System.out.println("Checking emulator status");
 			url = "http://" + hostIp + "/emulator.py?action=checkStatus&ename=" + emulatorName;
 		}
 
@@ -371,6 +377,50 @@ public class InstanceHandler {
 		}
 
 		if(action.equals("em_list"))
+			respStr =  getRespString(httpResponse);
+		else
+			respStr = httpResponse.getStatusLine().toString();
+		return respStr;
+
+	}
+	
+	public static String handlePhone(String action, String hostIp, String deviceId)
+	{
+		/*http://localhost/action=phone.py?action=list
+		http://localhost/action=phone.py?action=reboot&dID=<dID>
+		http://localhost/action=phone.py?action=getStatus&dID=<dID>
+		 */		
+		String respStr = null;
+		HttpResponse httpResponse = null;
+		String url = null;
+		HttpClient httpClient = HttpClientBuilder.create().build();
+
+		System.out.println("Mobile Hub IP : " + hostIp);
+
+		if(action.equals("phone_list"))
+		{
+			System.out.println("Listing phones");
+			url = "http://" + hostIp + "/action=phone.py?action=list";
+		}
+		else if(action.equals("phone_reboot"))
+		{
+			System.out.println("Checking phone status");
+			url = "http://" + hostIp + "action=phone.py?action=reboot&dID=" + deviceId;
+		}
+		else if(action.equals("phone_getStatus"))
+		{
+			System.out.println("Checking phone status");
+			url = "http://" + hostIp + "action=phone.py?action=getStatus&dID=" + deviceId;
+		}
+
+		try {
+			HttpGet request = new HttpGet(url);
+			httpResponse = httpClient.execute(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		if(action.equals("phone_list"))
 			respStr =  getRespString(httpResponse);
 		else
 			respStr = httpResponse.getStatusLine().toString();
