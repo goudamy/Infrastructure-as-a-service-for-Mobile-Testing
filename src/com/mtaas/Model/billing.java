@@ -59,11 +59,10 @@ public class billing {
 			d2 = format.parse(dateStop);
 
 			// in millisecon
-			long diff = d2.getTime() - d1.getTime();
-          
+			long diff = d2.getTime() - d1.getTime();          
 			long diffSeconds = diff / 1000 % 60;
 			long diffMinutes = diff / (60 * 1000) % 60;
-			diffHours = diff / (60 * 60 * 1000);
+			diffHours = diff / (60 * 60 * 1000)%60;
 			long diffDays = diff / (24 * 60 * 60 * 1000);
 			System.out.println(diffHours + " hours ");
 			//diff1 = diffDays + ":" + diffHours + ":" + diffMinutes + ":"
