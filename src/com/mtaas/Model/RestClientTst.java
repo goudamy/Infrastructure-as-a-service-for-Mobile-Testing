@@ -278,7 +278,9 @@ public class RestClientTst {
 		String endPointUrl = "v2.0/tokens";
 		HttpResponse resp = post(hostUrl , endPointUrl, entity, null);
 
-		Hashtable tokTable = getToken(resp);
+		Hashtable tokTable = new Hashtable();
+		if(resp != null)
+			tokTable = getToken(resp);
 		return tokTable;
 	}
 

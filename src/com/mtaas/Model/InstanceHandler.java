@@ -1,18 +1,24 @@
 package com.mtaas.Model;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Random;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import com.mtaas.Utilities.Dataproperties;
 import com.mysql.jdbc.AbandonedConnectionCleanupThread;
@@ -331,6 +337,7 @@ public class InstanceHandler {
 		String url = null;
 		HttpClient httpClient = HttpClientBuilder.create().build();
 
+		System.out.println("Mobile Hub IP : " + hostIp);
 		if(action.equals("em_create"))
 		{
 			url = "http://" + hostIp + "/emulator.py?action=create&ename=" + emulatorName + "&os=Linux26&mem=512";		
@@ -363,9 +370,34 @@ public class InstanceHandler {
 			e.printStackTrace();
 		}
 
-		respStr = httpResponse.getStatusLine().toString();
+		if(action.equals("em_list"))
+			respStr =  getRespString(httpResponse);
+		else
+			respStr = httpResponse.getStatusLine().toString();
 		return respStr;
 
+	}
+	
+	public static String getRespString(HttpResponse httpResponse)
+	{
+		HttpEntity entity = httpResponse.getEntity();
+		byte[] buffer = new byte[1024];
+		String str = "";
+		if (entity != null) {
+			try {
+				InputStream inputStream = entity.getContent();
+				BufferedInputStream bis = new BufferedInputStream(inputStream);
+
+				int bytesRead = 0;
+				while ((bytesRead = bis.read(buffer)) != -1) {
+					str += new String(buffer, 0, bytesRead);				
+				}			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return str;
 	}
 
 }

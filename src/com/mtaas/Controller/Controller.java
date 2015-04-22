@@ -53,24 +53,36 @@ public class Controller extends HttpServlet {
 		password = data.ret_data("stack.password");
 		
 		if(type.equals("instance")){
+			String imageName=null, instanceName=null, countStr=null,flavorId=null;
 			String regionName =  (request.getParameter("regionName") != null) ? request.getParameter("regionName") : "US";
 			RestClientTst rst = new RestClientTst();
-			
-			hostIp = InstanceHandler.getHostIp(regionName);
-			System.out.println("Host IP : " + hostIp);
-			if((hostIp == null) || hostIp.equals(""))
-				hostIp = data.ret_data("stack.hostIp");
-			
-			Hashtable tokTable = rst.getTokenUsingCredentials(hostIp, tenantName, username, password);
-			String tokenId = (String)tokTable.get("tokenId");
-			tenantId = (String)tokTable.get("tenantId");
+			Hashtable tokTable = null;
+			String tokenId = null;
 
-			String imageName =  (request.getParameter("imageName") != null) ? request.getParameter("imageName"):data.ret_data("stack.imageName");
-			
-			String instanceName = (request.getParameter("instanceName") != null) ? request.getParameter("instanceName"):data.ret_data("stack.serverName");
-			String countStr = (request.getParameter("count") != null) ? request.getParameter("count"):"1";
-			String flavorId = (request.getParameter("flavor") != null) ? request.getParameter("flavor"):data.ret_data("stack.flavorId");
-			
+			if(!(action.equals("em_create") ||
+					action.equals("em_delete")	||	
+					action.equals("em_start") ||
+					action.equals("em_stop")	||
+					action.equals("em_list") ||
+					action.equals("em_checkStatus"))){
+
+
+				hostIp = InstanceHandler.getHostIp(regionName);
+				System.out.println("Host IP : " + hostIp);
+				if((hostIp == null) || hostIp.equals(""))
+					hostIp = data.ret_data("stack.hostIp");
+
+
+
+				tokTable = rst.getTokenUsingCredentials(hostIp, tenantName, username, password);
+				tenantId = (String)tokTable.get("tenantId");
+
+				imageName =  (request.getParameter("imageName") != null) ? request.getParameter("imageName"):data.ret_data("stack.imageName");
+
+				instanceName = (request.getParameter("instanceName") != null) ? request.getParameter("instanceName"):data.ret_data("stack.serverName");
+				countStr = (request.getParameter("count") != null) ? request.getParameter("count"):"1";
+				flavorId = (request.getParameter("flavor") != null) ? request.getParameter("flavor"):data.ret_data("stack.flavorId");
+			}
 			if(action.equals(LAUNCH)){
 				int count = Integer.parseInt(countStr);
 				String algo = request.getParameter("algo");
