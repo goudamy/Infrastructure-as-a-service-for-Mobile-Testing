@@ -69,7 +69,7 @@ public class Controller extends HttpServlet {
 
 				tokTable = rst.getTokenUsingCredentials(hostIp, tenantName, username, password);
 				tenantId = (String)tokTable.get("tenantId");
-
+				tokenId = (String)tokTable.get("tokenId");
 				imageName =  (request.getParameter("imageName") != null) ? request.getParameter("imageName"):data.ret_data("stack.imageName");
 
 				instanceName = (request.getParameter("instanceName") != null) ? request.getParameter("instanceName"):data.ret_data("stack.serverName");
@@ -83,7 +83,6 @@ public class Controller extends HttpServlet {
 				if(algo != null)
 				{
 					hostIp = InstanceHandler.getHostIpUsingAlgo(algo);
-
 					tokTable = rst.getTokenUsingCredentials(hostIp, tenantName, username, password);
 					tokenId = (String)tokTable.get("tokenId");
 					tenantId = (String)tokTable.get("tenantId");

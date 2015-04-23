@@ -122,7 +122,7 @@ public class RestClientTst {
 				while ((bytesRead = bis.read(buffer)) != -1) {
 					str += new String(buffer, 0, bytesRead);				
 				}
-
+				//System.out.println(str.toString());
 				JSONParser parser=new JSONParser();
 
 
@@ -166,7 +166,7 @@ public class RestClientTst {
 				while ((bytesRead = bis.read(buffer)) != -1) {
 					str += new String(buffer, 0, bytesRead);				
 				}
-
+				
 				JSONParser parser=new JSONParser();
 
 
@@ -193,7 +193,7 @@ public class RestClientTst {
 				if(flavorRef != null)
 				{
 					tokTable.put("flavorRef", flavorRef);
-//					System.out.println("flavorRef : " + flavorRef);
+//					//System.out.println("flavorRef : " + flavorRef);
 				}
 
 				return tokTable;
@@ -249,7 +249,7 @@ public class RestClientTst {
 				if(imageRef != null)
 				{
 					tokTable.put("imageRef", imageRef);
-//					System.out.println("imageRef : " + imageRef);
+//					//System.out.println("imageRef : " + imageRef);
 				}
 
 				return tokTable;
@@ -290,12 +290,12 @@ public class RestClientTst {
 		String endPointUrl = "v2/" + tenantId + "/servers";  
 
 
-//		System.out.println("tokenId : " + tokenId);
-//		System.out.println("tenantId : " + tenantId);
-
-		HttpResponse resp = get(hostUrl , endPointUrl,tokenId);
-		printResponse(resp);
-
+//		//System.out.println("tokenId : " + tokenId);
+//		//System.out.println("tenantId : " + tenantId);
+//
+//		HttpResponse resp = get(hostUrl , endPointUrl,tokenId);
+//		printResponse(resp);
+		HttpResponse resp = null;
 		endPointUrl = "v2/" + tenantId + "/flavors";  
 		resp = get(hostUrl , endPointUrl,tokenId);
 		//printResponse(resp);
@@ -319,7 +319,7 @@ public class RestClientTst {
 						"\"My Server Name\": \"ApacheTest\" " +
 						"}}}";
 
-//		System.out.println("Entity : " + entity);
+//		//System.out.println("Entity : " + entity);
 
 		endPointUrl = "v2/" + tenantId + "/servers";  
 		resp = post(hostUrl,endPointUrl,entity, tokenId);
@@ -438,8 +438,8 @@ public class RestClientTst {
 //		String tokenId = (String)tokTable.get("tokenId");
 //		String tenantId = (String)tokTable.get("tenantId");
 
-//		System.out.println("tokenId : " + tokenId);
-//		System.out.println("tenantId : " + tenantId);
+//		//System.out.println("tokenId : " + tokenId);
+//		//System.out.println("tenantId : " + tenantId);
 
 //		serverName = "new-server-test-11";
 //		createInstance(hostIp, tokenId, tenantId, flavorId, imageName, serverName);
@@ -475,7 +475,7 @@ public class RestClientTst {
 				while ((bytesRead = bis.read(buffer)) != -1) {
 					chunk = new String(buffer, 0, bytesRead);
 				}
-//				System.out.println(chunk);
+				//System.out.println(chunk);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

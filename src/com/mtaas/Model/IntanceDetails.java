@@ -203,7 +203,7 @@ public class IntanceDetails {
 					
 						ps.execute();
 						ps.close();
-						//System.out.println("Inserted");
+						System.out.println("Inserted");
 
 					} catch (Exception e) {
 						//System.out.println(e);
