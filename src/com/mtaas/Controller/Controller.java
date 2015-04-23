@@ -19,6 +19,7 @@ import com.mtaas.Model.InstanceHandler;
 import com.mtaas.Model.IntanceDetails;
 import com.mtaas.Model.MobileHubHandler;
 import com.mtaas.Model.RestClientTst;
+import com.mtaas.Model.billing;
 import com.mtaas.Model.project;
 import com.mtaas.Utilities.Dataproperties;
 
@@ -298,6 +299,12 @@ public class Controller extends HttpServlet {
 				}
 				out.println(result);
 				}
+		}
+		
+		if(type.equals("billing")){			
+			billing bill = new billing();
+			bill.billingData(hostIp);
+			
 		}
 		
 		

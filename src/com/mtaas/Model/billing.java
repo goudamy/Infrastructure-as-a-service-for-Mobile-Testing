@@ -34,16 +34,18 @@ import com.mtaas.Utilities.Dataproperties;
 
 public class billing {
 
-	public static void main(String[] args) {
+	public void billingData(String hostIp) {
+		// TODO Auto-generated constructor stub
 		try {
 
-			insert_deleteData();
+			insert_deleteData(hostIp);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
+
+	
 
 	public static int data_diff(String dateStart, String dateStop) {
 		// HH converts hour in 24 hours format (0-23), day calculation
@@ -64,14 +66,7 @@ public class billing {
 			long diffMinutes = diff / (60 * 1000) % 60;
 			diffHours = diff / (60 * 60 * 1000)%60;
 			long diffDays = diff / (24 * 60 * 60 * 1000);
-			System.out.println(diffHours + " hours ");
-			//diff1 = diffDays + ":" + diffHours + ":" + diffMinutes + ":"
-			//		+ diffSeconds;
-
-			 //
-			// System.out.print(diffMinutes + " minutes, "); //
-			// System.out.print(diffSeconds + " seconds.");
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -87,8 +82,8 @@ public class billing {
 	}
 
 	// Goudamy Modification
-	public static void insert_deleteData() throws IOException {
-		String ip = "52.11.10.120";
+	public static void insert_deleteData(String ip) throws IOException {
+		//String ip = "52.11.10.120";
 		String tenant_Id = "tenant-124";
 		Calendar calendar = Calendar.getInstance();
 		java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(calendar
