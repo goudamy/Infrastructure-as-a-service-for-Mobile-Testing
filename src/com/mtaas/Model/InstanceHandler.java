@@ -459,7 +459,7 @@ public class InstanceHandler {
 			String userName = data.ret_data("mysql1.userName");
 			String password = data.ret_data("mysql1.password");
 
-			String dID, os, version, model, brand, operator, network, cpu, country, language, ip;
+			String dID, os, version, model, brand, operator, network, cpu, country, language, ip, status;
 			StringBuffer returnData = null;
 
 			Connection conn = null;
@@ -475,7 +475,7 @@ public class InstanceHandler {
 				conn = (Connection) DriverManager.getConnection(url,
 						userName, password);
 				PreparedStatement pst = conn
-						.prepareStatement("SELECT * FROM property");
+						.prepareStatement("SELECT property.*,devices.status from property inner join devices on property.dID = devices.idDevices;");
 				ResultSet rs = pst.executeQuery();
 
 				returnData = new StringBuffer("{\"topic\":{");
@@ -493,12 +493,13 @@ public class InstanceHandler {
 					country = rs.getString("country");
 					language = rs.getString("language");
 					ip = rs.getString("ip");	
+					status = rs.getString("status");	
 
 					if(flag == 0){
-						returnData.append("{\"dID\":\""+dID+"\",\"os\":\""+os+"\",\"version\":\""+version+"\",\"model\":\""+model+"\",\"brand\":\""+brand+"\",\"network\":\""+network+"\",\"cpu\":\""+cpu+"\",\"country\":\""+country+"\",\"language\":\""+language+"\",\"ip\":\""+ip+"\"}");
+						returnData.append("{\"dID\":\""+dID+"\",\"os\":\""+os+"\",\"version\":\""+version+"\",\"model\":\""+model+"\",\"brand\":\""+brand+"\",\"network\":\""+network+"\",\"cpu\":\""+cpu+"\",\"country\":\""+country+"\",\"language\":\""+language+"\",\"ip\":\""+ip+"\",\"status\":\""+status+"\"}");
 						flag = 1;
 					}else{
-						returnData.append(",{\"dID\":\""+dID+"\",\"os\":\""+os+"\",\"version\":\""+version+"\",\"model\":\""+model+"\",\"brand\":\""+brand+"\",\"network\":\""+network+"\",\"cpu\":\""+cpu+"\",\"country\":\""+country+"\",\"language\":\""+language+"\",\"ip\":\""+ip+"\"}");
+						returnData.append(",{\"dID\":\""+dID+"\",\"os\":\""+os+"\",\"version\":\""+version+"\",\"model\":\""+model+"\",\"brand\":\""+brand+"\",\"network\":\""+network+"\",\"cpu\":\""+cpu+"\",\"country\":\""+country+"\",\"language\":\""+language+"\",\"ip\":\""+ip+"\",\"status\":\""+status+"\"}");
 					}
 				}
 				returnData.append("]}}");
