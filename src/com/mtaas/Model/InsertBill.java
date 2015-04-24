@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.mtaas.Utilities.Dataproperties;
+import com.mysql.jdbc.AbandonedConnectionCleanupThread;
 
 public class InsertBill {
 
@@ -134,6 +135,10 @@ public class InsertBill {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}try {
+			    AbandonedConnectionCleanupThread.shutdown();
+			} catch (InterruptedException e) {
+			    e.printStackTrace();
 			}
 		}
 

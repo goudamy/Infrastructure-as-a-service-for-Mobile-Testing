@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mtaas.Model.BillingList;
 import com.mtaas.Model.FlavorDetail;
 import com.mtaas.Model.ImageDetail;
 import com.mtaas.Model.InstanceHandler;
@@ -300,9 +301,23 @@ public class Controller extends HttpServlet {
 				}
 		}
 		
-		if(type.equals("billing")){			
+		String result = "";
+		if(type.equals("billing")){	
+			if(action.equals("generate")){
+				billing bill = new billing();
+				bill.Bill();
+				
+				}
+			if(action.equals("list")){
+			
+			BillingList blist = new BillingList();
 			billing bill = new billing();
 			bill.Bill();
+			result = blist.doGet();
+			response.setContentType("application/json");
+			out.println(result);
+			}
+			
 			
 		}
 		

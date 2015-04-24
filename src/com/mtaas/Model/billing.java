@@ -31,6 +31,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.mtaas.Utilities.Dataproperties;
+import com.mysql.jdbc.AbandonedConnectionCleanupThread;
 
 public class billing {
 	public static void Bill() {
@@ -108,6 +109,10 @@ public class billing {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}try {
+			    AbandonedConnectionCleanupThread.shutdown();
+			} catch (InterruptedException e) {
+			    e.printStackTrace();
 			}
 		}
 	}
@@ -226,6 +231,10 @@ public class billing {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}try {
+			    AbandonedConnectionCleanupThread.shutdown();
+			} catch (InterruptedException e) {
+			    e.printStackTrace();
 			}
 
 		}
@@ -292,6 +301,10 @@ public class billing {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}try {
+			    AbandonedConnectionCleanupThread.shutdown();
+			} catch (InterruptedException e) {
+			    e.printStackTrace();
 			}
 
 		}

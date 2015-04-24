@@ -377,7 +377,51 @@ function bill_tariff(){
 function bill_gen(){
 	
 	$("#content").load("./html/billing_gen.html");
-
+	try{t.open();}catch(e){console.log(e)}
+	
+	$.ajax({
+		   url: 'data',
+		   dataType: 'json',
+		   data: {
+		      type: 'billing',
+		      action: 'list'
+		   },
+		   error: function() {
+		      console.log("Error in listing bill")
+		      t.close();
+		   },
+		   success:function(data) {
+			   
+		   t.close(); 
+		   var bill = data;
+		  
+		   var us =0;
+		   var india =0;
+		   var aus =0;
+		   var china =0;
+		   for(i=0; i< bill.topic.details.length;i++){	
+			   if(bill.topic.details[i].regionname == "US"){
+				  us = us+parseFloat(bill.topic.details[i].total); 
+			   }
+			   if(bill.topic.details[i].regionname == "China"){
+					  china = china+parseFloat(bill.topic.details[i].total); 
+				   }
+			   if(bill.topic.details[i].regionname == "India"){
+					  india =india+ parseFloat(bill.topic.details[i].total); 
+				   }
+			   if(bill.topic.details[i].regionname == "Australia"){
+					  aus =aus+ parseFloat(bill.topic.details[i].total); 
+				   }
+			   var total_Amount = us+china+india+aus;
+			   $("#bill_gen tbody").append('<tr><td class="center">'+bill.topic.details[i].BillId+'</td><td class="center">'+bill.topic.details[i].regionid+'</td><td class="center">'+bill.topic.details[i].regionname+'</td><td class="center">$'+bill.topic.details[i].tariff+'</td><td class="center">'+bill.topic.details[i].time+'</td><td class="center">'+bill.topic.details[i].InstanceName+'</td><td class="center">$'+bill.topic.details[i].total+'</td></tr>');
+		   }
+		 	
+			   $("#bill_gen1 tbody").append('<tr><td class="center">'+"US"+'</td><td class="center">$'+us+'</td></tr><tr><td class="center">'+"China"+'</td><td class="center">$'+china+'</td></tr><tr><td class="center">'+"India"+'</td><td class="center">$'+india+'</td></tr><tr><td class="center">'+"Australia"+'</td><td>$'+aus+'</td><tr><td>Grand Total</td><td>$'+total_Amount+'</td></tr>');   
+		   
+		   loading_datatable();
+		   },
+		   type:'POST'
+		   });
 }
 
 //List Project
