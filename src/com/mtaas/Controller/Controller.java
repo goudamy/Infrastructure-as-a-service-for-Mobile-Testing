@@ -202,6 +202,7 @@ public class Controller extends HttpServlet {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				if(action.equals("phone_list")) response.setContentType("application/json");
 				out.println(result);				
 			}
 		}

@@ -429,9 +429,10 @@ function list_remote(){
 					   },
 					   success:function(data1) {
 						   if(data1.trim() === "Running"){
-						   $("#list_emulator tbody").append('<tr><td>'+jk+'</td><td class="center">'+""+'</td><td class="center">1</td><td class="center">512MB</td><td class="center">Android 4.4</td><td class="center"><a href="#" onclick="start_stp_emu(\''+jk+'\',this,1)"><span class="label label-success">Running</span></a></td><td class="center"><a class="btn btn-danger" href="javascript:del_remote(\''+jk+'\')"><i class="halflings-icon white trash"></i> </a></td></tr></tr>');
+							   //<td class="center">'+""+'</td>
+						   $("#list_emulator tbody").append('<tr><td>'+jk+'</td><td class="center">1</td><td class="center">512MB</td><td class="center">Android 4.4</td><td class="center"><a href="#" onclick="start_stp_emu(\''+jk+'\',this,1)"><span class="label label-success">Running</span></a></td><td class="center"><a class="btn btn-danger" href="javascript:del_remote(\''+jk+'\')"><i class="halflings-icon white trash"></i> </a></td></tr></tr>');
 						   } else {
-							   $("#list_emulator tbody").append('<tr><td>'+jk+'</td><td class="center">'+""+'</td><td class="center">1</td><td class="center">512MB</td><td class="center">Android 4.4</td><td class="center"><a href="#" onclick="start_stp_emu(\''+jk+'\',this,0)"><span class="label">Shutdown</span></a></td><td class="center"><a class="btn btn-danger" href="javascript:del_remote(\''+jk+'\')"><i class="halflings-icon white trash"></i> </a></td></tr></tr>');
+							   $("#list_emulator tbody").append('<tr><td>'+jk+'</td><td class="center">1</td><td class="center">512MB</td><td class="center">Android 4.4</td><td class="center"><a href="#" onclick="start_stp_emu(\''+jk+'\',this,0)"><span class="label">Shutdown</span></a></td><td class="center"><a class="btn btn-danger" href="javascript:del_remote(\''+jk+'\')"><i class="halflings-icon white trash"></i> </a></td></tr></tr>');
 						   }
 						   },
 					   type:'POST'
@@ -444,6 +445,58 @@ function list_remote(){
 		   complete:function(){setTimeout(function(){t.close(); },2000);},
 		   type:'POST'
 		   });
+	
+	$.ajax({
+		 	url: 'data',
+		 	dataType: 'json',
+		   data: {
+		      type: 'instance',
+		      action: 'phone_list',
+		      mobileHub_name: 'MobileHub1'
+		   },
+		   error: function() {
+		      console.log("Error in Phone listing.")
+		      t.close();
+		   },
+		   success:function(data) {
+			   var mhub = data;
+			   for(i=0; i<mhub.topic.details.length;i++){
+				   if(mhub.topic.details[i].status === "READY"){
+					   $("#list_pmobile tbody").append('<tr><td>'+mhub.topic.details[i].dID+'</td><td class="center">'+mhub.topic.details[i].os+'</td><td class="center">'+mhub.topic.details[i].version+'</td><td class="center">'+mhub.topic.details[i].cpu+'</td><td class="center"><span class="label label-success">'+mhub.topic.details[i].status+'</span></td><td class="center"><a class="btn btn-warning" href="javascript:physical_reboot(\''+mhub.topic.details[i].dID+'\')"><i alt="Refresh" class="halflings-icon white refresh"></i> </a></td></tr></tr>');
+				   }else{
+					   $("#list_pmobile tbody").append('<tr><td>'+mhub.topic.details[i].dID+'</td><td class="center">'+mhub.topic.details[i].os+'</td><td class="center">'+mhub.topic.details[i].version+'</td><td class="center">'+mhub.topic.details[i].cpu+'</td><td class="center"><span class="label">'+mhub.topic.details[i].status+'</span></td><td class="center"><a class="btn btn-warning" href="javascript:physical_reboot(\''+mhub.topic.details[i].dID+'\')"><i alt="Refresh" class="halflings-icon white refresh"></i> </a></td></tr></tr>');   
+				   }
+			   }
+			   
+		   },
+		   complete:function(){},
+		   type:'POST'
+	});
+	
+	
+}
+
+//Reboot physcial mobile
+function physical_reboot(serial){
+	
+	$.ajax({
+	 	url: 'data',
+	   data: {
+	      type: 'instance',
+	      action: 'phone_reboot',
+	      device_id: serial,
+	      mobileHub_name: 'MobileHub1'
+	   },
+	   error: function() {
+	      console.log("Error in Phone reboot.")
+	      t.close();
+	   },
+	   success:function(data) {
+	   },
+	   complete:function(){},
+	   type:'POST'
+});
+
 	
 }
 
