@@ -374,7 +374,7 @@ public class InstanceHandler {
 			e.printStackTrace();
 		}
 
-		if(action.equals("em_list"))
+		if((action.equals("em_list")) || (action.equals("em_checkStatus")))
 			respStr =  getRespString(httpResponse);
 		else
 			respStr = httpResponse.getStatusLine().toString();
@@ -398,28 +398,31 @@ public class InstanceHandler {
 		if(action.equals("phone_list"))
 		{
 			System.out.println("Listing phones");
-			url = "http://" + hostIp + "/action=phone.py?action=list";
+			url = "http://" + hostIp + "/phone.py?action=list";
 		}
 		else if(action.equals("phone_reboot"))
 		{
 			System.out.println("Checking phone status");
-			url = "http://" + hostIp + "action=phone.py?action=reboot&dID=" + deviceId;
+			url = "http://" + hostIp + "/phone.py?action=reboot&dID=" + deviceId;
 		}
 		else if(action.equals("phone_getStatus"))
 		{
 			System.out.println("Checking phone status");
-			url = "http://" + hostIp + "action=phone.py?action=getStatus&dID=" + deviceId;
+			url = "http://" + hostIp + "/phone.py?action=getStatus&dID=" + deviceId;
 		}
 
 		try {
 			HttpGet request = new HttpGet(url);
 			httpResponse = httpClient.execute(request);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		if(action.equals("phone_list"))
+		{
 			respStr =  getRespString(httpResponse);
+		}
 		else
 			respStr = httpResponse.getStatusLine().toString();
 		return respStr;
@@ -447,5 +450,7 @@ public class InstanceHandler {
 
 		return str;
 	}
+	
+	
 
 }
