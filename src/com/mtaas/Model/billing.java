@@ -365,9 +365,10 @@ public class billing {
 			JSONObject obj;
 			try {
 				obj = (JSONObject) parser.parse(str);
-
+			
 				JSONObject tenantUsage = (JSONObject) obj.get("tenant_usage");
-
+				if (tenantUsage.toString().equals("{}")){
+				}else{
 				JSONArray serverArray = (JSONArray) tenantUsage
 						.get("server_usages");
 
@@ -384,6 +385,7 @@ public class billing {
 
 					}
 
+				}
 				}
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
