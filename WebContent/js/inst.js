@@ -22,6 +22,31 @@ function lnch_inst() {
                 label: 'Launch',
                 cssClass: 'btn-primary',
                 action: function(dialog) {
+                	
+                	if($("#flavor").val().trim() === "VMEmulator"){
+                		 $.ajax({
+      					   url: 'data',
+      					   data: {
+      					      type: 'instance',
+      					      action: 'em_create',
+      					      name: $("#instanceName").val(),
+      					      mobileHub_name: 'MobileHub1'
+      					   },
+      					   async:   false,
+      					   error: function() {
+      					      console.log("Error in Emulator Create.")
+      					      t.close();
+      					   },
+      					   success:function(data1){},
+      					   complete:function(){
+      						 setTimeout(function(){t.close(); },2000);
+              			   setTimeout(function(){dialog.close(); },2000);
+              			   list_remote();
+      					   },
+      					   type:'POST'
+                		 });
+                	}
+                	
                 	if($("#instanceName").val().trim() === "" || $("#count").val() === ""){
                 		try{BootstrapDialog.show({
                 			type:BootstrapDialog.TYPE_WARNING,
@@ -35,13 +60,14 @@ function lnch_inst() {
                 	var instFlavor = $("#flavor").val();
                 	var imgName = $("#imageName").val();
                 	var types = ["m1.nano","m1.micro","m1.tiny","m1.small"];
+                	var zone = $("#selectzone").val();
                 	$.each(types, function(index, type){
 	                	if(instFlavor === type.toString()){
 	                		
 	                		switch(index){
 	                			case 0: instFlavor = 42; break;
 	                			case 1: instFlavor = 84; break;
-	                			case 2: instFlavor = "74c09149-84d7-4155-9728-20bec99c5f86"; break;
+	                			case 2: instFlavor = 1; break;
 	                			case 3: instFlavor = 2; break;
 	                		}
 	                	}
@@ -56,14 +82,15 @@ function lnch_inst() {
                 		      count: instCount,
                 		      flavor: instFlavor,
                 		      instanceName: instName,
+                		      regionName: zone,
                 		      imageName: encodeURI(imgName)
                 		   },
                 		   error: function() {
                 		      console.log("Error in Launch Instance.")
                 		   },
                 		   success: function(data) {
-                			   t.close();
-                			   dialog.close();
+                			   setTimeout(function(){t.close(); },2000);
+                			   setTimeout(function(){dialog.close(); },2000);
                 		      list_inst();
                 		      
                 		   },
@@ -131,7 +158,7 @@ function add_hub(){
             	                		      console.log("Error in Add hub.")
             	                		   },
             	                		   success: function(data) {
-            	                			   t.close();
+            	                			   setTimeout(function(){t.close(); },2000);
             	                		      list_inst();
             	                		      
             	                		   },
@@ -151,7 +178,7 @@ function add_hub(){
 
 
 //Launch Instance
-function delete_inst(instName) {
+function delete_inst(instName,hostip) {
 	try{
 		try{t.open();}catch(e){console.log(e)}
 		
@@ -160,6 +187,7 @@ function delete_inst(instName) {
                 		   data: {
                 		      type: 'instance',
                 		      action: 'delete',
+                		      host:encodeURI(hostip),
                 		      instanceName: instName
                 		   },
                 		   error: function() {
@@ -169,7 +197,7 @@ function delete_inst(instName) {
                 			   try{t.open();}catch(e){console.log(e)}
                 		   },
                 		   success: function(data) {
-                			   t.close();
+                			   setTimeout(function(){t.close(); },2000);
                 		      list_inst();
                 		      
                 		   },
@@ -325,7 +353,8 @@ function crt_proj(){
 					type:BootstrapDialog.TYPE_WARNING,
 			        title: 'Warning',
 			        message: 'Please activate the newly created project.  Project Name: '+o
-			    });}catch(e){console.log("Mobile Proj Name")}
+			    });}catch(e){console.log("Mobile Proj Create")}
+			    
 			   },
 		   type:'POST'
 		   });
@@ -348,9 +377,10 @@ function del_proj(prj){
 		      t.close();
 		   },
 		   success:function() {
-			   setTimeout(function(){t.close();},2000);
-			   list_proj();
+			   setTimeout(function(){t.close(); },2000);
+			   
 		   },
+		   complete: function(){list_proj();},
 		   type:'POST'
 		   });
 }
@@ -361,8 +391,155 @@ function del_proj(prj){
 function list_remote(){
 	
 	$("#content").load("./html/list_remote.html");
+	try{t.open();}catch(e){console.log(e)}
+	$.ajax({
+		   url: 'data',
+		   data: {
+		      type: 'instance',
+		      action: 'em_list',
+		      mobileHub_name: 'MobileHub1'
+		   },
+		   error: function() {
+		      console.log("Error in Emulator listing.")
+		      t.close();
+		   },
+		   success:function(data) {
+			   var i = data.trim();
+			   var n = i.substring(1, i.length-1);
+			   var m = n.split(",");
+			   var jk = "";
+			   for(j=0;j<m.length;j++){
+				   
+				   jk = m[j].trim().substring(1,m[j].trim().toString().length-1);
+				   $.ajax({
+					   url: 'data',
+					   data: {
+					      type: 'instance',
+					      action: 'em_checkStatus',
+					      name: jk,
+					      mobileHub_name: 'MobileHub1'
+					   },
+					   async:   false,
+					   error: function() {
+					      console.log("Error in Emulator Check status.")
+					      t.close();
+					   },
+					   success:function(data1) {
+						   if(data1.trim() === "Running"){
+						   $("#list_emulator tbody").append('<tr><td>'+jk+'</td><td class="center">'+""+'</td><td class="center">1</td><td class="center">512MB</td><td class="center">Android 4.4</td><td class="center"><a href="#" onclick="start_stp_emu(\''+jk+'\',this,1)"><span class="label label-success">Running</span></a></td><td class="center"><a class="btn btn-danger" href="javascript:del_remote(\''+jk+'\')"><i class="halflings-icon white trash"></i> </a></td></tr></tr>');
+						   } else {
+							   $("#list_emulator tbody").append('<tr><td>'+jk+'</td><td class="center">'+""+'</td><td class="center">1</td><td class="center">512MB</td><td class="center">Android 4.4</td><td class="center"><a href="#" onclick="start_stp_emu(\''+jk+'\',this,0)"><span class="label">Shutdown</span></a></td><td class="center"><a class="btn btn-danger" href="javascript:del_remote(\''+jk+'\')"><i class="halflings-icon white trash"></i> </a></td></tr></tr>');
+						   }
+						   },
+					   type:'POST'
+				   });
+				   
+				   
+			   }
+			   
+		   },
+		   complete:function(){setTimeout(function(){t.close(); },2000);},
+		   type:'POST'
+		   });
 	
 }
+
+//Start_stop Remote
+function start_stp_emu(val,obj,i){
+	if(i === 1){
+		//Stop emulator
+		try{t.open();}catch(e){console.log(e)}
+		$.ajax({
+			   url: 'data',
+			   data: {
+			      type: 'instance',
+			      action: 'em_stop',
+			      name: val,
+			      mobileHub_name: 'MobileHub1'
+			    	  
+			   },
+			   error: function() {
+			      console.log("Error in Emulator Stop.")
+			      t.close();
+			   },
+			   success:function(data) {
+				   
+				   setTimeout(function(){t.close(); },2000);
+				   
+			   },
+			   complete:function(){setTimeout(function(){t.close(); },2000);
+			   $(obj).parent().find("a").attr("onclick", "start_stp_emu('"+val+"',this,0)");
+			   $(obj).find("span").html("Shutdown");
+			   $(obj).find("span").toggleClass( "label-success" );
+			   },
+			   type:'POST'
+			   });
+		
+		
+	} else {
+		try{t.open();}catch(e){console.log(e)}
+		$.ajax({
+			   url: 'data',
+			   data: {
+			      type: 'instance',
+			      action: 'em_start',
+			      name: val,
+			      mobileHub_name: 'MobileHub1'
+			    	  
+			   },
+			   error: function() {
+			      console.log("Error in Emulator Start.")
+			      t.close();
+			   },
+			   success:function(data) {
+				   
+				   setTimeout(function(){t.close(); },2000);
+				   
+			   },
+			   complete:function(){setTimeout(function(){t.close(); },2000);
+			   $(obj).parent().find("a").attr("onclick", "start_stp_emu('"+val+"',this,1)");
+			   $(obj).parent().find("span").html("Running");
+			   $(obj).parent().find("span").toggleClass( "label-success" );
+			   },
+			   type:'POST'
+			   });
+	}
+	
+	
+	
+}
+
+//Delete Remote
+
+function del_remote(vmname){
+	
+	try{t.open();}catch(e){console.log(e)}
+	$.ajax({
+		   url: 'data',
+		   data: {
+		      type: 'instance',
+		      action: 'em_delete',
+		      name: vmname,
+		      mobileHub_name: 'MobileHub1'
+		    	  
+		   },
+		   error: function() {
+		      console.log("Error in Emulator delete.")
+		      t.close();
+		   },
+		   success:function(data) {
+			   
+			   setTimeout(function(){t.close(); },2000);
+			   
+		   },
+		   complete:function(){setTimeout(function(){t.close(); },2000); list_remote();},
+		   type:'POST'
+		   });
+	
+	
+}
+
+
 
 //Billing Tariff
 
@@ -440,7 +617,8 @@ function list_proj() {
 		      console.log("Error in Project list.")
 		      t.close();
 		   },
-		   success:function(data) {t.close(); 
+		   success:function(data) {
+			   t.close(); 
 		   var z  = data.split('#@@#');
 		   $("#list_projtable tbody").empty();
 		   for(i=0; i<z.length;i++){

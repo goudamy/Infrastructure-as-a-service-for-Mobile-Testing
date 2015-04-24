@@ -5,12 +5,25 @@
 	</ul>
 	<div class="tab-content">
 	    <div id="Details" class="tab-pane fade in active">
+	    <div class="row-fluid">
+	    <div class="control-group" name="env1">
+								<label class="control-label" for="selectalgo"><h4>Resource Allocation Algorithms</h4></label>
+								<div class="controls">
+								  <select id="selectalgo" data-rel="chosen">
+									<option>None</option>
+									<option>Ant Colony</option>
+									<option>Token Ring</option>
+								  </select>
+								</div>
+					</div>
+	    
+	    </div>
 	        <div class="row-fluid">
 	        	<div class="span6" onTablet="span6" onDesktop="span6">
 	        		 <div class="control-group" name="env1">
-								<label class="control-label" for="selectError"><h4>Availability Zones</h4></label>
+								<label class="control-label" for="selectzone"><h4>Availability Zones</h4></label>
 								<div class="controls">
-								  <select id="selectError" data-rel="chosen">
+								  <select id="selectzone" data-rel="chosen">
 									<option>US</option>
 									<option>China</option>
 									<option>India</option>
@@ -32,6 +45,7 @@
 									<option>m1.micro</option>
 									<option>m1.tiny</option>
 									<option>m1.small</option>
+									<option>VMEmulator</option>
 								  </select>
 								</div>
 					</div>

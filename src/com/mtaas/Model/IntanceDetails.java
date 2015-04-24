@@ -203,7 +203,6 @@ public class IntanceDetails {
 					
 						ps.execute();
 						ps.close();
-						System.out.println("Inserted");
 
 					} catch (Exception e) {
 						//System.out.println(e);
@@ -274,6 +273,7 @@ public class IntanceDetails {
 	public static void Instance(String hostip) throws IOException{
 	
 		deleting(hostip);
+
 		
 		String entity = "{" + "\"auth\": {" + "\"tenantName\": \"admin\","
 				+ "\"passwordCredentials\": {" + "\"username\": \"admin\","
@@ -286,6 +286,7 @@ public class IntanceDetails {
 		String tokenId = "";
 		String tenantId = "";
 		System.out.println(resp.toString());
+		System.out.println(hostip);
 		if(resp != null){
 		Hashtable tokTable = getToken(resp);
 		tokenId = (String) tokTable.get("tokenId");

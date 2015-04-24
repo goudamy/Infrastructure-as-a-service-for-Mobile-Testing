@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,12 +38,18 @@ public class list extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@SuppressWarnings("static-access")
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		Dataproperties data = new Dataproperties();
-		String hostIp = data.ret_data("stack.hostIp");
-		IntanceDetails inst = new IntanceDetails();				
-		inst.Instance(hostIp);
+		IntanceDetails inst = new IntanceDetails();		
+		ArrayList<String> hostIps = InstanceHandler.getAllHostIps();
+		Iterator<String> itr = hostIps.iterator();
+		while(itr.hasNext())
+		{
+			String hostIpStr = (String)itr.next();
+			inst.Instance(hostIpStr);
+		}
 		String id;
 		String host;
 		String created;
@@ -98,10 +106,10 @@ public class list extends HttpServlet {
 				name = rs.getString("name");
 				*/
 				if(flag == 0){
-				returnData.append("{\"id\":\""+id+"\",\"created\":\""+created+"\",\"image\":\""+image+"\",\"status\":\""+status+"\",\"zone\":\""+zone+"\",\"name\":\""+name+"\",\"flavor\":\""+flavor+"\"}");
+				returnData.append("{\"id\":\""+id+"\",\"created\":\""+created+"\",\"image\":\""+image+"\",\"status\":\""+status+"\",\"zone\":\""+zone+"\",\"name\":\""+name+"\",\"flavor\":\""+flavor+"\",\"host\":\""+host+"\"}");
 				flag = 1;
 				}else{
-					returnData.append(",{\"id\":\""+id+"\",\"created\":\""+created+"\",\"image\":\""+image+"\",\"status\":\""+status+"\",\"zone\":\""+zone+"\",\"name\":\""+name+"\",\"flavor\":\""+flavor+"\"}");
+					returnData.append(",{\"id\":\""+id+"\",\"created\":\""+created+"\",\"image\":\""+image+"\",\"status\":\""+status+"\",\"zone\":\""+zone+"\",\"name\":\""+name+"\",\"flavor\":\""+flavor+"\",\"host\":\""+host+"\"}");
 				}
 			}
 			returnData.append("]}}");

@@ -30,7 +30,7 @@
 			var tutorial = JSONObj.topic.details;
 			var i = 0;
 			var power_state;
-			var HTML = "<thead><th>InstanceName</th><th>Image-Id</th><th>IP Address</th><th>Flavor-Id</th><th>KeyPair</th><th>Status</th><th>Availability Zone</th><th>Task</th><th>Power State</th><th>Creation Time</th><th>Actions</th></thead><tbody>";
+			var HTML = "<thead><th>InstanceName</th><th>Image-Id</th><th>IP Address</th><th>Flavor-Id</th><th>KeyPair</th><th>Status</th><th>Availability Zone</th><th>Host IP</th><th>Task</th><th>Power State</th><th>Creation Time</th><th>Actions</th></thead><tbody>";
 			while (i < tutorial.length) {
 				row = content.insertRow(i + 1);
 				//cell = row.insertCell(0);			
@@ -54,12 +54,14 @@
 						+ tutorial[i].status
 						+ "</span></td><td>"
 						+ tutorial[i].zone
+						+ "</span></td><td>"
+						+ tutorial[i].host
 						+ "</td><td>None</td><td>"
 						+ power_state
 						+ "</td><td>"
 						+ tutorial[i].created
 						+ "</td>"
-						+ "<td><a href='javascript:delete_inst(\""+tutorial[i].name+"\")' class=\"btn btn-danger\"><i class=\"halflings-icon white trash\"></i></a></td></tr>";
+						+ "<td><a href='javascript:delete_inst(\""+tutorial[i].name+"\",\""+tutorial[i].host+"\")' class=\"btn btn-danger\"><i class=\"halflings-icon white trash\"></i></a></td></tr>";
 				i++;
 
 			}
@@ -68,7 +70,7 @@
 			document.getElementById("tableDetail").innerHTML = HTML;
 			t.close();
 		}
-		} catch(e) {t.close()}
+		} catch(e) {t.close()}finally{t.close()}
 	}
 </script>
 </head>
