@@ -482,18 +482,18 @@ public class InstanceHandler {
 				returnData.append("\"details\":[");
 				int flag = 0;
 				while (rs.next()) {
-					dID = rs.getString("dID");
-					os = rs.getString("OS");
-					version = rs.getString("version");
-					model = rs.getString("model");
-					brand = rs.getString("brand");
-					operator = rs.getString("operator");
-					network = rs.getString("network");		
-					cpu = rs.getString("cpu");
-					country = rs.getString("country");
-					language = rs.getString("language");
-					ip = rs.getString("ip");	
-					status = rs.getString("status");	
+					dID = rs.getString("dID").trim();
+					os = rs.getString("OS").trim();
+					version = rs.getString("version").trim();
+					model = rs.getString("model").trim();
+					brand = rs.getString("brand").trim();
+					operator = rs.getString("operator").trim();
+					network = rs.getString("network").trim();		
+					cpu = rs.getString("cpu").trim();
+					country = rs.getString("country").trim();
+					language = rs.getString("language").trim();
+					ip = rs.getString("ip").trim();	
+					status = rs.getString("status").trim();	
 
 					if(flag == 0){
 						returnData.append("{\"dID\":\""+dID+"\",\"os\":\""+os+"\",\"version\":\""+version+"\",\"model\":\""+model+"\",\"brand\":\""+brand+"\",\"network\":\""+network+"\",\"cpu\":\""+cpu+"\",\"country\":\""+country+"\",\"language\":\""+language+"\",\"ip\":\""+ip+"\",\"status\":\""+status+"\"}");
