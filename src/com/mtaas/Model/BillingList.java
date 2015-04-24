@@ -74,17 +74,19 @@ public class BillingList extends HttpServlet {
 			returnData.append("\"details\":[");
 			int flag = 0;
 			while (rs.next()) {
-				id = rs.getInt("regionId");							
-				name = rs.getString("regionName");
+				
+				int billId = rs.getInt("BillID");
+				id = rs.getInt("RegionId");							
+				name = rs.getString("Region");
 				double tariff = rs.getDouble("tariff");
 				float time = rs.getFloat("totalTime");
 				String instName = rs.getString("instanceName");
 				double total = rs.getDouble("total");
 				if(flag == 0){
-				returnData.append("{\"regionid\":\""+id+"\",\"regionname\":\""+name+"\",\"tariff\":\""+tariff+"\",\"time\":\""+time+"\",\"InstanceName\":\""+instName+"\",\"total\":\""+total+"\"}");
+				returnData.append("{\"BillId\":\""+billId+"\",\"regionid\":\""+id+"\",\"regionname\":\""+name+"\",\"tariff\":\""+tariff+"\",\"time\":\""+time+"\",\"InstanceName\":\""+instName+"\",\"total\":\""+total+"\"}");
 				flag = 1;
 				}else{
-					returnData.append(",{\"regionid\":\""+id+"\",\"regionname\":\""+name+"\",\"tariff\":\""+tariff+"\",\"time\":\""+time+"\",\"InstanceName\":\""+instName+"\",\"total\":\""+total+"\"}");
+					returnData.append(",{\"BillId\":\""+billId+"\",\"regionid\":\""+id+"\",\"regionname\":\""+name+"\",\"tariff\":\""+tariff+"\",\"time\":\""+time+"\",\"InstanceName\":\""+instName+"\",\"total\":\""+total+"\"}");
 				}
 			}
 			returnData.append("]}}");
@@ -116,7 +118,7 @@ public class BillingList extends HttpServlet {
 public String generateJSONData() {
 
 	
-//	System.out.println(returnData);
+	System.out.println(returnData);
 	return returnData.toString();
 
 }
