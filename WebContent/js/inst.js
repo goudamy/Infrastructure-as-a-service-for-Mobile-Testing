@@ -24,6 +24,8 @@ function lnch_inst() {
                 action: function(dialog) {
                 	
                 	if($("#flavor").val().trim() === "VMEmulator"){
+                		try{t.open();}catch(e){console.log(e)}
+                		setTimeout(function(){dialog.close(); },2000);
                 		 $.ajax({
       					   url: 'data',
       					   data: {
@@ -40,11 +42,13 @@ function lnch_inst() {
       					   success:function(data1){},
       					   complete:function(){
       						 setTimeout(function(){t.close(); },2000);
-              			   setTimeout(function(){dialog.close(); },2000);
-              			   list_remote();
+              			   
+      						 list_remote();
+              			   
       					   },
       					   type:'POST'
                 		 });
+                		 return;
                 	}
                 	
                 	if($("#instanceName").val().trim() === "" || $("#count").val() === ""){
@@ -73,7 +77,7 @@ function lnch_inst() {
 	                	}
                 	});
                 	try{t.open();}catch(e){console.log(e)}
-
+                	setTimeout(function(){dialog.close(); },2000);
                 	$.ajax({
                 		   url: 'data',
                 		   data: {
@@ -90,7 +94,6 @@ function lnch_inst() {
                 		   },
                 		   success: function(data) {
                 			   setTimeout(function(){t.close(); },2000);
-                			   setTimeout(function(){dialog.close(); },2000);
                 		      list_inst();
                 		      
                 		   },
