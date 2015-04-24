@@ -34,8 +34,9 @@ public class BillingList extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String doGet() throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		HttpServletResponse response = null;
 		Dataproperties data = new Dataproperties();
 		int id;
 		String created;
@@ -109,15 +110,12 @@ public class BillingList extends HttpServlet {
 			}
 		}
 
-		response.setContentType("text/html");
-		response.getWriter().write(generateJSONData());
-		
+		return generateJSONData();
 
 	}
 	
 public String generateJSONData() {
 
-	
 	System.out.println(returnData);
 	return returnData.toString();
 
