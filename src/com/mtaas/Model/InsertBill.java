@@ -12,7 +12,8 @@ import com.mtaas.Utilities.Dataproperties;
 public class InsertBill {
 
 	public void getDetails(String ip, String tenant_Id, String instanceName,
-			float totalTime, String flavorName) throws IOException {
+			float totalTime, String flavorName, String regionName, int regionId)
+			throws IOException {
 		// initializing float array
 		double arr[] = new double[] { 0.25, 0.30, 0.35, 0.40, 0.40, 0.50, 0.05,
 				0.10, 0.15, 0.20, 0.25, 0.30, 0.20, 0.25, 0.30, 0.35 };
@@ -20,8 +21,7 @@ public class InsertBill {
 		double tariff;
 		int billId;
 		String region;
-		int regionId = 2;
-		String regionName = "US";
+
 		float total;
 		System.out.println(totalTime);
 		Dataproperties data = new Dataproperties();
@@ -31,83 +31,60 @@ public class InsertBill {
 		String password = data.ret_data("mysql1.password");
 		Connection conn = null;
 
+		if (regionName.equals("US")) {
+			if (flavorName.equals("m1.nano")) {
+				tariffNumber = 0;
+			} else if (flavorName.equals("m1.micro")) {
+				tariffNumber = 1;
+			} else if (flavorName.equals("m1.tiny")) {
+				tariffNumber = 2;
+			} else if (flavorName.equals("m1.small")) {
+				tariffNumber = 3;
+			} else if (flavorName.equals("physical")) {
+				tariffNumber = 4;
+				regionName = "US";
+				System.out.println("here");
+			}
+
+		} else if (regionName.equals("China")) {
+			if (flavorName.equals("m1.nano")) {
+				tariffNumber = 6;
+			} else if (flavorName.equals("m1.micro")) {
+				tariffNumber = 7;
+			} else if (flavorName.equals("m1.tiny")) {
+				tariffNumber = 8;
+			} else if (flavorName.equals("m1.small")) {
+				tariffNumber = 9;
+			}
+
+		} else if (regionName.equals("India")) {
+
+			if (flavorName.equals("m1.nano")) {
+				tariffNumber = 10;
+			} else if (flavorName.equals("m1.micro")) {
+				tariffNumber = 11;
+			} else if (flavorName.equals("m1.tiny")) {
+				tariffNumber = 12;
+			} else if (flavorName.equals("m1.small")) {
+				tariffNumber = 13;
+			}
+
+		} else if (regionName.equals("Australia")) {
+			if (flavorName.equals("m1.nano")) {
+				tariffNumber = 14;
+			} else if (flavorName.equals("m1.micro")) {
+				tariffNumber = 15;
+			} else if (flavorName.equals("m1.tiny")) {
+				tariffNumber = 16;
+			} else if (flavorName.equals("m1.small")) {
+				tariffNumber = 17;
+			}
+		}
 		try {
-
 			Class.forName(driver).newInstance();
-
 			conn = (Connection) DriverManager.getConnection(url, userName,
 					password);
-
-			// System.out.println("Connection created");
-
-			PreparedStatement pst = conn
-					.prepareStatement("SELECT * FROM region where ip =?");
-
-			pst.setString(1, ip);
-			ResultSet rs1 = pst.executeQuery();
-
-			if (rs1.next()) {
-				regionId = rs1.getInt("regionID");
-				regionName = rs1.getString("regionName");
-
-			}
-			pst.close();
-
-			if (regionName.equals("US")) {
-				if (flavorName == "m1.nano") {
-					tariffNumber = 0;
-				} else if (flavorName == "m1.micro") {
-					tariffNumber = 1;
-				} else if (flavorName == "m1.tiny") {
-					tariffNumber = 2;
-				} else if (flavorName == "m1.small") {
-					tariffNumber = 3;
-				}else if(flavorName == "physical"){
-					tariffNumber = 4;
-					regionName="US";
-					System.out.println("here");
-				}
-					
-				
-				
-
-			} else if (regionName.equals("China")) {
-				if (flavorName == "m1.nano") {
-					tariffNumber = 6;
-				} else if (flavorName == "m1.micro") {
-					tariffNumber = 7;
-				} else if (flavorName == "m1.tiny") {
-					tariffNumber = 8;
-				} else if (flavorName == "m1.small") {
-					tariffNumber = 9;
-				}
-
-			} else if (regionName.equals("India")) {
-
-				if (flavorName == "m1.nano") {
-					tariffNumber = 10;
-				} else if (flavorName == "m1.micro") {
-					tariffNumber = 11;
-				} else if (flavorName == "m1.tiny") {
-					tariffNumber = 12;
-				} else if (flavorName == "m1.small") {
-					tariffNumber = 13;
-				}
-
-			} else if (regionName.equals("Australia")) {
-				if (flavorName == "m1.nano") {
-					tariffNumber = 14;
-				} else if (flavorName == "m1.micro") {
-					tariffNumber = 15;
-				} else if (flavorName == "m1.tiny") {
-					tariffNumber = 16;
-				} else if (flavorName == "m1.small") {
-					tariffNumber = 17;
-				}
-			}
-				
-			
-
+		
 			tariff = arr[tariffNumber];
 			total = (float) (totalTime * tariff);
 			System.out.println("Values are = " + regionId + regionName
@@ -121,20 +98,23 @@ public class InsertBill {
 			if (rs2.next()) {
 
 				PreparedStatement ps2 = conn
-						.prepareStatement("update BillingDetails set tariff =?,TotalTimeUsed=?,Total=? where InstanceName=?");
-				ps2.setDouble(1, tariff);
-				ps2.setFloat(2, totalTime);
-				ps2.setFloat(3, total);
-				ps2.setString(4, instanceName);
+						.prepareStatement("update BillingDetails set RegionId=?,Region=?,tariff =?,totalTime=?,total=? where instanceName=?");
+
+				ps2.setInt(1, regionId);
+				ps2.setString(2, regionName);
+				ps2.setDouble(3, tariff);
+				ps2.setFloat(4, totalTime);
+				ps2.setFloat(5, total);
+				ps2.setString(6, instanceName);
 				ps2.executeUpdate();
 				ps2.close();
 				System.out.println("Updating");
 
 			} else {
 
-				System.out.println("Inserting");
+				
 				PreparedStatement ps = conn
-						.prepareStatement("insert into BillingDetails(RegionId,Region,TenantID,Tariff,TotalTimeUsed,InstanceName,Total) values (?,?,?,?,?,?,?)");
+						.prepareStatement("insert into BillingDetails(RegionId,Region,tenant_Id,tariff,totalTime,instanceName,total) values (?,?,?,?,?,?,?)");
 				ps.setInt(1, regionId);
 				ps.setString(2, regionName);
 				ps.setString(3, tenant_Id);

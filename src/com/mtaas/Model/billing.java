@@ -33,19 +33,84 @@ import org.json.simple.parser.ParseException;
 import com.mtaas.Utilities.Dataproperties;
 
 public class billing {
-
-	public void billingData(String hostIp) {
-		// TODO Auto-generated constructor stub
+	public static void Bill() {
 		try {
-
-			insert_deleteData(hostIp);
+			billingData();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	
+	public static void billingData() throws IOException {
+
+		Dataproperties data = new Dataproperties();
+		String url = data.ret_data("mysql1.connect");
+		String driver = data.ret_data("mysql1.driver");
+		String userName = data.ret_data("mysql1.userName");
+		String password = data.ret_data("mysql1.password");
+
+		Connection conn = null;
+
+		try {
+
+			try {
+				Class.forName(driver).newInstance();
+			} catch (InstantiationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IllegalAccessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			try {
+				conn = (Connection) DriverManager.getConnection(url, userName,
+						password);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			// System.out.println("Connection created");
+
+			PreparedStatement pst;
+			try {
+				pst = conn
+						.prepareStatement("SELECT ip,regionID,regionName FROM region");
+
+				ResultSet rs1 = pst.executeQuery();
+
+				while (rs1.next()) {
+
+					String ip = rs1.getString("ip");
+					int regionId = rs1.getInt("regionID");
+					String regionName = rs1.getString("regionName");
+					insert_deleteData(ip, regionName, regionId);
+
+				}
+				pst.close();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public static int data_diff(String dateStart, String dateStop) {
 		// HH converts hour in 24 hours format (0-23), day calculation
@@ -57,20 +122,21 @@ public class billing {
 		String diff1 = "";
 		long diffHours = 0;
 		try {
+
 			d1 = format.parse(dateStart);
 			d2 = format.parse(dateStop);
 
 			// in millisecon
-			long diff = d2.getTime() - d1.getTime();          
+			long diff = d2.getTime() - d1.getTime();
 			long diffSeconds = diff / 1000 % 60;
 			long diffMinutes = diff / (60 * 1000) % 60;
-			diffHours = diff / (60 * 60 * 1000)%60;
+			diffHours = diff / (60 * 60 * 1000) % 60;
 			long diffDays = diff / (24 * 60 * 60 * 1000);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return (int)diffHours;
+		return (int) diffHours;
 	}
 
 	public static String volume_based(String datediff, float vm_charge) {
@@ -82,14 +148,15 @@ public class billing {
 	}
 
 	// Goudamy Modification
-	public static void insert_deleteData(String ip) throws IOException {
-		//String ip = "52.11.10.120";
+	public static void insert_deleteData(String ip, String Region, int regionId)
+			throws IOException {
+		// String ip = "52.11.10.120";
 		String tenant_Id = "tenant-124";
 		Calendar calendar = Calendar.getInstance();
 		java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(calendar
 				.getTime().getTime());
 
-		System.out.println(currentTimestamp);
+		
 		Connection conn = null;
 
 		try {
@@ -139,11 +206,14 @@ public class billing {
 				temp = dateStop1.split("\\.");
 				System.out.println(temp[0]);
 				String dateStop = temp[0];
-				System.out.println("dtartdate"+dateStart);
+				System.out.println("dtartdate" + dateStart);
 				int time = data_diff(dateStart, dateStop);
 				String flavorName = "physical";
+				String Region1 = "US";
+				int RegionID1 = 1;
 				InsertBill ib = new InsertBill();
-				ib.getDetails(ip, tenant_Id, Pinst, time, flavorName);
+				ib.getDetails(ip, tenant_Id, Pinst, time, flavorName, Region1,
+						RegionID1);
 
 			}
 			pst.close();
@@ -194,19 +264,19 @@ public class billing {
 
 			PreparedStatement pst;
 			try {
-				pst = conn1.prepareStatement("SELECT * FROM instance_list");
-
+				pst = conn1
+						.prepareStatement("SELECT * FROM instance_list where host =?");
+				pst.setString(1, ip);
 				ResultSet rs1 = pst.executeQuery();
 				InsertBill ib = new InsertBill();
 				while (rs1.next()) {
 					String instanceName = rs1.getString("name");
 					String flavorName = rs1.getString("flavor");
 
-					System.out.println(instanceName);
-					float time = timeConsumed(instanceName);
-					ib.getDetails(ip, tenant_Id,
-
-					instanceName, time, flavorName);
+				
+					float time = timeConsumed(instanceName, ip);
+					ib.getDetails(ip, tenant_Id, instanceName, time,
+							flavorName, Region, regionId);
 					// Deleting values in the BillingDetails table
 					// ib.deleting(tenant_Id);
 
@@ -228,12 +298,12 @@ public class billing {
 
 	}
 
-	public static float timeConsumed(String instanceName) {
+	public static float timeConsumed(String instanceName, String hostip) {
 		float time = 0;
 		String entity = "{" + "\"auth\": {" + "\"tenantName\": \"admin\","
 				+ "\"passwordCredentials\": {" + "\"username\": \"admin\","
 				+ "\"password\": \"test1234\"" + "}}}";
-		String hostip = "52.11.10.120";
+
 		String url = "http://" + hostip;
 		String url1 = url + ":5000";
 		IntanceDetails inst = new IntanceDetails();
@@ -297,7 +367,7 @@ public class billing {
 					if (instanceName.equals(instance_name)) {
 						System.out.println(uptime);
 						hours = uptime / (3600);
-						System.out.println("days=" + hours);
+						
 
 					}
 

@@ -302,7 +302,7 @@ public class Controller extends HttpServlet {
 		
 		if(type.equals("billing")){			
 			billing bill = new billing();
-			bill.billingData(hostIp);
+			bill.Bill();
 			
 		}
 		

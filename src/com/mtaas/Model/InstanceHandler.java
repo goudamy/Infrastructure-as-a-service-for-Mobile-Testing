@@ -53,9 +53,7 @@ public class InstanceHandler {
 			pst.setString(1, hostIp);
 			ResultSet rs = pst.executeQuery();
 
-
-
-			while (rs.next()) {
+     		while (rs.next()) {
 				returnData = rs.getString(1);
 			}
 			pst.close();
