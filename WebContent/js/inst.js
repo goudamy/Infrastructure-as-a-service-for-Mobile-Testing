@@ -596,7 +596,7 @@ function bill_gen(){
 			   $("#bill_gen tbody").append('<tr><td class="center">'+bill.topic.details[i].BillId+'</td><td class="center">'+bill.topic.details[i].regionid+'</td><td class="center">'+bill.topic.details[i].regionname+'</td><td class="center">$'+bill.topic.details[i].tariff+'</td><td class="center">'+bill.topic.details[i].time+'</td><td class="center">'+bill.topic.details[i].InstanceName+'</td><td class="center">$'+bill.topic.details[i].total+'</td></tr>');
 		   }
 		 	
-			   $("#bill_gen1 tbody").append('<tr><td class="center">'+"US"+'</td><td class="center">$'+us+'</td></tr><tr><td class="center">'+"China"+'</td><td class="center">$'+china+'</td></tr><tr><td class="center">'+"India"+'</td><td class="center">$'+india+'</td></tr><tr><td class="center">'+"Australia"+'</td><td>$'+aus+'</td><tr><td>Grand Total</td><td>$'+total_Amount+'</td></tr>');   
+			   $("#bill_gen1 tbody").append('<tr><td class="center">'+"US"+'</td><td class="center">$'+us+'</td></tr><tr><td class="center">'+"China"+'</td><td class="center">$'+china+'</td></tr><tr><td class="center">'+"India"+'</td><td class="center">$'+india+'</td></tr><tr><td class="center">'+"Australia"+'</td><td>$'+aus+'</td><tr><td>Grand Total</td><td><span class=\"label label-success\">$'+total_Amount+'</td></span></tr>');   
 		   
 		   loading_datatable();
 		   },
