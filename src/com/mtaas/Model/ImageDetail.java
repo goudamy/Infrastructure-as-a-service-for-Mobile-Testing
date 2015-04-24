@@ -1,6 +1,7 @@
 package com.mtaas.Model;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.sql.*;
@@ -79,7 +80,7 @@ public class ImageDetail {
 
 	
 
-	public static Hashtable getDetails(HttpResponse httpResponse,String hostUrl) throws IOException {
+	public static Hashtable getDetails(HttpResponse httpResponse,String hostip, int cnt) throws IOException {
 
 		Dataproperties data = new Dataproperties();
 		String url = data.ret_data("mysql1.connect");
@@ -122,11 +123,16 @@ public class ImageDetail {
 
 						conn = (Connection) DriverManager
 								.getConnection(url,userName,password);
-
+						
+						if(cnt == 0){
+						PreparedStatement ps1 = ((java.sql.Connection) conn)
+								.prepareStatement("truncate table instance_image");
+						ps1.execute();
+						ps1.close();}
 						//System.out.println("Connection created");
 						PreparedStatement ps = ((java.sql.Connection) conn)
 								.prepareStatement("insert into instance_image(host,name,id,size,status) values (?,?,?,?,?)");
-						ps.setString(1, hostUrl);
+						ps.setString(1, hostip);
 						ps.setString(2, name);
 						ps.setString(3, id);
 						ps.setString(4, size);
@@ -206,26 +212,41 @@ public class ImageDetail {
 				+ "\"password\": \"test1234\"" + "}}}";
 
 		//String hostip ="52.11.10.120";
-        String url = "http://"+hostip;
-        String url1 = url+ ":5000";
-		HttpResponse resp = postValue(url1, "v2.0/tokens",
-				entity, null);
-
-		Hashtable tokTable = getToken(resp);
-		String tokenId = (String) tokTable.get("tokenId");
-		String tenantId = (String) tokTable.get("tenantId");
+		
+        
 
 		//System.out.println("tokenId : " + tokenId);
 		//System.out.println("tenantId : " + tenantId);
 
 		// 52.11.10.120:8774/v2/4b7fd0495b80452b96b8bb8e22224eb5/servers/detail?all_tenants=1
 
-		String hostUrl = url+":8774";
 		
-		String endPointUrl = "v2/" + tenantId + "/images/detail";
+		
+		try{
+		int cnt = 0;
 		// String endPointUrl = "v2/" + tenantId + "/servers";
-		resp = getTokenDetail(hostUrl, endPointUrl, tokenId);
-		getDetails(resp,hostip);
+		ArrayList<String> hostIps = InstanceHandler.getAllHostIps();
+		Iterator<String> itr = hostIps.iterator();
+		while(itr.hasNext())
+		{
+			String hostIpStr = (String)itr.next();
+			String url = "http://"+hostIpStr;
+	        String url1 = url+ ":5000";
+			HttpResponse resp = postValue(url1, "v2.0/tokens",
+					entity, null);
+
+			Hashtable tokTable = getToken(resp);
+			String tokenId = (String) tokTable.get("tokenId");
+			String tenantId = (String) tokTable.get("tenantId");
+			String hostUrl = url+":8774";
+			String endPointUrl = "v2/" + tenantId + "/images/detail";
+			resp = getTokenDetail(hostUrl, endPointUrl, tokenId);
+			getDetails(resp,hostIpStr,cnt);
+			cnt = cnt + 1;
+		}} catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		//printResponse(resp);
 
 	}

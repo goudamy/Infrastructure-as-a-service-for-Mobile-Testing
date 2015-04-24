@@ -99,6 +99,7 @@ public class Controller extends HttpServlet {
 			} 
 			
 			if(action.equals(DELETE)){
+				hostIp=(request.getParameter("host") != null) ? request.getParameter("host"):hostIp;
 				rst.deleteInstance(hostIp, tokenId, tenantId, instanceName);
 				out.println("success");
 				action = "list";
@@ -123,29 +124,14 @@ public class Controller extends HttpServlet {
 			if(action.equals("Image_list")){
 
 				ImageDetail image = new ImageDetail();
-
-				ArrayList<String> hostIps = InstanceHandler.getAllHostIps();
-				Iterator<String> itr = hostIps.iterator();
-				while(itr.hasNext())
-				{
-					String hostIpStr = (String)itr.next();
-					image.Image(hostIpStr);
-				}
-
-				action = "Flavor_list";
+				image.Image(hostIp);
 
 			}
 			if(action.equals("Flavor_list")){
 
 				FlavorDetail flavor = new FlavorDetail();
-
-				ArrayList<String> hostIps = InstanceHandler.getAllHostIps();
-				Iterator<String> itr = hostIps.iterator();
-				while(itr.hasNext())
-				{
-					String hostIpStr = (String)itr.next();
-					flavor.Flavor(hostIpStr);
-				}
+				flavor.Flavor(hostIp);
+				
 			}
 			
 			if(action.equals("count")){

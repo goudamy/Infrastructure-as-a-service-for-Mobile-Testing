@@ -168,9 +168,10 @@ public class IntanceDetails {
 						
 						
 						PreparedStatement pst = conn
-								.prepareStatement("SELECT * FROM instance_image where id =?");
+								.prepareStatement("SELECT * FROM instance_image where id =? and host = ?");
 				
-						pst.setString(1,image);						
+						pst.setString(1,image);		
+						pst.setString(2,url1);		
 						ResultSet rs1 = pst.executeQuery();					
 					
 						if(rs1.next()){								
@@ -179,17 +180,19 @@ public class IntanceDetails {
 						}
 						pst.close();
 						PreparedStatement pst1 = conn
-								.prepareStatement("SELECT * FROM instance_flavor where id =?");
+								.prepareStatement("SELECT * FROM instance_flavor where id =? and host = ?");
 					
 						pst1.setString(1,flavor);
+						pst1.setString(2,url1);
 						ResultSet rs2 = pst1.executeQuery();					
 					
 						if(rs2.next()){								
 							flavor = rs2.getString("name");     
 				    			
 						}
+						status = "Active";
 						pst1.close();
-						//System.out.println(flavor+name);
+//						System.out.println(flavor+url1);
 						PreparedStatement ps = ((java.sql.Connection) conn)
 								.prepareStatement("insert into instance_list(host,name,image,ip,flavor,status,zone,created) values (?,?,?,?,?,?,?,?)");
 						ps.setString(1, url1);
