@@ -382,7 +382,7 @@ public class InstanceHandler {
 
 	}
 	
-	public static String handlePhone(String action, String hostIp, String deviceId)
+	public static String handlePhone(String action, String hostIp, String deviceId) throws IOException
 	{
 		/*http://localhost/action=phone.py?action=list
 		http://localhost/action=phone.py?action=reboot&dID=<dID>
@@ -421,7 +421,7 @@ public class InstanceHandler {
 
 		if(action.equals("phone_list"))
 		{
-			respStr =  getRespString(httpResponse);
+			respStr =  listPhones();
 		}
 		else
 			respStr = httpResponse.getStatusLine().toString();
@@ -451,6 +451,76 @@ public class InstanceHandler {
 		return str;
 	}
 	
-	
+		public static String listPhones() throws IOException {
+
+			Dataproperties data = new Dataproperties();
+			String url = data.ret_data("mysql1.connect");
+			String driver = data.ret_data("mysql1.driver");	
+			String userName = data.ret_data("mysql1.userName");
+			String password = data.ret_data("mysql1.password");
+
+			String dID, os, version, model, brand, operator, network, cpu, country, language, ip;
+			StringBuffer returnData = null;
+
+			Connection conn = null;
+
+			try {
+				Class.forName(driver).newInstance();
+
+				conn = (Connection) DriverManager
+						.getConnection(url,userName,password);
+
+				System.out.println("Connection created");
+
+				conn = (Connection) DriverManager.getConnection(url,
+						userName, password);
+				PreparedStatement pst = conn
+						.prepareStatement("SELECT * FROM property");
+				ResultSet rs = pst.executeQuery();
+
+				returnData = new StringBuffer("{\"topic\":{");
+				returnData.append("\"details\":[");
+				int flag = 0;
+				while (rs.next()) {
+					dID = rs.getString("dID");
+					os = rs.getString("OS");
+					version = rs.getString("version");
+					model = rs.getString("model");
+					brand = rs.getString("brand");
+					operator = rs.getString("operator");
+					network = rs.getString("network");		
+					cpu = rs.getString("cpu");
+					country = rs.getString("country");
+					language = rs.getString("language");
+					ip = rs.getString("ip");	
+
+					if(flag == 0){
+						returnData.append("{\"dID\":\""+dID+"\",\"os\":\""+os+"\",\"version\":\""+version+"\",\"model\":\""+model+"\",\"brand\":\""+brand+"\",\"network\":\""+network+"\",\"cpu\":\""+cpu+"\",\"country\":\""+country+"\",\"language\":\""+language+"\",\"ip\":\""+ip+"\"}");
+						flag = 1;
+					}else{
+						returnData.append(",{\"dID\":\""+dID+"\",\"os\":\""+os+"\",\"version\":\""+version+"\",\"model\":\""+model+"\",\"brand\":\""+brand+"\",\"network\":\""+network+"\",\"cpu\":\""+cpu+"\",\"country\":\""+country+"\",\"language\":\""+language+"\",\"ip\":\""+ip+"\"}");
+					}
+				}
+				returnData.append("]}}");
+				pst.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+				    AbandonedConnectionCleanupThread.shutdown();
+				} catch (InterruptedException e) {
+				    e.printStackTrace();
+				}
+			}				
+
+			return returnData.toString();
+		}
 
 }
