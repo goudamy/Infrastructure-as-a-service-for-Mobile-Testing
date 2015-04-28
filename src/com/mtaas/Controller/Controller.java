@@ -81,20 +81,22 @@ public class Controller extends HttpServlet {
 			if(action.equals(LAUNCH)){
 				int count = Integer.parseInt(countStr);
 				String algo = request.getParameter("algo");
-				if(algo != null)
-				{
-					hostIp = InstanceHandler.getHostIpUsingAlgo(algo);
-					if(hostIp == null)
-						InstanceHandler.getHostIp(regionName);
-					tokTable = rst.getTokenUsingCredentials(hostIp, tenantName, username, password);
-					tokenId = (String)tokTable.get("tokenId");
-					tenantId = (String)tokTable.get("tenantId");
-				}
-				else
-					hostIp = InstanceHandler.getHostIp(regionName);
+				
 				
 				for(int i = 0; i < count; i++)
 				{
+					if(algo != null)
+					{
+						hostIp = InstanceHandler.getHostIpUsingAlgo(algo);
+						if(hostIp == null)
+							InstanceHandler.getHostIp(regionName);
+						tokTable = rst.getTokenUsingCredentials(hostIp, tenantName, username, password);
+						tokenId = (String)tokTable.get("tokenId");
+						tenantId = (String)tokTable.get("tenantId");
+					}
+					else
+						hostIp = InstanceHandler.getHostIp(regionName);
+					
 					String instNameStr = instanceName + "-" + String.valueOf(i);
 					System.out.println("Instance name : " + instNameStr);
 					rst.createInstance(hostIp, tokenId, tenantId, flavorId, imageName, instNameStr);
