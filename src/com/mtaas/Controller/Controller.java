@@ -84,6 +84,8 @@ public class Controller extends HttpServlet {
 				if(algo != null)
 				{
 					hostIp = InstanceHandler.getHostIpUsingAlgo(algo);
+					if(hostIp == null)
+						InstanceHandler.getHostIp(regionName);
 					tokTable = rst.getTokenUsingCredentials(hostIp, tenantName, username, password);
 					tokenId = (String)tokTable.get("tokenId");
 					tenantId = (String)tokTable.get("tenantId");
