@@ -194,6 +194,17 @@ public class Controller extends HttpServlet {
 				if(action.equals("phone_list")) response.setContentType("application/json");
 				out.println(result);				
 			}
+			
+			if(action.equals("credential"))
+			{
+				String result = "";
+				hostIp = request.getParameter("hostIp");
+				tokTable = rst.getTokenUsingCredentials(hostIp, tenantName, username, password);
+				tokenId = (String)tokTable.get("tokenId");
+				result = tokenId;
+				out.println(result);
+			}
+					
 		}
 		
 		if(type.equals("dropdown")){
