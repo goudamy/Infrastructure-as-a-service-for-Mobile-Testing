@@ -263,7 +263,7 @@ public class InstanceHandler {
 			int i = 1;
 			while (rs.next()) {
 				if(i == index)
-					hostIp = rs.getString(index);
+					hostIp = rs.getString("ip");
 				++i;
 			}
 
