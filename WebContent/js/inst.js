@@ -674,12 +674,12 @@ function bill_gen(){
 		      action: 'list'
 		   },
 		   error: function() {
-		      console.log("Error in listing bill")
-		      t.close();
+		      console.log("Error in listing bill");
 		   },
+		   complete: function(){t.close(); },
 		   success:function(data) {
 			   
-		   t.close(); 
+		   
 		   var bill = data;
 		  
 		   var us =0;
