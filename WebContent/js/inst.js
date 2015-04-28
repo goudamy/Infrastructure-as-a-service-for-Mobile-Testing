@@ -134,7 +134,7 @@ function lnch_inst() {
 				$("#flavor").prop("disabled", false);
 				$('#flavor').on("change",function() {
 					  if($("#flavor").val().trim() === "VMEmulator"){
-						 
+						  $('#selectalgo').prop("disabled", true);
 						  $("#flavor").prop("disabled", true);
 						  $("#count").prop("disabled", true);
 						  $("#selectzone").prop("disabled", true);

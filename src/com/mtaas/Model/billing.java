@@ -156,7 +156,7 @@ public class billing {
 	public static void insert_deleteData(String ip, String Region, int regionId)
 			throws IOException {
 		// String ip = "52.11.10.120";
-		String tenant_Id = "tenant-124";
+		String tenant_Id = "5bfb11882bc643f9903b8988b116f5c5";
 		Calendar calendar = Calendar.getInstance();
 		java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(calendar
 				.getTime().getTime());
