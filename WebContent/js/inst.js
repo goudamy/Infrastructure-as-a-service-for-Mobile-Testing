@@ -2,6 +2,8 @@
 function lnch_inst() {
 	try{
 		
+		
+		
 		 BootstrapDialog.show({
             title: 'Launch Instances',
             message: function(dialog) {
@@ -65,6 +67,8 @@ function lnch_inst() {
                 	var imgName = $("#imageName").val();
                 	var types = ["m1.nano","m1.micro","m1.tiny","m1.small"];
                 	var zone = $("#selectzone").val();
+                	var algor = $('#selectalgo').val().trim().toUpperCase();
+                	if(algor === "NONE") algor = null;
                 	$.each(types, function(index, type){
 	                	if(instFlavor === type.toString()){
 	                		
@@ -87,7 +91,8 @@ function lnch_inst() {
                 		      flavor: instFlavor,
                 		      instanceName: instName,
                 		      regionName: zone,
-                		      imageName: encodeURI(imgName)
+                		      imageName: encodeURI(imgName),
+                		      algo:algor
                 		   },
                 		   error: function() {
                 		      console.log("Error in Launch Instance.")
@@ -102,9 +107,58 @@ function lnch_inst() {
                 }
             }]
         });
+		 
+		
 
 	} catch(e)
-	{console.log("Issue with loading Launch Instance dialog." + e)}
+	{console.log("Issue with loading Launch Instance dialog." + e)
+		 
+	} finally {
+		function algoenable(){
+		     
+			 setTimeout(function(){
+				 if( $("#selectzone").length > 0){
+			 $("#selectzone").prop("disabled", false);
+				$('#selectalgo').on("change",function() {
+					  if($("#selectalgo").val().trim() === "None"){
+						  $("#selectzone").prop("disabled", false);
+					  } else {
+						  $("#selectzone").prop("disabled", true);
+					  }
+					  
+					});  
+				
+				 
+				flavor
+				
+				$("#flavor").prop("disabled", false);
+				$('#flavor').on("change",function() {
+					  if($("#flavor").val().trim() === "VMEmulator"){
+						 
+						  $("#flavor").prop("disabled", true);
+						  $("#count").prop("disabled", true);
+						  $("#selectzone").prop("disabled", true);
+						  $("#selectError").prop("disabled", true);
+						  $("#imageName").val("android");
+						  $("#imageName").prop("disabled", true);
+					  } else {
+						  $("#flavor").prop("disabled", false);
+						  $("#count").prop("disabled", false);
+						  $("#selectzone").prop("disabled", false);
+						  $("#selectError").prop("disabled", false);
+						  
+					  }
+					  
+					}); 
+				 
+				 
+				 } else {algoenable();}
+			 }, 500);
+		    
+				
+			 }
+			 algoenable();	
+	}
 }
 
 //Add Hub

@@ -190,7 +190,7 @@ public class IntanceDetails {
 							flavor = rs2.getString("name");     
 				    			
 						}
-						status = "Active";
+//						status = "Active";
 						pst1.close();
 //						System.out.println(flavor+url1);
 						PreparedStatement ps = ((java.sql.Connection) conn)
