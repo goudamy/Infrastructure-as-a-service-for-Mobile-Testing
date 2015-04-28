@@ -85,7 +85,7 @@ public class Controller extends HttpServlet {
 				
 				for(int i = 0; i < count; i++)
 				{
-					if(algo != null)
+					if((algo != null) || (!algo.equals("")))
 					{
 						hostIp = InstanceHandler.getHostIpUsingAlgo(algo);
 						if(hostIp == null)
