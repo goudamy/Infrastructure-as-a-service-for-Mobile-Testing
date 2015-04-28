@@ -88,6 +88,8 @@ public class Controller extends HttpServlet {
 					tokenId = (String)tokTable.get("tokenId");
 					tenantId = (String)tokTable.get("tenantId");
 				}
+				else
+					hostIp = InstanceHandler.getHostIp(regionName);
 				
 				for(int i = 0; i < count; i++)
 				{

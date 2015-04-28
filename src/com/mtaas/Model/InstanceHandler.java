@@ -260,7 +260,12 @@ public class InstanceHandler {
 
 			ResultSet rs = pst.executeQuery();
 			
-			hostIp = rs.getString(index);
+			int i = 1;
+			while (rs.next()) {
+				if(i == index)
+					hostIp = rs.getString(index);
+				++i;
+			}
 
 			
 			pst.close();
