@@ -100,36 +100,39 @@ public class ImageDetail {
 				while ((bytesRead = bis.read(buffer)) != -1) {
 					str += new String(buffer, 0, bytesRead);
 				}
+				
 				JSONParser parser = new JSONParser();
 				JSONObject obj = (JSONObject) parser.parse(str);
 				JSONArray flavorArray = (JSONArray) obj.get("images");
+				Class.forName(driver).newInstance();
 
+				
 				for (int i = 0; i < flavorArray.size(); i++) {
 					JSONObject flavorObj = (JSONObject) flavorArray.get(i);
 					name = (String) flavorObj.get("name");				
 					id = (String) flavorObj.get("id");
 					size1 = (long) flavorObj.get("OS-EXT-IMG-SIZE:size");
 					status =(String) flavorObj.get("status");
-					//System.out.println(name+id);
+//					System.out.println(name+hostip+"\n");
 					
 				
 			
 					try {
                
-                 size2 = (int) (size1/(1024*1024));
-                 //System.out.println(size2);
-                 size = size2+"MB";
-						Class.forName(driver).newInstance();
-
-						conn = (Connection) DriverManager
-								.getConnection(url,userName,password);
+	                 size2 = (int) (size1/(1024*1024));
+	                 //System.out.println(size2);
+	                 size = size2+"MB";
 						
+	                 	conn = (Connection) DriverManager
+	 						.getConnection(url,userName,password);
+
 						if(cnt == 0){
 						PreparedStatement ps1 = ((java.sql.Connection) conn)
 								.prepareStatement("truncate table instance_image");
 						ps1.execute();
-						ps1.close();}
+						}
 						//System.out.println("Connection created");
+						
 						PreparedStatement ps = ((java.sql.Connection) conn)
 								.prepareStatement("insert into instance_image(host,name,id,size,status) values (?,?,?,?,?)");
 						ps.setString(1, hostip);
@@ -137,9 +140,9 @@ public class ImageDetail {
 						ps.setString(3, id);
 						ps.setString(4, size);
 						ps.setString(5, status);
-						ps.execute();
-						ps.close();
-						//System.out.println("Inserted");
+						ps.executeUpdate();
+						
+						conn.close();
 
 					} catch (Exception e) {
 						//System.out.println(e);

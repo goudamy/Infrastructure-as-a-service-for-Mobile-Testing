@@ -68,7 +68,7 @@ function lnch_inst() {
                 	var types = ["m1.nano","m1.micro","m1.tiny","m1.small"];
                 	var zone = $("#selectzone").val();
                 	var algor = $('#selectalgo').val().trim().toUpperCase();
-                	if(algor === "NONE") algor = null;
+                	//if(algor === "NONE") algor = null;
                 	$.each(types, function(index, type){
 	                	if(instFlavor === type.toString()){
 	                		

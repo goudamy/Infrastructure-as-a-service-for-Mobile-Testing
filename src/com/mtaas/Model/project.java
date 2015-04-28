@@ -12,7 +12,7 @@ public class project {
 	public static String list_inst_dropdown() throws IOException, SQLException{
 		String sqlst = "SELECT name FROM instance_list where image like 'cir%'";
 		String sqlst2 = "SELECT name FROM instance_list where image like 'and%'";
-		String sqlst1 = "SELECT idDevices FROM devices";
+		String sqlst1 = "SELECT devices.idDevices FROM devices where idDevices in (select PInst from projects where projects.status = 'inactive')  or devices.idDevices not in (select PInst from projects);";
 		//String sqlst2 = "SELECT name FROM instance_list";
 		String result = "";
 		String[] name = CommonMethods.db_query_exec(sqlst,"name","select");

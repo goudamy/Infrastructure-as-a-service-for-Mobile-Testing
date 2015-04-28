@@ -163,6 +163,7 @@ public class FlavorDetail {
 						ps.setString(9, publ);
 						ps.execute();
 						ps.close();
+						System.out.println(hostUrl+" : "+name+":"+vcpus+":"+ram+":"+disk+":"+euphemeral+":"+swap+":"+id+":"+publ+"\n");
 						//System.out.println("Inserted");
 
 					} catch (Exception e) {
