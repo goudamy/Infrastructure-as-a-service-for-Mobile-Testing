@@ -58,7 +58,7 @@ public class Controller extends HttpServlet {
 			String imageName=null, instanceName=null, countStr=null,flavorId=null;
 			String regionName =  (request.getParameter("regionName") != null) ? request.getParameter("regionName") : "US";
 			RestClientTst rst = new RestClientTst();
-			Hashtable tokTable = null;
+			Hashtable tokTable = new Hashtable();
 			String tokenId = null;
 
 			if(!(action.startsWith("em_") ||
@@ -92,6 +92,7 @@ public class Controller extends HttpServlet {
 				for(int i = 0; i < count; i++)
 				{
 					String instNameStr = instanceName + "-" + String.valueOf(i);
+					System.out.println("Instance name : " + instNameStr);
 					rst.createInstance(hostIp, tokenId, tenantId, flavorId, imageName, instNameStr);
 				}
 				out.println("success");

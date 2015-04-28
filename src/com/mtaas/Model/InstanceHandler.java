@@ -297,7 +297,7 @@ public class InstanceHandler {
 		{
 			++roundRobinInstIndex;
 			if(roundRobinInstIndex >4)
-				roundRobinInstIndex = 0;
+				roundRobinInstIndex = 1;
 
 			instIndex = roundRobinInstIndex;
 		}
