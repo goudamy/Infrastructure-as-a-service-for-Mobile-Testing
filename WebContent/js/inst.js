@@ -216,7 +216,7 @@ function add_hub(){
             	                		   },
             	                		   success: function(data) {
             	                			   setTimeout(function(){t.close(); },2000);
-            	                		      list_inst();
+            	                		      list_hub();
             	                		      
             	                		   },
             	                		   type: 'POST'
@@ -923,11 +923,9 @@ function list_hub() {
 		   },
 		   error: function() {
 		      console.log("Error in MobileHub list.")
-		      t.close();
 		   },
 		   success:function(data) {
 			   
-		   t.close(); 
 		   var mhub = data;
 		   for(i=0; i<mhub.topic.details.length;i++){
 			   $("#list_mhub tbody").append('<tr><td class="center">'+mhub.topic.details[i].mobileHub_id+'</td><td class="center">'+mhub.topic.details[i].mobileHub_name+'</td><td class="center">'+mhub.topic.details[i].mobileHub_ip+'</td></tr>');
@@ -935,6 +933,7 @@ function list_hub() {
 		     
 		   loading_datatable();
 		   },
+		   complete:function(){t.close(); },
 		   type:'POST'
 		   });
 
